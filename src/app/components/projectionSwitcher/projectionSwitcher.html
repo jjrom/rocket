@@ -1,0 +1,8 @@
+<div class="cell padded">
+    <label>
+        <span translate-once="projection.change"></span>
+        <select ng-model="$ctrl.selected.code" ng-change="$ctrl.setProjection()" ng-if="$ctrl.projections">
+            <option ng-repeat="(code, value) in $ctrl.projections" ng-value="code">{{value.name}}</option>
+        </select>
+    </label>
+</div>

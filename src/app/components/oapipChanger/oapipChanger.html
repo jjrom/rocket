@@ -1,0 +1,24 @@
+
+<div class="cell">
+    <span class="padded-small">
+        <span ng-if="$ctrl.watch.endPoints.length > 1" class="pointer fa fa-chevron-left padded-right" ng-click="$ctrl.rotateEndPoint('previous')"></span>
+        <span translate-once="processes.endpoint" class="bold padded-right-small"></span>
+        <span class="italic" ng-bind="$ctrl.endPoint ? $ctrl.endPoint.url : '---'"></span>
+        <span ng-if="$ctrl.watch.endPoints.length > 1" class="pointer fa fa-chevron-right padded-left" ng-click="$ctrl.rotateEndPoint('next')"></span>
+    </span>
+
+    <span class="unbreakable padded-small">
+        <span class="link" ng-click="$ctrl.showHideUrlPicker(true, $event)">
+            <span class="fas fa-exchange-alt padded-horizontal-small"></span>
+            <span class="show-for-large padded-right-small" translate-once="processes.endpoint.add"></span>
+        </span>
+    </span>
+     
+</div>
+
+<url-picker
+    ng-if="$ctrl.urlPickerIsOpen"
+    default-url="$ctrl.endPoint"
+    on-select="$ctrl.addEndPoint(url, false)"
+    on-close="$ctrl.showHideUrlPicker(false)">
+</url-picker>

@@ -1,0 +1,87 @@
+<div ng-if="isLoading" class="loading-mask">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<div class="grid-y" style="height:100%;">
+
+    <div class="cell center padded-top">
+        <div class="circle circle-15x cover bordered" bg-image="{{$ctrl.profile.picture}}" default-image="assets/img/default-user.png"></div>
+        <!--<h5>{{ $ctrl.profile.name || $ctrl.profile.firstname || $ctrl.profile.lastname || 'Anonymous' }}</h5>-->
+        <div>{{ $ctrl.profile.email || 'Anonymous' }}</div>
+         <!-- Close me -->
+        <div class="absolute top-right pointer black padded-small closeMe" ng-click="$ctrl.onClose()" translate-once-title="close"></div>
+    </div>
+
+    <!-- Switcher -->
+    <div class="cell">
+
+        <div class="grid-x grid-padding-x center padded-bottom-small">
+
+            <div class="cell auto" ng-if="$ctrl.config.display.cart">
+                <div class="padded-small pointer center" ng-click="$ctrl.setActiveTab('cart')" ng-class="{'bold bordered-bottom':$ctrl.activeTab === 'cart'}" translate-once-title="profile.tab.cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <sub ng-if="$ctrl.cartSize > 0" class="box red padded-horizontal-very-small">{{ $ctrl.cartSize }}</sub>
+                </div>
+            </div>
+
+            <div class="cell auto" ng-if="$ctrl.config.display.views">
+                <div class="padded-small pointer center" ng-click="$ctrl.setActiveTab('views')" ng-class="{'bold bordered-bottom':$ctrl.activeTab === 'views'}" translate-once-title="profile.tab.views">
+                    <i class="fas fa-binoculars"></i>
+                </div>
+            </div>
+
+            <div class="cell auto" ng-if="$config.processesEndPoints.length > 0 && $ctrl.config.display.jobs">
+                <div class="padded-small pointer center" ng-click="$ctrl.setActiveTab('jobs')" ng-class="{'bold bordered-bottom':$ctrl.activeTab === 'jobs'}" translate-once-title="profile.tab.jobs">
+                    <i class="fas fa-microchip"></i>
+                    <sub ng-if="$ctrl.jobsSize > 0" class="box red padded-horizontal-very-small">{{ $ctrl.jobsSize }}</sub>
+                </div>
+            </div>
+
+            <div class="cell auto">
+                <div class="padded-small pointer center" ng-click="$ctrl.setActiveTab('profile')" ng-class="{'bold bordered-bottom':$ctrl.activeTab === 'profile'}">
+                    <i class="far fa-address-card"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="cell">
+
+        <div class="grid-y scrolling-container">
+
+            <!-- Cart -->
+            <div class="cell" ng-if="$ctrl.activeTab === 'cart'">
+                <cart></cart>
+            </div>
+
+            <!-- Views -->
+            <div class="cell" ng-if="$ctrl.activeTab === 'views'">
+                <views-manager
+                    rocket-map="$ctrl.rocketMap">
+                </views-manager>
+            </div>
+
+            <!-- Jobs -->
+            <div class="cell" ng-if="$ctrl.activeTab === 'jobs'">
+                <jobs></jobs>
+            </div>
+
+            <!-- Profile -->
+            <div class="cell" ng-if="$ctrl.activeTab === 'profile'">
+                <profile-updater
+                    profile="$ctrl.profile">
+                </profile-updater>
+                <div class="right" ng-if="$ctrl.profile.id">
+                    <div class="red pointer bold padded-horizontal" ng-click="$ctrl.signOut()" translate-once="header.signout"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

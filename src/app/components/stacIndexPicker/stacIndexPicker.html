@@ -1,0 +1,57 @@
+<div class="panel panel-center">
+
+    <div class="cell left" position="relative;">
+
+        <div ng-if="$ctrl.watch.isLoading" class="loading-mask">
+            <div class="amiddle bigger white">
+                <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+            </div>
+        </div>
+
+        <!-- Sticky header -->
+        <div class="grid-container fluid sticky-header bglight" style="top:0px">
+
+            <div class="grid-x grid-margin-x">
+
+                <!-- Add your own -->
+                <div class="cell small-8 padded-top">
+                    <h4 translate-once="stac.catalog.type"></h4>
+                    <form ng-submit="$ctrl.onSelect({url:url})">
+                        <input id="change-end-point-input" type="search" ng-model="url" ng-class="$ctrl.inputClass" required="required" placeholder="{{ 'catalog.type.url' | translate }}" focus-me="true" />
+                    </form>
+                </div>
+
+                <!-- Close -->
+                <div class="cell small-4 right">
+                    <div class="pointer closeMe black" ng-click="$ctrl.onClose()"></div>
+                </div>
+
+                <!-- Use default -->
+                <div class="cell padded-vertical" ng-if="$ctrl.defaultCatalogUrl">
+                    <h4 class="link" ng-click="$ctrl.onSelect({url:$ctrl.defaultCatalogUrl})" ng-bind="'catalog.default' | bettertranslate:$ctrl.defaultCatalogUrl"></h4>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="grid-x grid-paddding-x" ng-if="!$ctrl.watch.isLoading">
+            
+            <!-- STAC index -->
+            <div class="cell padded-horizontal">
+                <h4 translate-once="stac.catalog.pick"></h4>
+            </div>
+            <div class="cell padded-horizontal padded-top" ng-repeat="catalog in $ctrl.catalogs">
+                <h5 markdown-it="catalog.title"></h5>
+                <div>
+                    <span class="box padded-very-small" ng-class="{'red': catalog.isPrivate, 'green': !catalog.isPrivate}">{{ (catalog.isPrivate ? 'private' : 'public') | translate }}</span><span ng-if="catalog.isApi" class="padded-left"><span class="box blue padded-very-small">API</span></span>
+                </div>
+                <div class="italic" markdown-it="catalog.summary"></div>
+                <div class="link break-words" ng-click="$ctrl.onSelect({url:catalog.url})">{{catalog.url}}</div>
+            </div>
+
+        </div> 
+
+    </div>
+    
+</div>

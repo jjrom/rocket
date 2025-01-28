@@ -1,0 +1,49 @@
+<div class="features-carousel-inner-map" ng-if="$ctrl.features.length > 0">
+    <div>
+
+        <ul class="features-carousel-content">
+
+            <li ng-if="$ctrl.position.offset > 0">
+                <div class="cover">
+                    <div class="feature-snapshot pager bgdark pointer" ng-click="$ctrl.prev()" translate-once-title="prev">
+                        <span class="white" style="display: table-cell;vertical-align: middle;"><i class="fa fa-chevron-left"></i></span>
+                    </div>
+                </div>
+            </li>
+
+            <li ng-repeat="feature in $ctrl.features | limitTo:$ctrl.position.limit:$ctrl.position.offset track by feature.id">
+                <div id="{{::$ctrl.normalize(feature.id)}}" ng-class="{'hilited':$ctrl.isSelected(feature)}"
+                    class="feature-snapshot pointer" ng-mouseover="$ctrl.hiliteFeature(feature, true, $event)"
+                    ng-mouseleave="$ctrl.hiliteFeature(feature, false, $event)" ng-click="$ctrl.selectFeature(feature)">
+                    <div class="cover" bg-image="{{ feature.properties.quicklook }}" default-image="assets/img/empty-image.png"></div>
+                </div>
+            </li>
+
+            <li ng-if="!$ctrl.isLoading && ($ctrl.hasNext || $ctrl.position.offset + $ctrl.position.limit < $ctrl.features.length)">
+                <div class="cover">
+                    <div class="feature-snapshot pager bgdark pointer" ng-click="$ctrl.next()" translate-once-title="next">
+                        <span class="white" style="display: table-cell;vertical-align: middle;"><i class="fa fa-chevron-right"></i></span>
+                    </div>
+                </div>
+            </li>
+            <li ng-if="$ctrl.isLoading">
+                <div class="cover">
+                    <div class="feature-snapshot pager">
+                        <span style="display: table-cell;vertical-align: middle;"><i class="fa fa-spin fa-refresh fa-circle-notch"></i></span>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- Hilited feature -->
+    <div ng-if="$ctrl.hilitedFeature" class="hilited-feature-info padded-horizontal-small" ng-class="$ctrl.background.color === 'light' ? 'black' : 'white'">
+        <span ng-if="$ctrl.hilitedFeature.properties['resto:keywords']" ng-bind="$ctrl.hilitedFeature.properties['resto:keywords'] | extractlocation"></span> |
+        <span ng-if="$ctrl.hilitedFeature.properties.datetime"><span ng-bind="$ctrl.hilitedFeature.properties.datetime | nicedate:1"></span> |</span>
+        <span ng-if="$ctrl.hilitedFeature.properties.start_datetime">{{ $ctrl.hilitedFeature.properties.start_datetime }} - {{ $ctrl.hilitedFeature.properties.end_datetime }} |</span>
+        <span ng-bind="$ctrl.hilitedFeature.id"></span> |
+        <span ng-bind="$ctrl.hilitedFeature.collection"></span>
+    </div>
+
+</div>

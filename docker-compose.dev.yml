@@ -1,0 +1,4 @@
+services:
+  rocket:
+    volumes:
+      - /Users/jrom/tmp/data:/app/data

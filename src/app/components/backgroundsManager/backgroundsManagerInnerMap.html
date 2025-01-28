@@ -1,0 +1,11 @@
+<div class="cell">
+    <ul class="no-bullet multi-columns" ng-class="$ctrl.ulInputClass">
+        <li ng-repeat="background in $ctrl.watch.layers.backgrounds"
+            ng-click="$ctrl.setBackground(background)"
+            class="circle circle-small shadowed bggreen pointer marged-small"
+            ng-class="{'active':$ctrl.watch.layers.activeBackground.get('_rocket').id === background.get('_rocket').id}"
+            bg-image="{{background.get('_rocket').thumbnail}}"
+            title="{{background.get('_rocket').title}}">
+        </li>
+    </ul>
+</div>

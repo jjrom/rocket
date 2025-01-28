@@ -1,0 +1,122 @@
+<!-- Fixed toolbar -->
+<header-toolbar ng-if="display.header"
+    fixed="false"
+    opaque="true">
+</header-toolbar>
+
+<div ng-if="isLoading" class="loading-mask">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<!-- Home cover -->
+<div class="cell">
+
+    <div class="grid-x homepage">
+
+        <div class="cell bglight">
+
+            <div class="grid-x grid-padding-x" style="margin:auto;max-width:1000px;height:100vh;">
+
+                <div class="cell center" style="padding-top:20vw;">
+
+                    <brands target="'pages'"></brands>
+
+                    <h3 translate-once="header.signup" class="padded-top"></h3>
+                    <p class="small"><span translate-once="register.alreadyregistered"></span>&nbsp;<a translate-once="header.signin" ui-sref="signin"></a></p>
+                    
+                    <div class="grid-x grid-padding-x padded">
+                        <div class="cell padded">
+                            <form method="post" ng-submit="signup()" name="signupForm">
+                                <div class="grid-container">
+                                    <div class="grid-x grid-padding-x">
+                                        <div class="cell">
+                                            <label>
+                                                <span translate-once="email"></span>
+                                                <input type="email" id="emailfield" name="email" ng-model="registration.email" class="form-control" required="required" translate-once-placeholder="email"/>
+                                            </label>
+                                        </div>
+                                        <!--
+                                            <div class="cell">
+                                            <label>
+                                                <span translate-once="register.userName"></span>
+                                                <input type="text" id="username" name="userName" ng-model="registration.username" class="form-control" required="required" translate-once-placeholder="register.userName"/>
+                                            </label>
+                                        </div>
+                                        -->
+                                
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="register.firstname"></span>
+                                                <input type="text" id="firstname" name="firstname" ng-model="registration.firstname" class="form-control" translate-once-placeholder="register.firstname"/>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="register.lastname"></span>
+                                                <input type="text" name="lastname" ng-model="registration.lastname" class="form-control" translate-once-placeholder="register.lastname"/>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="register.country"></span>
+                                                <select name="country" ng-model="registration.country" class="form-control">
+                                                    <option ng-repeat="country in ::countries" value="{{country}}">{{ ('country:' + country) | translate}}</option>   
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="register.organization"></span>
+                                                <input type="text" name="organization" ng-model="registration.organization" class="form-control" translate-once-placeholder="register.organization"/>
+                                            </label>
+                                        </div>
+                                    
+                                        <div class="cell">
+                                            <label>
+                                                <span translate-once="register.topics"></span>
+                                                <input type="text" name="topics" ng-model="registration.topics" class="form-control"  translate-once-placeholder="register.topics"/>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="password"></span>
+                                                <input type="password" name="password" ng-model="registration.password" class="form-control" required="required" translate-once-placeholder="password"/>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="password.confirm"></span>
+                                                <input type="password" name="password2" ng-model="registration.password2" class="form-control" required="required" translate-once-placeholder="password.confirm"/>
+                                            </label>
+                                        </div>
+                                    
+                                    <!--
+                                        <div class="cell">
+                                            <input type="checkbox" name="checklicense" required="required" ng-model="checklicense"/>
+                                            <span translate-once="register.iagree"></span>&nbsp;<a href="" translate-once="register.termsandconditions"></a>
+                                        </div>
+                                    -->
+                                    
+                                        <div class="cell">
+                                            <button type="submit" class="button round" ng-disabled="signupForm.$invalid" translate-once="register.submit"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>                    
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+

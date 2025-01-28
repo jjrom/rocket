@@ -1,0 +1,199 @@
+<div class="hide-me" ng-click="$ctrl.showHidePanel()">
+    <i class="fa-solid fa-2x pointer" ng-class="{'fa-minus':$ctrl.watch.showPanel, 'fa-plus':!$ctrl.watch.showPanel}"></i>
+</div>
+
+<div class="panel plastic-panel" ng-if="$ctrl.watch.showPanel">
+
+    <div class="cell padded-horizontal padded-vertical">
+
+        <div ng-if="$ctrl.watch.showHistory" class="center">
+    
+            <h3>Marine Plastic Tracker</h3>
+            <p class="justify">
+                <div>
+                    Visualize the origin or destination of plastic pollution for an area of interest, based on 3-year drift model simulations. And launch a scenario to reduce plastic in rivers and coastal areas, in order to preserve marine environments and coastal communities from plastic pollution. 
+                </div>
+                <br/>
+                <div>
+                    Initial conditions for the simulations are based on the rivers flow distribution of <a href="https://www.researchgate.net/publication/351269287_More_than_1000_rivers_account_for_80_of_global_riverine_plastic_emissions_into_the_ocean">Meijer et al. 2021</a> and the coastal distribution of <a href="https://www.researchgate.net/publication/330542951_Future_scenarios_of_global_plastic_waste_generation_and_disposal">Lebreton et al. 2019</a>. The drift model uses Copernicus Marine Service global products such as currents, waves and winds. 
+                </div>
+            </p>
+            <p class="padded-top">
+                <button class="button unmarged round small transwhite action" ng-click="$ctrl.clearLocation();$ctrl.toggleDraw('Circle')">
+                    <span class="active">{{ $ctrl.watch.drawToolbox ? 'Cancel' : 'Choose a Location' }}</span>
+                </button>
+                <div class="padded-top-small center" ng-if="$ctrl.watch.historicalLocations.length > 0">
+                    <div ng-repeat="location in $ctrl.watch.historicalLocations track by $index" ng-click="$ctrl.showHideHistory();$ctrl.setLocation(location)">
+                        <span class="pointer small" ng-class="{'active': location.wkt === $ctrl.watch.locationLayer.get('_rocket').wkt}">{{ location.title }}</span>
+                    </div>
+                </div>
+            </p>
+    
+            <div class="padded-top-2x">
+                <div class="padded-bottom-small">Developped by</div>
+                <a href="https://snapplanet.io"><img style="max-height:24px;" src="assets/img/snapplanet_white.png"/></a>
+                <div class="padded-bottom-small padded-top-small">for</div>
+                <a href="https://mercator-ocean.eu"><img style="max-height:32px;" src="assets/img/plastic/moi-white.png"/></a>
+            </div>
+    
+        </div>
+              
+        <div ng-if="!$ctrl.watch.showHistory">
+    
+            <h5 class="center unmarged">
+    
+                <span ng-if="$ctrl.watch.gazetteerIsLoading">
+                    <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+                </span>
+    
+                <span class="pointer active" ng-if="$ctrl.watch.locationLayer" ng-click="$ctrl.showHideHistory()">
+                    {{ $ctrl.watch.locationLayer.get('_rocket').title }}
+                </span>
+    
+            </h5>
+            
+            <div ng-if="$ctrl.watch.locationLayer">
+        
+                <h6 class="center unmarged small">
+                    {{ $ctrl.watch.startOfTime | nicedate }} - {{ $ctrl.watch.endOfTime | nicedate }}
+                    <rzslider class="time-slider"
+                        rz-slider-model="$ctrl.timeSlider.value"
+                        rz-slider-options="$ctrl.timeSlider.options">
+                    </rzslider>
+                    <div>
+                        <span class="pointer padded-right-small" ng-click="$ctrl.switchAnimationDirection()">
+                            <i ng-class="{'active':$ctrl.watch.animationIsBackward}" class="fa-solid fa-backward-step"></i>
+                        </span>
+                        <span class="pointer padded-right-small" ng-click="$ctrl.startAnimation()">
+                            <i ng-class="{'fa-solid fa-play':!$ctrl.watch.animateIsRunning, 'fa-spin fa-solid fa-circle-notch':$ctrl.watch.animateIsRunning}"></i>
+                        </span>
+                        <span ng-click="$ctrl.stopAnimation()" class="pointer padded-left-small">
+                            <i class="fa-solid fa-stop"></i>
+                        </span>
+                        <span class="padded-left">
+                            <span ng-repeat="factor in [0.5,1,2,5]" ng-click="$ctrl.setSpeedFactor(factor)" class="pointer smaller padded-right-small" ng-class="{'active': factor === $ctrl.watch.speedFactor}">
+                                x{{factor}}
+                            </span>
+                        </span>
+                    </div>
+                </h6>
+                <div class="padded-top">
+            
+                    <h6 class="center unmarged padded-bottom">
+                        <span class="pointer action gray" ng-class="{'active': $ctrl.watch.currentAction === 'origin'}" ng-click="$ctrl.getOrigin()">
+                            <span>Origin of plastic</span>
+                        </span>
+                        &nbsp;&nbsp;
+                        <span class="pointer action gray" ng-class="{'active': $ctrl.watch.currentAction === 'destination'}" ng-click="$ctrl.getDestination()">
+                            <span>Destination of plastic</span>
+                        </span>
+                    </h6>
+    
+                </div>
+    
+                <div class="center" ng-if="$ctrl.watch.apiIsRunning && !$ctrl.watch.animateIsRunning">
+                    <i class="fa-spin fa-solid fa-circle-notch"></i>
+                </div>
+    
+                <div class="center" ng-if="!$ctrl.watch.apiIsRunning || $ctrl.watch.animateIsRunning">
+    
+                    <div class="grid-x" ng-if="$ctrl.watch.statistics">
+    
+                        <div class="cell small-6 center">
+                            <div class="bold">Coastal</div>
+                            <h5 class="active unmarged">{{ $ctrl.watch.statistics.coastal.value }} tons</h5>
+                            <div>{{ $ctrl.watch.statistics.coastal.percentage }}%</div>
+                        </div>
+                        <div class="cell small-6 center">
+                            <div class="bold">Rivers</div>
+                            <h5 class="active unmarged">{{ $ctrl.watch.statistics.rivers.value }} tons</h5>
+                            <div>{{ $ctrl.watch.statistics.rivers.percentage }}%</div>
+                        </div>
+                        <div class="center cell">
+                            <h5 class="umarged">{{ $ctrl.watch.currentAction === 'origin' ? 'from' : 'to' }}</h5>
+                        </div>
+                        <div class="cell center padded-top-small">
+                            <div class="grid-x">
+                                <div ng-repeat="(name, location) in $ctrl.watch.statistics.locations" class="cell auto">
+                                    <div class="small bold">{{ name }}</div>
+                                    <h6 class="small active unmarged">{{ location.percentage }}%</h6>
+                                    <div class="smallest">{{ $ctrl.round(location.coastal + location.rivers, 1) }} tons</div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Age of plastic histogram -->
+                        <plastic-age ng-if="$ctrl.watch.currentAction === 'origin'" class="cell center padde-top-small" asset="$ctrl.watch.statistics.ageInDays"></plastic-age>
+    
+                    </div>
+    
+                </div>
+    
+                <div class="center padded-top">
+                    <h4>Reduction scenario</h4>
+                    <div class="grid-x">
+                        <div class="cell auto">
+                            <div class="active">Emitter</div>
+                            <span ng-if="$ctrl.watch.currentAction === 'destination'">
+                                {{ $ctrl.watch.locationLayer.get('_rocket').title }}
+                            </span>
+                            <span ng-if="$ctrl.watch.currentAction === 'origin'">
+                                <select class="inline" name="location" ng-model="$ctrl.watch.whatif.location" ng-change="$ctrl.onWhatIf()">
+                                    <option value="Africa">Africa</option>
+                                    <option value="America">America</option>
+                                    <option value="Asia">Asia</option>
+                                    <option value="Europe">Europe</option>
+                                    <option value="Oceania">Oceania</option>
+                                </select>
+                            </span>
+                        </div>
+                        <div class="cell auto">
+                            <div class="active">Coastal</div>
+                            <select class="inline" name="coastal_reduction" ng-model="$ctrl.watch.whatif.reduction.coastal" ng-change="$ctrl.onWhatIf()">
+                                <option value="none">None</option>
+                                <option value="10">-10%</option>
+                                <option value="20">-20%</option>
+                                <option value="30">-30%</option>
+                                <option value="40">-40%</option>
+                                <option value="50">-50%</option>
+                                <option value="60">-60%</option>
+                                <option value="70">-70%</option>
+                                <option value="80">-80%</option>
+                                <option value="90">-90%</option>
+                                <option value="100">-100%</option>
+                            </select>
+                        </div>
+                        <div class="cell auto">
+                            <div class="active">Rivers</div>
+                            <select class="inline" name="rivers_reduction" ng-model="$ctrl.watch.whatif.reduction.rivers" ng-change="$ctrl.onWhatIf()">
+                                <option value="none">None</option>
+                                <option value="10">-10%</option>
+                                <option value="20">-20%</option>
+                                <option value="30">-30%</option>
+                                <option value="40">-40%</option>
+                                <option value="50">-50%</option>
+                                <option value="60">-60%</option>
+                                <option value="70">-70%</option>
+                                <option value="80">-80%</option>
+                                <option value="90">-90%</option>
+                                <option value="100">-100%</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="padded-top-small" ng-if="$ctrl.watch.statistics.whatif.total_diff_percentage < 0">
+                        Reduction of <span class="flashy">{{ $ctrl.watch.statistics.whatif.total_diff }} tons</span> in plastic volume <span>{{ $ctrl.watch.currentAction === 'origin' ? 'on this area' : 'released' }}</span> (<span class="flashy">{{ $ctrl.watch.statistics.whatif.total_diff_percentage }}%)</span>
+                    </div>
+                    <div class="padded-top-small" ng-if="$ctrl.watch.statistics.whatif.total_diff_percentage === 0">
+                        <span>No impact</span>
+                    </div>
+                        
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+</div>

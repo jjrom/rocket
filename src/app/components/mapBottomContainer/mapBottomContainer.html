@@ -1,0 +1,115 @@
+<div class="cell">
+
+    <!-- Sticky header -->
+    <div class="grid-container fluid sticky-header map-bottom-container-header">
+
+        <div class="grid-x grid-margin-x">
+
+            <h6 ng-if="$ctrl.watch.activeTab" class="absolute top-right white marged-top-small padded-vertical-small padded-right" translate-once-title="close">
+                <i class="fas fa-minus pointer" ng-click="$ctrl.showTab(null)"></i>
+            </h6>
+
+            <div class="cell auto" ng-class="{'active':$ctrl.watch.activeTab === 'explore'}">
+                <h6 class="marged-top-small padded-vertical-small right">
+                    <span class="pointer pointer-hover" ng-click="$ctrl.showTab($ctrl.watch.activeTab === 'explore' ? null : 'explore')">
+                        <i class="fas fa-sitemap"></i>
+                        <span class="show-for-medium">&nbsp;<span translate-once="catalog.explore"></span></span>
+                    </span>
+                </h6>
+            </div>
+    
+            <div class="cell auto" ng-class="{'active':$ctrl.watch.activeTab === 'filters'}">
+                <h6 class="marged-top-small padded-vertical-small left">
+                    <span class="pointer pointer-hover" ng-click="$ctrl.showTab($ctrl.watch.activeTab === 'filters' ? null : 'filters')">
+                        <i class="fas fa-filter"></i>
+                        <span class="show-for-medium">&nbsp;<span translate-once="search.filter"></span></span>
+                    </span>
+                </h6>
+            </div>
+
+            <div class="cell auto" ng-class="{'active':$ctrl.watch.activeTab === 'results'}">
+                <h6 class="marged-top-small padded-vertical-small left">
+                    <span ng-if="$ctrl.counters.results" class="pointer pointer-hover" ng-click="$ctrl.showTab($ctrl.watch.activeTab === 'results' ? null : 'results')">
+                        <span>
+                            <i ng-class="{'fa fa-spin fa-refresh fa-circle-notch':$ctrl.searchInProgress, 'fas fa-th':!$ctrl.searchInProgress}"></i>
+                            <span class="show-for-medium">&nbsp;<span translate-once="search.results"></span></span>
+                        </span>
+                        <sup ng-if="$ctrl.counters.results" class="bgred padded-horizontal-very-small">{{$ctrl.counters.results}}</sup>
+                    </span>
+                    <span ng-if="!$ctrl.counters.results && $ctrl.searchInProgress">
+                        <span>
+                            <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+                        </span>
+                    </span>
+                </h6>
+            </div>
+
+            <div class="cell auto" ng-class="{'active':$ctrl.watch.activeTab === 'layers'}">
+                <h6 ng-if="$ctrl.watch.displayLayersTab" class="marged-top-small padded-vertical-small left">
+                    <span class="pointer pointer-hover" ng-click="$ctrl.showTab($ctrl.watch.activeTab === 'layers' ? null : 'layers')">
+                        <i ng-class="{'fa fa-spin fa-refresh fa-circle-notch':$ctrl.watch.uploadInProgress, 'fas fa-layer-group':!$ctrl.watch.uploadInProgress}"></i>
+                        <span class="show-for-medium">&nbsp;<span translate-once="map.overlays"></span></span>
+                    </span>
+                </h6>
+            </div>
+
+            <div class="cell auto" ng-class="{'active':$ctrl.watch.activeTab === 'processes'}" ng-if="$ctrl.defaultOAPIPEndPoint || $ctrl.watch.displayChangeOAPIP">
+                <h6 ng-if="$ctrl.watch.displayLayersTab" class="marged-top-small padded-vertical-small left">
+                    <span class="pointer pointer-hover" ng-click="$ctrl.showTab($ctrl.watch.activeTab === 'processes' ? null : 'processes')">
+                        <i ng-class="{'fa fa-spin fa-refresh fa-circle-notch':$ctrl.watch.uploadInProgress, 'fa-solid fa-microchip':!$ctrl.watch.uploadInProgress}"></i>
+                        <span class="show-for-medium">&nbsp;<span translate-once="processes.title"></span></span>
+                    </span>
+                </h6>
+            </div>
+    
+        </div>
+
+    </div>
+
+    <!-- Tabbed content -->
+    <div class="tab-content" style="min-height:25vh;">
+
+        <!-- Browse by STAC catalogs -->
+        <stac-catalog-browser
+            style="width:100%;"
+            ng-if="$ctrl.watch.activeTab === 'explore'"
+            breadcrumb="true"
+            can-change-catalog="$ctrl.watch.displayChangeCatalog"
+            rocket-map="$ctrl.rocketMap"
+            end-point-data="$ctrl.endPoint.data">
+        </stac-catalog-browser>
+
+        <!-- Browse by STAC search filters -->
+        <filters-manager
+            style="width:100%"
+            ng-if="$ctrl.watch.activeTab === 'filters'"
+            end-point="$ctrl.endPoint"
+            rocket-map="$ctrl.rocketMap">
+        </filters-manager>
+        
+        <!-- Search results -->
+        <features-browser
+            style="width:100%"
+            ng-if="$ctrl.watch.activeTab === 'results'"
+            rocket-map="$ctrl.rocketMap">
+        </features-browser>
+        
+        <!-- Layers manager -->
+        <layers-manager
+            style="width:100%;"
+            ng-if="$ctrl.watch.activeTab === 'layers'"
+            rocket-map="$ctrl.rocketMap">
+        </layers-manager>
+
+        <!-- Processes manager -->
+        <processes-manager
+            style="width:100%;"
+            ng-if="$ctrl.watch.activeTab === 'processes'"
+            can-change-oapip="$ctrl.watch.displayChangeOAPIP"
+            rocket-map="$ctrl.rocketMap"
+            end-point="$ctrl.defaultOAPIPEndPoint">
+        </processes-manager>
+        
+    </div>
+
+</div>

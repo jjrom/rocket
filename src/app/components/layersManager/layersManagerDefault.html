@@ -1,0 +1,82 @@
+<!-- Body -->
+<div class="cell">
+
+    <div ng-if="$ctrl.uploadInProgress" class="loading-mask">
+        <div class="amiddle bigger white">
+            <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+        </div>
+    </div>
+
+    <div class="grid-x" style="overflow-y:scroll;">
+
+        <!-- Hint -->
+        <hint class="cell center" message="'hint.addlayer'"></hint>
+
+        <!-- [EXPERIMENTAL] Projection switcher -->
+        <projection-switcher ng-if="$ctrl.watch.displayProjectionSwitcher" rocket-map="$ctrl.rocketMap"></projection-switcher>
+        
+        <!-- Backgrounds -->
+        <div class="cell medium-6" ng-if="$ctrl.watch.displayBasemapsInLayers" style="margin-bottom:70px">
+
+            <div class="grid-x grid-padding-x">
+
+                <div class="cell padded-top-small">
+                    <h6 class="unmarged bold" translate-once="map.backgrounds"></h6>
+                </div>
+
+                <backgrounds-manager
+                    template="circles"
+                    rocket-map="$ctrl.rocketMap">
+                </backgrounds-manager>
+
+            </div>
+            
+        </div>
+
+        <!-- Overlays -->
+        <div class="cell padded-top-small" ng-class="{'medium-6': $ctrl.watch.displayBasemapsInLayers}" style="margin-bottom: 70px;">
+
+            <div class="grid-x grid-padding-x">
+                
+                <!--
+                <div class="cell padded-top-small">
+                    <h6 class="unmarged bold" translate-once="map.overlays"></h6>
+                </div>
+                -->
+                <div class="cell" ng-repeat="layer in $ctrl.watch.layers.overlays | orderBy:'-' track by layer.get('_rocket').id">
+                    <div class="padded-bottom-small padded-left-small">
+                        <layer-manager 
+                            layer="layer"
+                            rocket-map="$ctrl.rocketMap">
+                        </layer-manager>
+                    </div>
+                </div>
+
+                <!-- Display catalogs as overlays layers -->
+                <div class="cell" ng-if="$ctrl.watch.displayCatalogsInLayers" ng-repeat="layer in $ctrl.watch.layers.searches | orderBy:'-' track by layer.get('_rocket').id">
+                    <div class="padded-bottom-small padded-left-small">
+                        <layer-manager 
+                            layer="layer"
+                            rocket-map="$ctrl.rocketMap">
+                        </layer-manager>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Overlays
+        <div ng-if="$ctrl.watch.layers.overlays.length === 0" class="cell" ng-class="{'medium-6': $ctrl.watch.displayBasemapsInLayers}" style="margin-bottom: 70px;">
+            <div class="amiddle">
+                <h5 translate-once="overlays.none"></h5>
+            </div>
+        </div>
+        -->
+        <form class="cell fixed bglight padded-vertical-small" ng-submit="$ctrl.addLayerUrl($event)" style="bottom: 0px;">
+            <input id="add_layer_url" type="text" ng-model="$ctrl.watch.layerUrl" class="form-control form-control-small input-add-layer input-group-field" placeholder="{{'hint.addlayer.url' | translate}}" />
+        </form>
+        
+    </div>
+
+</div>

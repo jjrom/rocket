@@ -1,0 +1,120 @@
+<!-- Fixed toolbar -->
+<header-toolbar ng-if="display.header"
+    no-sign-in="true"
+    fixed="false">
+</header-toolbar>
+
+<div ng-if="isLoading" class="loading-mask">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<div class="grid-x  padded-top-2x padded-bottom-2x bgprimary gradient" data-deferred-cloak>
+    <div class="medium-4 cell center">
+        <div class="circle circle-15x cover bordered" bg-image="{{profile.picture}}" default-image="assets/img/default-user.png"></div>
+    </div>
+    <div class="medium-8 cell center">
+        <h3>{{ profile.name || profile.firstname || profile.lastname }}</h3>
+        <div>{{ profile.email }}</div>
+    </div>
+</div>
+
+<div class="grid-x">
+
+    <!-- Switcher -->
+    <div class="cell bglight">
+
+        <div class="grid-x grid-padding-x center">
+
+            <div class="cell medium-4">
+                <h5 class="marged-top-small padded-small pointer center" ng-click="setActiveTab('profile')" ng-class="{'bold bordered-bottom':activeTab === 'profile'}">
+                    <span translate-once="profile.tab.profile"></span>
+                </h5>
+            </div>
+
+            <div class="cell medium-4">
+                <h5 class="marged-top-small padded-small pointer center"  ng-click="setActiveTab('cart')" ng-class="{'bold bordered-bottom':activeTab === 'cart'}">
+                    <span translate-once="profile.tab.cart"></span>
+                </h5>
+            </div>
+
+            <div class="cell medium-4">
+                <h5 class="marged-top-small padded-small pointer center"  ng-click="setActiveTab('orders')" ng-class="{'bold bordered-bottom':activeTab === 'orders'}">
+                    <span translate-once="profile.tab.orders"></span>
+                </h5>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Cart -->
+    <div class="cell" ng-if="activeTab === 'cart'">
+        <cart></cart>
+    </div>
+
+    <!-- Profile -->
+    <div class="cell" ng-if="activeTab === 'profile'">
+        <profile-updater
+            profile="profile">
+        </profile-updater>
+    </div>
+
+    <!-- Orders -->
+    <div class="cell" ng-if="activeTab === 'orders'">
+
+        <div class="grid-x grid-padding-x">
+            <div class="cell">
+                <div class="center">
+                    <table class="nice">
+                        <tr>
+                            <th ng-bind="::'profile.order.id' | translate"></th>
+                            <th ng-bind="::'date' | translate"></th>
+                            <th ng-bind="::'profile.order.count' | translate"></th>
+                            <th ng-bind="::'profile.order.actions' | translate"></th>
+                        </tr>
+                        <tr ng-repeat="order in ::orders track by order.orderId">
+                            <td title="{{::order.orderId}}" class="break-words">{{ ::order.orderId }}</td>
+                            <td class="center">{{ ::order.date.substring(0, 10) }}</td>
+                            <td class="center">{{ ::order.items.length}} {{::'profile.items' | translate}} <img class="pointer padded-left-small" style="height:20px;" alt="loupe" ng-click="displayOrder(order)" src="assets/img/search_darker.png"></td>
+                            <td class="center"><a class="button fa fa-cloud-download-alt-alt bconfirm" ng-click="downloadOrder(order.orderId)"></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/ng-template" id="orderTemplate">
+            <div class="content__cart">
+                <table class="nice">
+                    <tr>
+                        <th ng-bind="::'cart.item' | translate"></th>
+                        <th ng-bind="::'cart.description' | translate"></th>
+                        <th ng-bind="::'cart.characteristics' | translate"></th>
+                    </tr>
+                    <tr ng-repeat="item in ::currentOrder.items track by item.id">
+                        <td class="center"><img class="thumbs pointer" ng-src="{{ ::item.properties.quicklook}}" title="{{ ::item.properties.productIdentifier }}" ng-click="view(item.collection, item.id)"></td>
+                    <td>
+                        <span class="gray">{{::'collection' | translate | uppercase}}</span> : {{ ::item.collection }}<br/>
+                        <span class="gray">{{::'location' | translate | uppercase}}</span> : {{ ::item.properties['resto:keywords'] | extractlocation }}<br/>
+                        <span class="gray" ng-if="item.properties.datetime">{{::'date' | translate | uppercase}}</span> : {{ ::item.properties.datetime | nicedate:1 }}<br/>
+                        <span class="gray" ng-if="item.properties.start_datetime">{{::'date' | translate | uppercase}}</span> : {{ ::item.properties.start_datetime | nicedate:1 }} - {{ ::item.properties.end_datetime | nicedate:1 }}<br/>
+                    </td>
+                    <td>
+                        <span class="gray">{{::'platform' | uppercase}}</span> : {{item.properties.platform}}<br/>
+                        <span class="gray">{{::'instrument' | uppercase}}</span> : {{item.properties.instrument}}<br/>
+                        <span class="gray">{{::'productType' | uppercase}}</span> : {{item.properties.productType}}<br/>
+                        <span class="gray">{{::'processingLevel' | uppercase}}</span> : {{item.properties.processingLevel}}<br/>
+                        <span class="gray">{{::'sensorMode' | uppercase}}</span> : {{item.properties.sensorMode}}<br/>
+                        <span class="gray">{{::'resolution'| uppercase}}</span> : {{item.properties.resolution}} m<br/>
+                        <span class="gray">{{::'orbitNumber'| uppercase}}</span> : {{item.properties.orbitNumber}}<br/>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+        </script>
+
+    </div>
+    
+</div>

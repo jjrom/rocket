@@ -1,0 +1,20 @@
+.button.action {
+    width:200px;
+}
+.button.active {
+    background-color: rgb(252, 76, 2);
+}
+
+.action.active {
+    font-weight: bold;
+    border-bottom: 2px solid var(--hilited)
+}
+
+.dimension-manager-content label {
+    font-size: 1em;
+    font-weight: 100;
+}
+
+.slider-container {
+    width: 100%; /* Forces container to take up available space */
+}

@@ -1,0 +1,311 @@
+/* 
+ * rocket - resto Web client
+ * 
+ * Copyright (C) 2015 Jérôme Gasperi <jerome.gasperi@gmail.com>
+ *
+ * This file is subject to the terms and conditions defined in
+ * file LICENSE, which is part of this source code package.
+ * 
+ */
+
+.ol-control button {
+    color: #000;
+    background-color: #fff;
+    width:30px;
+    height:30px;
+    cursor:pointer;
+}
+
+.ol-control button:focus {
+    background-color: #fff;
+}
+
+.ol-control button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.ol-rotate {
+    top: 45px;
+}
+
+.ol-zoom, .ol-touch .ol-zoom {
+    /*display: none;*/
+    left: auto;
+    right: .5em;
+    top: calc(100px + var(--header-height) - var(--map-top));
+}
+
+.zoomonmap, .ol-touch .zoomonmap {
+    top: calc(175px + var(--header-height) - var(--map-top));
+    right: .5em;
+}
+
+.ol-full-screen {
+    top: calc(0.5em + var(--header-height) - var(--map-top));
+}
+
+.ol-draw {
+    left: auto;
+    right: .5em;
+    top: calc(200px + var(--header-height) - var(--map-top));
+    z-index:10;
+}
+
+.ol-draw-cancel {
+    position:absolute;
+    left: auto;
+    right: calc(.5em + 45px);
+    top: calc(200px + var(--header-height) - var(--map-top));
+    z-index:10;
+}
+
+.ol-draw .ol-draw-polygon {
+    border-radius: 2px 2px 0 0;
+}
+
+.ol-draw .ol-draw-line {
+    border-radius: 0 0 2px 2px;
+}
+
+.ol-globe {
+    left: auto;
+    right: .5em;
+    bottom: .5em;
+    z-index:10;
+}
+
+.ol-scale-line {
+    right: auto;
+    background-color: transparent;
+    left: 10px;
+    bottom: 0px;
+    color: #000;
+    z-index: 2;
+}
+
+.ol-scale-line-inner {
+    color: #000;
+    border-style: none solid solid;
+    border-color: #000 #000 #000;
+    border-width: 0 3px 3px;
+}
+
+.ol-attribution ul {
+    display: auto;
+    font-size: .7rem;
+    line-height: 1.375em;
+}
+
+.ol-attribution li {
+    line-height: inherit;
+}
+
+.ol-attribution:not(.ol-collapsed) {
+    z-index: 2;
+    right: 5px;
+    bottom: 5px;
+    background-color: transparent;
+}
+
+.ol-mouse-position {
+    position: absolute;
+    z-index: 2;
+    top: auto;
+    right: auto;
+    bottom: 4px;
+    left: 165px;
+    font-size: 0.8em;
+    color: #000;
+}
+
+.draw-control, .ol-touch .draw-control {
+    display: none;
+}
+
+.ol-control button .activated {
+    color: orange !important;
+}
+
+/*
+ * Measure Control
+ */
+
+.ol-tooltip {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    opacity: 0.7;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.ol-tooltip-measure {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.ol-tooltip-static {
+    background-color: #ffcc33;
+    color: black;
+    border: 1px solid white;
+}
+
+.ol-tooltip-measure:before, .ol-tooltip-static:before {
+    border-top: 6px solid rgba(0, 0, 0, 0.5);
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    margin-left: -7px;
+    left: 50%;
+}
+
+.ol-tooltip-static:before {
+    border-top-color: #ffcc33;
+}
+
+#clickedmarker {
+    position: absolute;
+}
+
+#clickedmarker .inner {
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 128, 0, 0.7);
+    border-radius: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+    transform-origin: 0 0;
+    animation: grow .3s linear forwards;
+    
+}
+
+@keyframes grow {
+    0% {
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+    }
+    50% {
+        margin-top: -15px;
+        margin-left: -15px;
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+    100% {
+        margin-top: -20px;
+        margin-left: -20px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes grow {
+    0% {
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+    }
+    50% {
+        margin-top: -15px;
+        margin-left: -15px;
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+    100% {
+        margin-top: -20px;
+        margin-left: -20px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+@-moz-keyframes grow {
+    0% {
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+    }
+    50% {
+        margin-top: -15px;
+        margin-left: -15px;
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+    100% {
+        margin-top: -20px;
+        margin-left: -20px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+@-ms-keyframes grow {
+    0% {
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+    }
+    50% {
+        margin-top: -15px;
+        margin-left: -15px;
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+    100% {
+        margin-top: -20px;
+        margin-left: -20px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+@-o-keyframes grow {
+    0% {
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+    }
+    50% {
+        margin-top: -15px;
+        margin-left: -15px;
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+    100% {
+        margin-top: -20px;
+        margin-left: -20px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
+
+@media only screen and (max-width: 64.063em) {
+    .ol-mouse-position {
+        display: none;
+    }
+}
+
+@media only screen and (max-width:700px) {
+    .ol-scale-line {
+        display: none;
+    }
+}

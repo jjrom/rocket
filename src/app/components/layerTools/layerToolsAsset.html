@@ -1,0 +1,55 @@
+<!-- Tools -->
+<div class="unpadded">
+    <ul class="unmarged block">
+
+        <li class="pointer padded-horizontal-small" ng-click="$ctrl.switchVisible($ctrl.layer, $event)" translate-once-title="layer.showhide">
+            <i ng-class="{'fa-regular fa-circle':!$ctrl.layer.getVisible(),'fa-solid fa-circle-check':$ctrl.layer.getVisible()}"></i>
+        </li>
+    
+        <!-- Centerable only -->
+        <li class="pointer padded-horizontal-small" ng-click="$ctrl.centerOnLayer($ctrl.layer, $event)" translate-once-title="layer.centeron">
+            <i class="fa fa-expand"></i>
+        </li>
+    
+        <!-- Non search layers only -->
+        <li ng-if="$ctrl.showSearch() && $ctrl.layer.getSource && $ctrl.layer.getSource().getFeatures && !$ctrl.layer.get('_rocket').isNotSearchable" class="pointer padded-horizontal-small" ng-click="$ctrl.searchOnLayer($ctrl.layer, $event)" translate-once-title="layer.searchon">
+            <i ng-class="{'fa fa-spin fa-refresh fa-circle-notch active':$ctrl.watch.searchInProgress, 'fa fa-search':!$ctrl.watch.searchInProgress}"></i>
+        </li>
+
+        <!-- Catalog only -->
+        <li ng-if="$ctrl.infoButton && $ctrl.layer.get('_rocket').type === 'search'" class="pointer padded-horizontal-small" ng-click="$ctrl.triggerInfo($ctrl.layer, $event)" translate-once-title="layer.info">
+            <i class="fas fa-info-circle"></i>
+        </li>
+    
+        <!-- WMS layer -->
+        <li class="pointer padded-horizontal-small" ng-if="['tilewms', 'wmts'].indexOf($ctrl.layer.get('_rocket').type) !== -1" ng-click="$ctrl.switchFeatureInfo($ctrl.layer, $event)" translate-once-title="layer.info">
+            <i class="fa fa-circle-info" ng-class="{'active': $ctrl.watch.showInfo}"></i>
+        </li>
+        <li ng-if="$ctrl.layer.get('_rocket').parsedWMS && $ctrl.layer.get('_rocket').parsedWMS.legend" class="pointer padded-horizontal-small" ng-click="$ctrl.switchLegend($ctrl.layer, $event)" translate-once-title="layer.showhideLegend">
+            <i class="fa fa-list" ng-class="{'active': $ctrl.showLegend}"></i>
+        </li>
+        
+        <!-- Linked layer -->
+        <li ng-if="$ctrl.layer.get('_rocket').linkedLayer" class="pointer padded-horizontal-small" ng-click="$ctrl.switchVisible($ctrl.getLayer($ctrl.layer.get('_rocket').linkedLayer.id), $event)" title="{{$ctrl.layer.get('_rocket').linkedLayer.title}}">
+            <i class="{{$ctrl.layer.get('_rocket').linkedLayer.iconClass || 'fas fa-layer-group'}}" ng-class="{'active': $ctrl.getLayer($ctrl.layer.get('_rocket').linkedLayer.id).getVisible()}"></i>
+        </li>
+    
+        <!-- Catalog only -->
+        <li ng-if="$ctrl.layer.get('_rocket').type === 'search'" class="pointer padded-horizontal-small" ng-click="$ctrl.toggleSearch($ctrl.layer, $event)" translate-once-title="search.toggle">
+            <i class="fas fa-ban" ng-class="{'active': $ctrl.layer.get('_rocket').isInactive}"></i>
+        </li>
+    
+    </ul>
+
+    <!-- WMTS Dimensions -->    
+    <div ng-if="$ctrl.layer.get('_rocket').layerCapability && $ctrl.layer.get('_rocket').layerCapability.Dimension">
+        <dimension-manager
+            rocket-map="$ctrl.rocketMap"
+            layer="$ctrl.layer">
+        </dimension-manager>
+    </div>
+
+    <div class="padded-left-small" ng-if="$ctrl.showLegend && $ctrl.layer.get('_rocket').parsedWMS && $ctrl.layer.get('_rocket').parsedWMS.legend">
+        <img ng-src="{{$ctrl.layer.get('_rocket').parsedWMS.legend}}" style="max-width:200px" />
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="cell">
+
+    <div ng-if="$ctrl.isLoading" class="loading-mask">
+        <div class="amiddle bigger white">
+            <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+        </div>
+    </div>
+
+    <!-- OGC API Processes changer -->
+    <div class="grid-x" ng-if="$ctrl.canChangeOapip">
+        <div class="cell center bglight padded-vertical-small">
+            <oapip-changer
+                end-point="$ctrl.endPoint"
+                on-change="$ctrl.setEndPoint(endPoint)">
+            </oapip-changer>
+        </div>
+    </div>
+
+    <!-- No endpoint -->
+    <div class="grid-x" ng-if="!$ctrl.endPoint">
+        <div class="cell padded center">
+            <h4 translate-once="processes.no.endpoint"></h4>
+        </div>
+    </div>
+
+    <div class="grid-x" class="padded-top-small" ng-if="$ctrl.processes">
+
+        <!-- Processes -->
+        <div class="cell padded-top-small medium-4" style="margin-bottom: 70px;">
+
+            <div class="padded-bottom">
+
+                <div class="padded-left-small" ng-if="$ctrl.processes.length === 0" translate-once="processes.no.process"></div>
+                
+                <div ng-repeat="process in $ctrl.processes track by process.id" class="padded-bottom-small">
+                    <div class="padded-left-small">
+                        <span class="link" ng-class="{bold: $ctrl.activeProcess && $ctrl.activeProcess.id === process.id}" ng-click="$ctrl.selectProcess(process)" ng-bind="process.title"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Selected process -->
+        <div class="cell medium-8" style="margin-bottom:70px;" ng-if="$ctrl.activeProcess">
+            <div class="padded-small">
+                <process process="$ctrl.activeProcess"></process>
+            </div>
+        </div>
+
+    </div>
+
+</div>

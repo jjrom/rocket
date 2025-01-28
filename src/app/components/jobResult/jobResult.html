@@ -1,0 +1,12 @@
+<div class="bglight padding-small">
+    <div ng-if="$ctrl.loadingIndicator">
+        <div class="center black">
+            <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+        </div>
+    </div>
+    <div ng-if="$ctrl.results">
+        <pre>
+            {{ $ctrl.results | prettyjson }}
+        </pre>
+    </div>
+</div>

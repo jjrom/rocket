@@ -1,0 +1,36 @@
+<div class="cell">
+
+    <div class="grid-x" ng-repeat="searchResult in $ctrl.searchResults track by searchResult.id">
+
+        <!-- Title / description -->
+        <div class="cell">
+            <h5 class="padded">
+                {{searchResult.title}} - 
+                <span ng-if="searchResult.featureCollection.features.length === 0" translate-once="search.noresult"></span>
+                <span ng-if="searchResult.featureCollection.features.length > 0">{{(searchResult.featureCollection.context.exactCount ? 'search.exact' : 'search.around') | bettertranslate:[searchResult.featureCollection.features.length, searchResult.featureCollection.context.matched] }}</span>
+                <span ng-if="searchResult.next"><span class="padded-horizontal">|</span><span class="link" ng-click="$ctrl.next()" translate-once="search.more"></span></span>
+            </h5>
+        </div>
+        
+        <!-- Thumbnails -->
+        <div class="cell">
+            <div ng-repeat="feature in searchResult.featureCollection.features track by feature.id">
+                <div class="pointer" ng-click="$ctrl.selectFeature(feature)">
+                    <!--feature.properties.quicklook-->
+                    <span>{{ feature.properties['resto:keywords'] | extractlocation }}</span><br />
+                    <span ng-if="feature.properties.datetime" ng-bind="feature.properties.datetime | nicedate:1"></span>
+                    <span ng-if="feature.properties.start_datetime">
+                        {{ feature.properties.start_datetime | nicedate:1 }} - {{ feature.properties.end_datetime | nicedate:1 }}
+                    </span>
+                    <div class="smaller break-words" ng-bind="feature.id"></div>
+                    <div ng-if="feature.collection">
+                        <span class="bold" translate-once="collection"></span> : <span class="break-words">{{ feature.collection }}</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+</div>

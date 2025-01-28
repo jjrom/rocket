@@ -1,0 +1,77 @@
+<!-- Fixed toolbar -->
+<header-toolbar ng-if="display.header"
+    fixed="false"
+    opaque="true">
+</header-toolbar>
+
+<div ng-if="isLoading" class="loading-mask">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<!-- Home cover -->
+<div class="cell">
+
+    <div class="grid-x homepage">
+
+        <div class="cell bglight">
+
+            <div class="grid-x grid-padding-x" style="margin:auto;max-width:1000px;height:100vh;">
+
+                <div class="cell center" style="padding-top:20vw;">
+
+                    <brands target="'pages'"></brands>
+
+                    <h3 translate-once="header.signin" class="padded-top"></h3>
+                    
+                    <div class="grid-x grid-padding-x padded">
+                        <div class="cell padded" ng-if="canSignInWithEmail">
+                            <form method="get" ng-submit="loginWithEmail()" name="loginForm">
+                                <div class="grid-container">
+                                    <div class="grid-x grid-padding-x">
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="email"></span>
+                                                <input type="text" id="email" name="email" ng-model="registration.email" class="form-control" translate-once-placeholder="email" required autofocus/>
+                                            </label>
+                                            <div class="left">
+                                                <span ng-if="canRegister"><span translate-once="signin.noaccountyet"></span>&nbsp;<a translate-once="header.signup" ui-sref="register"></a></span>
+                                            </div>
+                                        </div>
+                                        <div class="medium-6 cell">
+                                            <label>
+                                                <span translate-once="password"></span>
+                                                <input type="password" name="password" ng-model="registration.password" class="form-control" translate-once-placeholder="password" required/>
+                                            </label>
+                                            <div class="right">
+                                                <a ui-sref="forgotPassword" translate-once="signin.forgotpassword" class="small"></a>
+                                            </div>
+                                        </div>
+                                        <div class="cell padded center">
+                                            <button type="submit" class="button round" ng-disabled="loginForm.$invalid" translate-once="signin.submit"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="cell center padded" ng-if="providers">
+                            <h5 translate-once="signin.external" ng-if= "canSignInWithEmail"></h5>
+                            <div class="padded" ng-repeat="(key, value) in providers">
+                                <span class="button pointer" ng-class="key">
+                                    <span ng-if="value.icon"><i ng-class="value.icon"></i>&nbsp;</span>
+                                    <span ng-click="loginWithProvider(key)">{{'signin.with' | bettertranslate:value.title }}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

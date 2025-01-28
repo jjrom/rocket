@@ -1,0 +1,6 @@
+:root {
+    --panel-color:#fff;
+    --panel-bg:rgba(0,0,0,0.8);
+    --panel-hover-bg:rgba(0,0,0,0.8);
+    --bglight:#555;
+}

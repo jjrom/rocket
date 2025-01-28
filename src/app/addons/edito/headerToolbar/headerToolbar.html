@@ -1,0 +1,70 @@
+<div class="header-mask fixed white">
+
+    <!-- Header navigation - left (not the display flex to avoid carriage return between brands and ul block)-->
+    <div class="header left" style="display:flex;">
+
+        <!-- Brands -->
+        <brands target="'header'"></brands>
+
+        <!-- Left links -->
+        <ul class="block unmarged">
+            <li ui-sref="map($ctrl.get$locationParams('map'))" ng-class="{ 'active' : $ctrl.$state.includes('map') }" class="pointer padded-horizontal-small" translate-once-title="header.map">
+                <div><span class="fa fa-solid fa-globe"></span><span class="padded-left-small show-for-large" translate-once="header.viewer"></span></div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Meta suggest search -->
+    <div class="header center" style="display:flex" ng-if="$ctrl.watch.hasSearch && $ctrl.$state.includes('map')">
+        <span class="padded-right-small"><i class="fa fa-search"></i></span>
+        <meta-suggest
+            input-type="'text'"
+            input-class="'form-control form-control-small header__search'"
+            input-button-class="'active'"
+            gazetteer="$ctrl.watch.gazetteer"
+            suggest-url="$ctrl.watch.suggestUrl"
+            rocket-map="$ctrl.rocketMap"
+            on-select-suggest="$ctrl.addQFilter(keyword)"
+            on-select-gazetteer="$ctrl.setLocation(location)">
+        </meta-suggest>
+    </div>
+
+    <!-- Header navigation - right -->
+    <div class="header right">
+        <ul class="block unmarged">
+            <li ng-if="$ctrl.config.display.cart && !$ctrl.noSignIn" ng-class="{'active': $ctrl.panelActiveTab === 'cart'}" translate-once-title="header.cart">
+                <div ng-click="$ctrl.showPanel('cart')" class="pointer padded-horizontal-small">
+                    <span class="fa fa-shopping-cart"><sub ng-if="$ctrl.cartSize > 0" class="padded-horizontal-very-small">{{ $ctrl.cartSize }}</sub></span><span class="padded-left-small show-for-large" translate-once="header.cart"></span>
+                </div>
+            </li>
+            <li ng-if="$ctrl.watch.processesEndPoints.length > 0 && $ctrl.config.display.jobs && !$ctrl.noSignIn" ng-class="{'active': $ctrl.panelActiveTab === 'jobs'}" translate-once-title="header.jobs">
+                <div ng-click="$ctrl.showPanel('jobs')" class="pointer padded-horizontal-small">
+                    <span class="fa fa-microchip"><sub ng-if="$ctrl.jobsSize > 0" class="padded-horizontal-very-small">{{ $ctrl.jobsSize }}</sub></span><span class="padded-left-small show-for-large" translate-once="header.jobs"></span>
+                </div>
+            </li>
+            <li ng-if="$ctrl.profile.id && $ctrl.config.display.views && !$ctrl.noSignIn" class="show-for-medium" ng-class="{'active': $ctrl.panelActiveTab === 'views'}" translate-once-title="header.views">
+                <div ng-click="$ctrl.showPanel('views')" class="pointer padded-horizontal-small">
+                    <span class="fas fa-binoculars"></span><span class="padded-left-small show-for-large" translate-once="header.views"></span>
+                </div>
+            </li>
+            <li ng-if="$ctrl.profile.id && $ctrl.config.hasSignIn && !$ctrl.noSignIn" ng-click="$ctrl.showPanel('profile')" ng-class="{'active': $ctrl.panelActiveTab === 'profile'}" class="pointer padded-horizontal-small" translate-once-title="header.profile">
+                <div class="header-profile" bg-image="{{$ctrl.profile.picture}}" default-image="assets/img/default-user.png">&nbsp;</div>
+            </li>
+            <li ng-if="!$ctrl.profile.id && $ctrl.config.hasSignIn && !$ctrl.noSignIn">
+                <div class="pointer padded-horizontal-small" ng-class="{ 'active' : $ctrl.$state.includes('signin') }" ui-sref="signin($ctrl.get$locationParams('signin'))">
+                    <span class="fas fa-sign-in-alt"></span><span class="padded-left-small show-for-large" translate-once="header.signin"></span>
+                </div>
+            </li>
+        </ul>  
+    </div>
+</div>
+
+<!-- Profile panel -->
+<div ng-if="$ctrl.profilePanel" class="panel panel-right-float">
+    <profile-manager
+        active-tab="$ctrl.panelActiveTab"
+        profile="$ctrl.profile"
+        rocket-map="$ctrl.rocketMap"
+        on-close="$ctrl.hidePanel()">
+    </profile-manager>
+</div>

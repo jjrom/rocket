@@ -1,0 +1,12 @@
+<!-- Title -->
+<div class="break-words">
+    <span ng-bind-html="$ctrl.view.title | trusthtml"></span>
+</div>
+
+<!-- Description -->
+<div ng-if="$ctrl.view.description" class="italic small markdown-unmarged-bottom"
+    markdown-it="$ctrl.view.description"></div>
+
+<!-- Filters -->
+<search-tags search="$ctrl.view.search">
+</search-tags>

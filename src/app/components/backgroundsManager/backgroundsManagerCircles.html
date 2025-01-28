@@ -1,0 +1,8 @@
+<ul class="block unmarged center">
+    <li ng-repeat="background in $ctrl.watch.layers.backgrounds"
+        ng-click="$ctrl.setBackground(background)"
+        title="{{background.get('_rocket').title}}"
+        class="center">
+        <div class="circle circle-small bggreen pointer marged-left marged" ng-class="{'active':$ctrl.watch.layers.activeBackground.get('_rocket').id === background.get('_rocket').id}" bg-image="{{background.get('_rocket').thumbnail}}"></div>
+    </li>
+</ul>

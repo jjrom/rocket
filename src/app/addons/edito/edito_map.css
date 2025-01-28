@@ -1,0 +1,195 @@
+:root {
+    --catalog-panel-width: 350px;
+    --catalog-panel-height: 100vh;
+    --catalog-panel-header-height:55px;
+    --panel-left-width: 350px;
+    --header-height:35px;
+}
+
+body {
+    font-size: 14px;
+}
+
+.link.dark {
+    color:black;
+}
+
+.footer-logo {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: auto;
+    background-color: transparent;
+    text-align: center;
+    z-index: 1000;
+}
+
+.panel-left {
+    position:absolute;
+    top: var(--header-height);
+    left: var(--catalog-panel-width);
+    width: var(--panel-left-width);
+    height: calc(var(--catalog-panel-height) - var(--header-height));
+    box-shadow: unset;
+    background-color: var(--bglight);
+    border-left:1px black solid;
+    color: var(--panel-color);
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+    z-index: 16000;
+}
+
+.panel-left::-webkit-scrollbar {
+    display: none;
+}
+
+.panel-left.catalog-hidden {
+    left: 0px;
+}
+
+.property-label {
+    padding-bottom: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.property-label.property-label-header {
+    font-weight: normal;
+    text-transform: uppercase;
+    border-right: none;
+    background-color: white;
+}
+
+.catalog-panel {
+    position:absolute;
+    top: var(--header-height);
+    left: 0px;
+    width: var(--catalog-panel-width);
+    height: calc(var(--catalog-panel-height) - var(--header-height));
+    overflow-x: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.catalog-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.catalog-search {
+    display:flex;
+    height:var(--header-height);
+    line-height: var(--header-height);
+}
+
+#map {
+    left: 0px;
+    width: 100vw;
+}
+#map.explore-panel-visible {
+    left: var(--catalog-panel-width);
+    width: calc(100vw - var(--catalog-panel-width));
+}
+#map.feature-panel-visible {
+    left: var(--panel-left-width);
+    width: calc(100vw - var(--panel-left-width));
+}
+#map.explore-panel-visible.feature-panel-visible {
+    left: calc(var(--panel-left-width) + var(--catalog-panel-width));
+    width: calc(100vw - var(--panel-left-width) - var(--catalog-panel-width));
+}
+
+.explore-search-input {
+    position:fixed;
+    background-color: white;
+    bottom:0px;
+    left:0px;
+    height:var(--header-height);
+}
+
+.explore-collapse {
+    position: absolute;
+    width:32px;
+    height:32px;
+    line-height: 32px;
+    color:white;
+    vertical-align: middle;
+    text-align: center;
+    left: 0px;
+    top: calc(var(--header-height) + 15px);
+    z-index: 20000;
+}
+
+.edito-panel-maplayers {
+    position: absolute;
+    left: auto;
+    right: 5px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    font-size: 0.8em;
+    width: auto;
+    z-index: 10000;
+}
+
+.explore-active-tab {
+    background-color: var(--hilited);
+    color:black;
+}
+
+.ol-zoom, .ol-touch .ol-zoom {
+    display:none;
+    bottom: 30px;
+    top:auto;
+}
+
+.ol-full-screen {
+    display:none;
+}
+
+.ol-mouse-position {
+    color:white;
+}
+
+.ol-attribution ul {
+    color:white;
+    text-shadow: none;
+}
+
+.ol-attribution a {
+    color: rgb(34, 181, 255);
+}
+
+.ol-scale-line-inner {
+    color:white;
+    border-color:rgba(255,255,255,0.5);
+}
+
+/*
+ * Dropdown for searchToolbar
+ */
+ .angucomplete-dropdown {
+    position:fixed;
+    left:0px;
+    top:unset;
+    right:unset;
+    bottom:var(--header-height);
+    background-color: var(--bglight);
+    height: calc(var(--catalog-panel-height) - var(--header-height));
+    overflow-y: scroll;
+    overflow-x: hidden;
+    font-size: 1em;
+    width: var(--catalog-panel-width);
+    padding: 6px;
+    cursor: pointer;
+    z-index: 20000;
+    margin-top: -6px;
+}
+
+@media only screen and (max-width:700px) {
+    .angucomplete-dropdown {
+        width: var(--catalog-panel-width);
+    }
+}

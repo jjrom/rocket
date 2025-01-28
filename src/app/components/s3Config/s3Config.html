@@ -1,0 +1,49 @@
+<div class="cell">
+
+    <div class="padded-small">
+
+        <div class="small italic center red padded-vertical-small" translate-once="s3.config.disclaimer"></div>
+
+        <form ng-submit="$ctrl.updateConfig()" name="s3ConfigForm">
+
+            <div class="grid-container">
+            
+                <div class="cell">
+                    <label>
+                        <span translate-once="s3.accessKeyId"></span>
+                        <input type="text" id="accessKeyId" name="accessKeyId" ng-model="$ctrl.s3Config.accessKeyId" class="form-control" />
+                    </label>
+                </div>
+                <div class="cell">
+                    <label>
+                        <span translate-once="s3.secretAccessKey"></span>
+                        <input type="text" name="secretAccessKey" ng-model="$ctrl.s3Config.secretAccessKey" class="form-control" />
+                    </label>
+                </div>
+                <div class="cell">
+                    <label>
+                        <span translate-once="s3.region"></span>
+                        <input type="text" name="region" ng-model="$ctrl.s3Config.region" class="form-control" />
+                    </label>
+                </div>
+            
+                <div class="cell">
+                    <label>
+                        <span translate-once="s3.RequestPayer"></span>
+                        <select name="RequestPayer" ng-model="$ctrl.s3Config.RequestPayer" class="form-control">
+                            <option value="requester">requester</option>   
+                        </select>
+                    </label>
+                </div>
+                
+                <div class="cell center">
+                    <button type="submit" class="button round" translate-once="s3.update"></button>
+                </div>
+                
+            </div>
+
+        </form>
+
+    </div>
+    
+</div>

@@ -1,0 +1,32 @@
+
+<div style="width:400px;">
+    <span class="pointer text-shadowed padded-left-small" ng-click="$ctrl.switchVisible($ctrl.layer, $event)"><i ng-class="{'fa-regular fa-circle':!$ctrl.layer.getVisible(),'fa-solid fa-circle-check':$ctrl.layer.getVisible()}"></i></span>
+    <!-- Centerable only -->
+    <span class="pointer text-shadowed padded-left-small" ng-click="$ctrl.centerOnLayer($ctrl.layer, $event)" translate-once-title="layer.centeron"><i class="fa fa-expand"></i></span>
+    <!-- WMS layer -->
+    <span class="pointer text-shadowed padded-left-small" ng-if="['tilewms', 'wmts'].indexOf($ctrl.layer.get('_rocket').type) !== -1" ng-click="$ctrl.switchFeatureInfo($ctrl.layer, $event)" translate-once-title="layer.info">
+        <i class="fa fa-circle-info" ng-class="{'active': $ctrl.watch.showInfo}"></i>
+    </span>
+    <!--
+    <span class="pointer text-shadowed padded-left-small" ng-if="$ctrl.layer.get('_rocket').parsedWMS && $ctrl.layer.get('_rocket').parsedWMS.legend" ng-click="$ctrl.switchLegend($ctrl.layer, $event)" translate-once-title="layer.showhideLegend">
+        <i class="fa fa-list" ng-class="{'active': $ctr.showLegend}"></i>
+    </span>
+    -->
+    <span class="pointer text-shadowed padded-left-small" ng-if="$ctrl.layer.get('_rocket').isRemovable" ng-click="$ctrl.removeLayer($ctrl.layer, true, $event)" translate-once-title="layer.remove">
+        <i class="fa fa-trash-alt"></i>
+    </span>
+    <span class="text-shadowed padded-left-small" translate-once-title="layer.centeron" title="{{$ctrl.layer.get('_rocket').title}}">{{ $ctrl.layer.get('_rocket').title | ellipsis:35 }}</span>
+    
+    <!-- Legend
+    <div class="padded-left-small" ng-if="$ctrl.showLegend && $ctrl.layer.get('_rocket').parsedWMS && $ctrl.layer.get('_rocket').parsedWMS.legend">
+        <img ng-src="{{$ctrl.layer.get('_rocket').parsedWMS.legend}}" style="max-width:200px" />
+    </div>
+    -->
+    <!-- WMTS Dimensions -->
+    <div class="padded-left" ng-if="$ctrl.layer.get('_rocket').layerCapability && $ctrl.layer.get('_rocket').layerCapability.Dimension">
+        <dimension-manager
+            rocket-map="$ctrl.rocketMap"
+            layer="$ctrl.layer">
+        </dimension-manager>
+    </div>
+</div>

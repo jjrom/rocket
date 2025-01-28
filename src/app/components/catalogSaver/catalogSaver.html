@@ -1,0 +1,66 @@
+<div class="cell bglight">
+
+    <div class="grid-x">
+
+        <div class="cell">
+
+            <form class="grid-x grid-padding-x" name="saveViewForm" ng-submit="$ctrl.saveView($event)">
+
+                <div class="cell padded-top">
+
+                    <div class="grid-x grid-padding-x">
+                        <div class="small-2 cell">
+                            <label for="save-view-title" class="text-right middle" translate-once="title"></label>
+                        </div>
+                        <div class="small-8 cell">
+                            <input id="save-view-title" type="text" ng-model="$ctrl.savedView.title" class="form-control" required="required" placeholder="{{'title' | translate}}" />
+                        </div>
+                        <div class="small-2 cell"></div>
+                    </div>
+
+                    <div class="grid-x grid-padding-x">
+                        <div class="small-2 cell">
+                            <label for="save-view-description" class="text-right middle" translate-once="description"></label>
+                        </div>
+                        <div class="small-8 cell">
+                            <textarea id="save-view-description" ng-model="$ctrl.savedView.description" class="form-control"
+                                required="required" placeholder="{{'description' | translate}}" rows="3"
+                                style="resize: none;">
+                            </textarea>
+                        </div>
+                        <div class="small-2 cell"></div>
+                    </div>
+
+                    <div class="grid-x grid-padding-x">
+                        <div class="small-2 cell"></div>
+                        <div class="small-8 cell left">
+                            <fieldset>
+                                <input id="save-view-public" type="checkbox" ng-model="$ctrl.savedView.isPublic"/>
+                                <label for="save-view-public" translate-once="savedview.make.public"></label>
+                            </fieldset>
+                        </div>
+                        <div class="small-2 cell"></div>
+                    </div>
+                    
+                </div>
+
+                <div class="cell padded-vertical-small right bglight">
+                    <div class="unbreakable">
+                        <span class="pointer" ng-click="$ctrl.onClose()">
+                            <span class="fa fa-times padded-right-small"></span>
+                            <span class="show-for-large padded-right-small" translate-once="cancel"></span>
+                        </span>|
+                        <button type="submit" class="pointer active bold" ng-disabled="$ctrl.saveViewForm.$invalid">
+                            <span class="fas fa-save padded-horizontal-small" ng-class="{'fa fa-refresh fa-spin fa-circle-notch': $ctrl.isLoading}"></span>
+                            <span class="show-for-large padded-right-small" translate-once="search.saveView"></span>
+                        </button>
+                    </div>
+                </div>    
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

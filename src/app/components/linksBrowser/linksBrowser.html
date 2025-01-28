@@ -1,0 +1,20 @@
+<table class="padded-left unmarged" style="overflow-x: hidden," ng-repeat="link in $ctrl.links">
+    <tr>
+        <td class="break-words">
+            <i class="far fa-clipboard black padded-right-small pointer" ng-click="$ctrl.copyToClipboard(link.href)" animation="shake faster" animate-on-click></i>
+            <span title="{{link.href}}">{{ link.title || link.rel }}</span>
+        </td>
+        <td class="right unbreakable">
+            <span class="padded-right-small">
+                <i class="fa-solid fa-up-right-from-square pointer" ng-click="$ctrl.openExternalLink(link.href)" ng-if="!link.href.startsWith('data:')"></i></span>
+            </span>
+        </td>            
+    </tr>
+    <tr ng-if="link.href.startsWith('data:')">
+        <td colspan="2" class="break-words padded-horizontal">
+            <blockquote class="padded-right-small" ng-class="{'preserve-format':link.href.split(',')[0].indexOf('json') === -1}">
+                {{ link.href.split(',')[1] | atob }}
+            </blockquote>
+        </td>      
+    </tr>
+</table>

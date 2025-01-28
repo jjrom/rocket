@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- The no-js class avoid flash of non styled content (https://get.foundation/sites/docs/installation.html) -->
+<html ng-app="rocket" class="no-js">
+    <head>
+        <base href="/">
+        <title translate-once="index.title"></title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- iphoneX iOS 11 add viewport-fit=cover -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no, shrink-to-fit=no">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="mobile-web-app-capable" content="yes">
+        <!-- Below meta is uncommented if env variable USE_HTTPS_PROXY is set to true to force all requests to be https -->
+        <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+        <link rel="shortcut icon" href="favicon.ico" />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        
+        <style type="text/css">
+            [deferred-cloak], [data-deferred-cloak], [x-deferred-cloak], .deferred-cloak {
+                display: none;
+            }
+        </style>
+        <link rel="stylesheet" href="assets/css/essential.css?v=ROCKET_IMAGE_TAG" type="text/css" />
+        <link rel="stylesheet" href="assets/css/rocket.css?v=ROCKET_IMAGE_TAG" type="text/css" />
+        <link rel="stylesheet" href="assets/css/rocket-theme.css?v=ROCKET_IMAGE_TAG" type="text/css" />
+        <!--[if lte IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.3.0/base64.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body ng-controller="MainController as mainController" style="overflow-x:hidden;touch-action: pan-x, pan-y;">
+            
+        <!-- Application view -->
+        <div ui-view autoscroll="false"></div>
+        
+        <!-- Notification -->
+        <div growl></div>
+        
+        <!-- External libraries -->
+        <script type="text/javascript" src="assets/libs/essential.js?v=ROCKET_IMAGE_TAG"></script>
+        <script type="text/ng-template" id="templates/growl/growl.html">
+            <div class="growl-container" ng-class="wrapperClasses()">
+                <div class="growl-item alert" ng-repeat="message in growlMessages.directives[referenceId].messages" ng-class="alertClasses(message)" ng-click="stopTimeoutClose(message)">
+                    <div class="close" data-dismiss="alert" aria-hidden="true" ng-click="growlMessages.deleteMessage(message)" ng-show="!message.disableCloseButton">&times;</div>
+                    <div class="close" aria-hidden="true" ng-show="showCountDown(message)">{{message.countdown}}</div>
+                    <h4 class="growl-title" ng-show="message.title" ng-bind="message.title"></h4>
+                    <div class="growl-message" ng-bind-html="message.text"></div>
+                </div>
+            </div>
+        </script>
+        
+        <!-- OpenLayers -->
+        <script type="text/javascript" src="assets/libs/proj4.js?v=ROCKET_IMAGE_TAG"></script>
+        <script type="text/javascript" src="assets/libs/ol.js?v=ROCKET_IMAGE_TAG"></script>
+
+        <!-- GeoTIFF -->
+        <script src="https://cdn.jsdelivr.net/npm/geotiff"></script>
+
+        <!-- chart -->
+        <script type="text/javascript" src="app/chart.js?v=ROCKET_IMAGE_TAG"></script>
+
+        <!-- jsonschemaform -->
+        <script type="text/javascript" src="app/jsonschemaform.js?v=ROCKET_IMAGE_TAG"></script>
+
+        <!-- AWS -->
+        <script type="text/javascript" src="assets/libs/aws-sdk.min.js?v=ROCKET_IMAGE_TAG"></script>
+
+        <!-- Default environnement -->
+        <script type="text/javascript" src="app/env.js?v=ROCKET_IMAGE_TAG"></script>
+
+        <!-- Superseed environnement variable -->
+        <script type="text/javascript" src="env.js?v=ROCKET_IMAGE_TAG"></script>
+        
+        <!-- rocket -->
+        <script type="text/javascript" src="app/rocket.js?v=ROCKET_IMAGE_TAG"></script>
+        
+    </body>
+</html>

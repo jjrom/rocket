@@ -1,0 +1,13 @@
+<!-- Title -->
+<div class="break-words">
+    <span ng-bind-html="$ctrl.process.title | trusthtml"></span>
+</div>
+
+<!-- Description -->
+<div ng-if="$ctrl.process.description" class="italic small markdown-unmarged-bottom" markdown-it="$ctrl.process.description"></div>
+
+<!-- Input form -->
+<form name="process" ng-submit="$ctrl.onSubmit(process)">
+    <div sf-schema="$ctrl.schema" sf-form="$ctrl.form" sf-model="$ctrl.model" sf-options="{tv4Validation:false}"></div>
+    <input type="submit" value="Submit">
+</form>

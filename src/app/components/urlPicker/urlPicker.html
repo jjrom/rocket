@@ -1,0 +1,34 @@
+<div class="panel panel-center">
+
+    <div class="cell left" position="relative;">
+
+        <!-- Sticky header -->
+        <div class="grid-container fluid sticky-header bglight" style="top:0px">
+
+            <div class="grid-x grid-margin-x">
+
+                <!-- Add your own -->
+                <div class="cell small-8 padded-top">
+                    <h4 translate-once="stac.catalog.type"></h4>
+                    <form ng-submit="$ctrl.onSelect({url:url})">
+                        <input id="change-end-point-input" type="search" ng-model="url" ng-class="$ctrl.inputClass" required="required" placeholder="{{ 'catalog.type.url' | translate }}" focus-me="true" />
+                    </form>
+                </div>
+
+                <!-- Close -->
+                <div class="cell small-4 right">
+                    <div class="pointer closeMe black" ng-click="$ctrl.onClose()"></div>
+                </div>
+
+                <!-- Use default -->
+                <div class="cell padded-vertical" ng-if="$ctrl.defaultCatalogUrl">
+                    <h4 class="link" ng-click="$ctrl.onSelect({url:$ctrl.defaultCatalogUrl})" ng-bind="'catalog.default' | bettertranslate:$ctrl.defaultCatalogUrl"></h4>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+</div>

@@ -1,0 +1,33 @@
+
+<div ng-if="$ctrl.isLoading" class="loading-mask">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<div class="grid-x grid-padding-x">
+
+    <div class="cell center padded-vertical-large" ng-if="$ctrl.views.length === 0">
+        <h5 translate-once="views.empty"></h5>
+    </div>
+
+    <div class="cell" ng-if="$ctrl.views.length">
+        <div ng-repeat="view in $ctrl.views track by view.id" class="padded-bottom-small">
+            <div ng-class="{'bordered-private': !view.public, 'bordered-public': view.public}">
+                <div class="padded-left-small">
+                    <view view="view"></view>
+                    <div class="padded-left">
+                        <span ng-if="$ctrl.rocketMap" class="padded-right pointer inline-block" ng-click="$ctrl.addViewToMap(view)">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </span>
+                        <span ng-if="$ctrl.hasDatacube" class="padded-right pointer inline-block" ng-click="$ctrl.exportToDatacube(view.href)" translate-once-title="datacube.bootstrap" animation="shake faster" animate-on-click>
+                            <i class="fas fa-cube"></i>
+                        </span>
+                        <span class="fa fa-trash pointer" ng-click="$ctrl.remove(view)" translate-once-title="view.remove"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

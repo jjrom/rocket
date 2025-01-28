@@ -1,0 +1,22 @@
+
+<!-- Title -->
+<span class="bold small padded-right-very-small">[<span ng-bind="$ctrl.layer.get('_rocket').type"></span>]</span><span class="break-words" ng-bind-html="$ctrl.layer.get('_rocket').title | trusthtml"></span>
+
+<!-- All other stuff-->
+<div class="padded-left-small padded-bottom-small ">
+
+    <!-- href -->
+    <div class="italic small" ng-bind="$ctrl.layer.get('_rocket').id"></div>
+
+    <!-- Description --> 
+    <div ng-if="$ctrl.layer.get('_rocket').description" class="italic small markdown-unmarged-bottom" markdown-it="$ctrl.layer.get('_rocket').description"></div>
+
+</div>
+
+<!-- Tools -->
+<layer-tools
+    layer="$ctrl.layer" 
+    show-legend="true"
+    rocket-map="$ctrl.rocketMap">
+</layer-tools>
+<hr/>

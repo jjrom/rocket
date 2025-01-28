@@ -1,0 +1,15 @@
+<div ng-repeat="dimension in $ctrl.layer.get('_rocket').layerCapability.Dimension" class="padded-horizontal-small">
+    <span class="bold">{{ dimension.Identifier + (dimension.UOM ? ' [' + dimension.UOM + ']' : '') }}</span> : {{ dimension.CurrentValue }}</span>
+    <div class="slider-container" ng-if="dimension.Value.length > 1">
+        <rzslider class="custom-slider"
+            rz-slider-model="$ctrl.sliders[dimension.Identifier].default"
+            rz-slider-options="$ctrl.sliders[dimension.Identifier].options">
+        </rzslider>
+    </div>
+</div>
+<!--
+<div style="display:flex; flex-direction: row;" class="dimension-manager-content padded-left-small">
+    <label class="white padded-right-small" for="dimension">radius</label>
+    <input id="dimension" type="range" style="width: 100px;" min="1" max="20" step="1" ng-model="$ctrl.watch.dimension" ng-change="$ctrl.onUpdateDimension()"/>
+</div>
+-->

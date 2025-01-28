@@ -1,0 +1,113 @@
+#!/bin/bash
+#
+# Copyright (C) 2015 Jérôme Gasperi <jerome.gasperi@gmail.com>
+#
+# This file is subject to the terms and conditions defined in
+# file LICENSE, which is part of this source code package.
+#
+
+####### DO NOT TOUCH THIS ######
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+################################
+
+#
+# Force script to exit on error
+#
+set -e
+err_report() {
+    echo -e "${RED}[ERROR] Error on line $1 ${NC}"
+}
+trap 'err_report $LINENO' ERR
+
+#
+# Help function
+#
+function showUsage {
+    echo -e ""
+    echo -e "Build and deploy rocket"
+    echo -e ""
+    echo -e "   Usage $0 <tag>"
+    echo -e ""
+    echo -e "   Where tag can be anything to identify the build. Note that \"dev\" is a special tag that will build without javascript obfuscation"
+    echo -e ""
+    echo -e "   Options:"
+    echo -e ""
+    echo -e "      -h | --help show this help"
+    echo -e ""
+    echo -e "      !!! This script requires docker and docker-compose !!!"
+    echo -e ""
+}
+
+ROCKET_TARGET=""
+while (( "$#" ));
+do
+	case "$1" in
+        -h|--help)
+            showUsage
+            shift # past argument
+            exit 0
+            ;;
+        --) # end argument parsing
+            shift
+            break
+            ;;
+        -*|--*=) # unsupported flags
+            showUsage
+            echo -e "${RED}[ERROR] Unsupported flag $1${NC}"
+            echo -e ""
+            exit 1
+            ;;
+        *) # preserve positional arguments
+            ROCKET_TARGET="$1"
+            shift
+            ;;
+	esac
+done
+
+#
+# ROCKET_TARGET is mandatory - should be anything or "dev"
+#
+if [[ "${ROCKET_TARGET}" == ""  ]]; then
+    showUsage
+    echo -e "${RED}[ERROR] Missing mandatory tag name${NC}"
+    echo ""
+    exit 1
+fi
+
+# Get rocket version from package.json
+ROCKET_VERSION=`grep 'version' build/rocket/package.json | head -1 | awk -F: '{print $2}' | sed s/\"//g | sed s/\,//g | sed s/\ //g`
+ROCKET_GIT_HASH=`git rev-parse --short HEAD`
+ROCKET_IMAGE_TAG=${ROCKET_VERSION}-${ROCKET_GIT_HASH}-${ROCKET_TARGET}
+
+if ! [ -x "$(command -v docker)" ]; then
+    echo -e "${RED}[ERROR] Missing docker command${NC}"
+    exit 1
+fi
+
+if [ "${ROCKET_TARGET}" = "dev" ]; then
+    echo -e "[INFO] Compile rocket for ${GREEN}development${NC}"
+else 
+    echo -e "[INFO] Compile rocket for ${GREEN}production${NC}"
+fi
+
+echo -e "[INFO] Building docker image ${ROCKET_IMAGE_TAG}"
+
+if [[ "${ROCKET_TARGET}" == "prod"  ]]; then
+    echo -e "[INFO] Multi arch build"
+    docker buildx inspect multi-platform-builder
+    if [[ ! $? -eq 0 ]]; then
+        docker buildx create --use --platform=linux/arm64,linux/amd64 --name multi-platform-builder --build-arg ROCKET_TARGET=${ROCKET_TARGET}
+    fi
+    docker buildx build --platform linux/amd64 -t jjrom/rocket:${ROCKET_IMAGE_TAG}-amd64 --load --build-arg ROCKET_TARGET=${ROCKET_TARGET} -f ./build/rocket/Dockerfile .
+    docker buildx build --platform linux/arm64 -t jjrom/rocket:${ROCKET_IMAGE_TAG}-arm64 -t jjrom/rocket:latest --load --build-arg ROCKET_TARGET=${ROCKET_TARGET} -f ./build/rocket/Dockerfile .
+else
+    docker build -t jjrom/rocket:${ROCKET_IMAGE_TAG} -t jjrom/rocket:latest -f ./build/rocket/Dockerfile --build-arg ROCKET_TARGET=${ROCKET_TARGET} .
+fi
+echo -e "[INFO] Docker image built - ${GREEN}jjrom/rocket:${ROCKET_IMAGE_TAG}${NC}"
+
+ROCKET_TARGET=${ROCKET_TARGET} \
+ROCKET_IMAGE_TAG=${ROCKET_IMAGE_TAG} \
+docker compose up -d

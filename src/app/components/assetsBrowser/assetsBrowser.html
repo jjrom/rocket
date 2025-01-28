@@ -1,0 +1,55 @@
+<div ng-if="$ctrl.watch.hasS3Assets" class="padded-very-small center" ng-class="{'bggreen':$ctrl.watch.s3Config.accessKeyId, 'bgred':!$ctrl.watch.s3Config.accessKeyId}">
+    <span translate-once="s3.config.needed"></span></br>
+    <span class="link-black" translate-once="s3.open.config" ng-click="$ctrl.showS3Config(true)"></span>
+</div>
+<s3-config ng-if="$ctrl.watch.s3ConfigIsOpen"
+    on-close="$ctrl.showS3Config(false)">
+</s3-config>
+
+<table class="padded-left unmarged" ng-repeat="niceAsset in $ctrl.niceAssets">
+    <tr>
+        <td class="break-words">
+            <i translate-once-title="url.clipboard" class="far fa-clipboard black padded-right-small pointer" ng-click="$ctrl.copyToClipboard(niceAsset.asset.href, 'url.clipboard')" animation="shake faster" animate-on-click></i>
+            <span title="{{niceAsset.asset.href}}">{{ niceAsset.asset.title || niceAsset.key }}</span>
+        </td>
+        <td class="right unbreakable">
+            <span ng-if="niceAsset.downloadMethod" class="padded-right-small">
+                <span ng-if="niceAsset.extension" ng-bind="niceAsset.extension" class="box rounded green small padded-horizontal-very-small"></span>
+                <span ng-click="$ctrl.download(niceAsset, $event)" class="pointer">
+                    <i class="fa fa-1x fa-cloud-download-alt black"></i>
+                </span>
+            </span>
+            <span ng-if="niceAsset.isMappable" ng-click="$ctrl.watch.layers[niceAsset.asset.href] ? $ctrl.removeAssetLayer(niceAsset.asset) : $ctrl.addAssetLayer(niceAsset.asset)"  class="padded-right-small">
+                <i class="fa-1x pointer fa fa-trash-alt" ng-if="$ctrl.watch.layers[niceAsset.asset.href]"></i>
+                <i class="fa-1x pointer fas fa-layer-group" ng-if="!$ctrl.watch.layers[niceAsset.asset.href]" title="{{ 'feature.assets.viewonmap' | translate}}"></i>
+            </span>
+            <span ng-if="!niceAsset.downloadMethod && !niceAsset.isMappable" class="padded-right-small">
+                <span ng-click="$ctrl.openExternalLink(niceAsset.asset.href)" class="pointer" >
+                    <i class="fa-solid fa-up-right-from-square">
+                </span>
+            </span>
+        </td>
+    </tr>
+    <tr ng-if="$ctrl.watch.layers[niceAsset.asset.href]">
+        <td colspan="2">
+            <layer-tools
+                class="inline-block"
+                template="asset"
+                show-legend="true"
+                layer="$ctrl.getAssetLayer(niceAsset.asset)" 
+                rocket-map="$ctrl.rocketMap">
+            </layer-tools>
+        </td>
+    </tr>
+</table>
+<table class="padded-top">
+    <tr ng-if="ctrl.config.display.cart && $ctrl.metalink.content">
+        <td colspan="2" class="center">
+            <a class="button round marged transblack" ng-click="$ctrl.isInCart($ctrl.feature.id) ? $ctrl.removeFromCart($ctrl.feature.id, $event) : $ctrl.addToCart($ctrl.feature, $event)">
+                <span class="fa black" ng-class="{'fa-cart-plus':!$ctrl.isInCart($ctrl.feature.id), 'fa-trash': $ctrl.isInCart($ctrl.feature.id)}"></span>&nbsp;
+                <span>{{ ($ctrl.isInCart($ctrl.feature.id) ? 'feature.removeFromCart' : 'feature.addToCart') | translate}}</span>
+            </a>
+            <a class="button round marged red" ng-href="{{ $ctrl.metalink.content }}" download="{{ $ctrl.metalink.filename }}" translate-once="download.metalink"></a>
+        </td>
+    </tr>
+</table>

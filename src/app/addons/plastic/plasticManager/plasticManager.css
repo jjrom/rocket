@@ -1,0 +1,64 @@
+.hide-me {
+    position: absolute;
+    width:64px;
+    height:64px;
+    color:white;
+    vertical-align: middle;
+    text-align: center;
+    right: 15px;
+    top: 15px;
+    z-index: 20000;
+}
+
+.button.action {
+    width:200px;
+}
+.button.active {
+    background-color: rgb(252, 76, 2);
+}
+
+.flashy {
+    color:rgb(77, 252, 2);
+    font-weight: bold;
+}
+.action.active {
+    font-weight: bold;
+    border-bottom: 2px solid var(--hilited)
+}
+
+.time-slider.rzslider .rz-bubble {
+    color: transparent;
+}
+
+.time-slider.rzslider .rz-selection {
+    background: var(--hilited);
+}
+
+.time-slider.rzslider .rz-pointer {
+    width: 8px;
+    height: 16px;
+    bottom: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: var(--hilited);
+}
+
+.time-slider.rzslider .rz-pointer:after {
+    display: none;
+}
+
+select.inline {
+    width:auto;
+    height:auto;
+    font-size: inherit;
+    color:white;
+    /*appearance: none;*/
+    background-color: transparent;
+    border: none;
+    font-family: inherit;
+    line-height: inherit;
+}
+
+.logo img {
+    height:100px;
+}

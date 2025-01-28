@@ -1,0 +1,246 @@
+<div class="cell not-selectable">
+
+    <div ng-if="$ctrl.watch.isLoading" class="loading-mask">
+        <div class="amiddle bigger white">
+            <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+        </div>
+    </div>
+
+    <!-- No endpoint -->
+    <div class="grid-x" ng-if="!$ctrl.endPoint || !$ctrl.endPoint.defaultSearchLink">
+        <div class="cell center">
+            <div class="amiddle">
+                <h5 translate-once="search.no.endpoint"></h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="grid-x" ng-if="$ctrl.endPoint && $ctrl.endPoint.defaultSearchLink">
+
+        <div class="cell medium-6" style="margin-bottom:70px;">
+
+            <div class="grid-x">
+
+                <!-- Themes -->
+                <div class="cell">
+
+                    <div class="grid-x grid-padding-x" ng-repeat="(prefix, values) in $ctrl.themes">
+
+                        <div class="cell">
+                            <h6 class="unmarged bold padded-small">{{ ('filter.on.' + prefix) | translate}}</h6>
+                        </div>
+
+                        <div class="cell padded-top-small">
+                            <ul class="nobullet">
+                                <li ng-repeat="(key, value) in values">
+                                    <a ng-class="$ctrl.filters.__theme === prefix + ':' + key ? 'positive' : ''"
+                                        ng-click="$ctrl.switchTheme(prefix, key)">&nbsp;<span
+                                            ng-bind="key"></span>&nbsp;</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Collections -->
+                <div class="cell">
+
+                    <div class="grid-x grid-padding-x">
+
+                        <div class="cell">
+                            <h6 class="unmarged bold padded-small" translate-once="filter.on.collection"></h6>
+                        </div>
+
+                        <div class="cell padded-top-small">
+                            <div ng-if="!$ctrl.endPoint.collections || !$ctrl.endPoint.collections.collections.length === 0"
+                                translate-once="home.nocollections"></div>
+                            <ul ng-class="{'nobullet': !$ctrl.collectionsListAsBlock, 'block':$ctrl.collectionsListAsBlock}"
+                                ng-if="$ctrl.endPoint.collections">
+                                <li>
+                                    <a ng-class="!$ctrl.filters.collections ? 'positive' : ''"
+                                        ng-click="$ctrl.switchCollection(null)">&nbsp;<span
+                                            translate-once="search.allcollections"></span></a>
+                                </li>
+                                <li ng-repeat="_collection in $ctrl.endPoint.collections.collections">
+                                    <a ng-class="$ctrl.filters.collections && $ctrl.filters.collections.split(',').indexOf(_collection.id) !== -1 ? 'positive' : ''"
+                                        ng-click="$ctrl.switchCollection(_collection.id)">&nbsp;<span
+                                            ng-bind="_collection.title || _collection.id"></span>&nbsp;</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="cell medium-6" style="margin-bottom:70px;">
+
+            <div class="grid-x">
+
+                <!-- When -->
+                <div class="cell">
+
+                    <div class="grid-x grid-padding-x">
+
+                        <div class="cell">
+                            <h6 class="unmarged bold padded-horizontal-small padded-top-small"
+                                translate-once="filter.on.when"></h6>
+                        </div>
+
+                        <div class="cell">
+
+                            <!-- Date picker -->
+                            <div class="padded-vertical-small left">
+                                <date-picker template="inline" inline="false"
+                                    min-date="$ctrl.summaries.datetime ? $ctrl.summaries.datetime.minimum : null"
+                                    max-date="$ctrl.summaries.datetime ? $ctrl.summaries.datetime.maximum : null"
+                                    default-dates="$ctrl.dates" on-select="$ctrl.setDates(dates)">
+                                </date-picker>
+                            </div>
+
+                            <!-- Season, Year, Month, Day -->
+                            <div ng-if="$ctrl.summaries[key]" ng-repeat="key in ['season', 'year', 'month', 'day']">
+                                <ul class="block unmarged-vertical">
+                                    <li class="padded-right-small" translate-once="{{key}}"></li>
+                                </ul>
+                                <ul class="block unmarged-vertical padded-left-small">
+                                    <li ng-repeat="obj in $ctrl.summaries[key]">
+                                        <a ng-class="$ctrl.getStatus(key, obj.const, 'OR')"
+                                            ng-click="$ctrl.setFilter(key, obj.const, {operation:'OR', negate:true})">&nbsp;{{obj.title}}&nbsp;</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Where -->
+                <div class="cell" ng-if="$ctrl.summaries.location || $ctrl.summaries.landcover">
+
+                    <div class="grid-x grid-padding-x">
+
+                        <div class="cell">
+                            <h6 class="unmarged bold padded-horizontal-small padded-top-small"
+                                translate-once="filter.on.geo"></h6>
+                        </div>
+
+                        <!-- Location, Landcover -->
+                        <div ng-if="$ctrl.summaries[key]" class="cell" ng-repeat="key in ['location', 'landcover']">
+                            <ul class="block unmarged-vertical">
+                                <li class="padded-right-small" translate-once="{{key}}"></li>
+                            </ul>
+                            <ul class="block unmarged-vertical padded-left-small">
+                                <li ng-repeat="obj in $ctrl.summaries[key]">
+                                    <a ng-class="$ctrl.getStatus(key, obj.const, 'AND')"
+                                        ng-click="$ctrl.setFilter(key, obj.const, {operation:'AND', negate:true})">&nbsp;{{obj.title}}&nbsp;</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Everything else -->
+                <div class="cell">
+
+                    <div class="grid-x grid-padding-x">
+
+                        <div class="cell">
+                            <h6 class="unmarged bold padded-horizontal-small padded-top-small"
+                                translate-once="filter.on.others"></h6>
+                        </div>
+
+                        <!-- Other filters -->
+                        <div class="cell">
+                            <div ng-if="!['season', 'year', 'month', 'day', 'location', 'datetime' ,'collection', 'landcover', 'eo:bands', 'eo:cloud_cover'].includes(key)"
+                                ng-repeat="(key, summary) in $ctrl.summaries">
+                                <ul class="block unmarged-vertical">
+                                    <li class="padded-right-small">{{ key | translate }}</li>
+                                </ul>
+                                <ul class="block unmarged-vertical padded-left-small">
+                                    <li ng-repeat="obj in summary" ng-if="obj.title">
+                                        <a ng-class="$ctrl.getStatus(key, obj.const, 'OR')"
+                                            ng-click="$ctrl.setFilter(key, obj.const, {operation:'OR', negate:true})">&nbsp;{{obj.title}}&nbsp;</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div ng-if="$ctrl.summaries['eo:cloud_cover']">
+                                <ul class="block unmarged-vertical">
+                                    <li class="padded-right-small" translate-once="filter.on.cloudcover"></li>
+                                </ul>
+                                <div class="padded-horizontal-2x">
+                                    <rzslider class="custom-slider"
+                                        rz-slider-model="$ctrl.sliders['eo:cloud_cover'].min"
+                                        rz-slider-high="$ctrl.sliders['eo:cloud_cover'].max"
+                                        rz-slider-options="$ctrl.sliders['eo:cloud_cover'].options">
+                                    </rzslider>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="cell center fixed unmarged" style="bottom: 0px;">
+           
+            <catalog-saver ng-if="$ctrl.displayViews && $ctrl.catalogSaverVisible"
+                filters="$ctrl.filters"
+                on-close="$ctrl.setCatalogSaverVisible(false)">
+            </catalog-saver>
+
+            <div class="grid-x" ng-if="!$ctrl.catalogSaverVisible">
+
+                <div class="cell small-8 left padded-vertical bglight">
+                    <filters-tags></filters-tags>
+                </div>
+
+                <div class="cell small-4 padded-vertical-small right bglight">
+                    <div class="unbreakable">
+                        <span ng-if="$ctrl.profile.id && $ctrl.displayViews">
+                            <span class="pointer" ng-click="$ctrl.setCatalogSaverVisible(!$ctrl.catalogSaverVisible)">
+                                <span class="fas fa-save padded-right-small"></span>
+                                <span class="show-for-large padded-right-small" translate-once="search.views"></span>
+                            </span>|
+                        </span>
+                        <span class="padded-right">
+                            <button class="button unmarged round red small" ng-click="$ctrl.search($event)">
+                                <span class="fas fa-redo-alt"></span>
+                                <span class="show-for-large" translate-once="filter.apply"></span>
+                            </button>
+                        </span>
+                        <!--
+                        <span class="pointer" ng-click="$ctrl.search($event)" ng-class="{'active bold': $ctrl.watch.shouldRefresh}">
+                            <span class="fas fa-redo-alt padded-horizontal-small"></span>
+                            <span class="show-for-large padded-right-small" translate-once="filter.apply"></span>
+                        </span>
+                        -->
+                    </div>
+                </div>    
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,135 @@
+<div ng-if="$ctrl.watch.isLoading" class="loading-mask">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<div ng-if="$ctrl.selectedFeatures.length > 0" ng-class="$ctrl.inputClass" id="feature-panel-content">
+
+
+    <!-- Metadata/Assets switcher -->
+    <div class="grid-x grid-padding-x bglight" style="position:-webkit-sticky;position:sticky;top:0px;z-index:100;">
+
+        <!-- Close me -->
+        <div ng-if="$ctrl.closeMe" class="absolute top-right pointer padded-small closeMe black" ng-click="$ctrl.close()" translate-once-title="close"></div>
+                    
+        <div class="cell small-4" ng-class="{'active':$ctrl.watch.activeTab === 'metadata'}">
+            <h6 class="marged-top-small padded-vertical-small center">
+                <span class="pointer" ng-click="$ctrl.showTab('metadata')">
+                    <i class="far fa-file-alt"></i>&nbsp;<span translate-once="feature.metadata"></span>
+                </span>
+            </h6>
+        </div>
+
+        <div class="cell small-4" ng-class="{'active':$ctrl.watch.activeTab === 'assets'}">
+            <h6 class="marged-top-small padded-vertical-small left">
+                <span class="pointer" ng-click="$ctrl.showTab('assets')">
+                    <i class="fas fa-cloud-download-alt"></i>&nbsp;<span translate-once="feature.assets"></span>
+                </span>
+            </h6>
+        </div>
+
+        <div class="cell small-4">
+            <h6 class="marged-top-small padded-vertical-small left" ng-if="$ctrl.selectedFeatures.length > 1">
+                <span class="pointer fa fa-chevron-left padded-right" ng-click="$ctrl.rotateSelectedFeature('previous')"></span>
+                &nbsp;{{$ctrl.watch.activeIndex + 1}}</span>/{{$ctrl.selectedFeatures.length}}&nbsp;
+                <span class="pointer fa fa-chevron-right padded-left" ng-click="$ctrl.rotateSelectedFeature('next')"></span>
+            </h6>
+        </div>
+
+    </div>
+
+    <!-- Tabbed content -->
+    <div class="tab-content">
+
+        <!-- Metadata -->
+        <div class="tab-pane">
+
+            <div class="cell padded-horizontal padded-top-small" ng-class="{'tab-active':$ctrl.watch.activeTab === 'metadata'}">
+
+                <!-- Title and quicklook -->
+                <div class="grid-x padded-bottom-small bglight">
+
+                    <div class="feature-quicklook-container">
+                        <img bg-type="img" bg-image="{{ $ctrl.selectedFeatures[$ctrl.watch.activeIndex].properties.quicklook }}" default-image="assets/img/empty-image.png" src="assets/img/empty-image.png"/>
+                    </div>
+
+                    <div class="cell center padded-top-small small-6" ng-if="$ctrl.getJumpUrl($ctrl.selectedFeatures[$ctrl.watch.activeIndex])">
+                        <div class="pointer link" title="{{$ctrl.selectedFeatures[$ctrl.watch.activeIndex].properties.title || $ctrl.selectedFeatures[$ctrl.watch.activeIndex].properties.productIdentifier || $ctrl.selectedFeatures[$ctrl.watch.activeIndex].id}}" ng-click="$ctrl.jumpTo({feature:$ctrl.selectedFeatures[$ctrl.watch.activeIndex]}, $event)">
+                            <span class="fa fa-paperclip"></span><span class="padded-left-small" translate-once="feature.page"></span>
+                        </div>
+                    </div>
+                    <div class="cell center padded-top-small" ng-class="{'small-6': $ctrl.getJumpUrl($ctrl.selectedFeatures[$ctrl.watch.activeIndex])}">
+                        <div class="pointer link" ng-click="$ctrl.centerOnFeature($ctrl.selectedFeatures[$ctrl.watch.activeIndex], $event)">
+                            <span class="fa fa-expand"></span><span class="padded-left-small" translate-once="feature.zoomOn"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="table padded-bottom marged-top">
+
+                    <div class="table-row" ng-repeat="property in $ctrl.formattedProperties[$ctrl.selectedFeatures[$ctrl.watch.activeIndex].id]">
+                        <div class="table-cell-label" translate="{{ property.label || property.key }}" ng-class="{'table-cell-header': property.isHeader}"></div>
+                        <div class="table-cell break-words pre-wrap" ng-class="{'bglight': property.isHeader}" ng-bind-html="property.value | trusthtml" ng-if="['eo:bands', 'providers'].indexOf(property.key) === -1"></div>
+                        <div class="table-cell break-words pre-wrap" ng-if="property.key === 'providers'">
+                            <div ng-repeat="provider in property.value track by $index">
+                                <a target="_blank" ng-href="{{provider.url}}"><font ng-bind="provider.name"></font></a><font ng-if="provider.roles"> ({{ provider.roles.join(', ') }})</font>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Catalogs -->
+                    <div class="table-row" ng-if="$ctrl.selectedFeatures[$ctrl.watch.activeIndex].properties['resto:catalogs'].length > 0">
+                        <div class="table-cell-label" translate-once="catalogs"></div>
+                        <div class="table-cell">
+                            <div class="break-words" ng-repeat="catalog in $ctrl.selectedFeatures[$ctrl.watch.activeIndex].properties['resto:catalogs']">
+                                <span class="link" ng-click="$ctrl.searchOnCatalog(catalog)">{{ catalog }}</span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <!-- Hack to expand the height of panel content -->
+                    <div class="table-row" style="height:50px;"></div>
+                    
+                </div>
+
+                <!-- Relations -->
+                <div class="bglight" ng-if="$ctrl.relations[$ctrl.selectedFeatures[$ctrl.watch.activeIndex].id]">
+                    <div ng-repeat="(relationType, links) in $ctrl.relations[$ctrl.selectedFeatures[$ctrl.watch.activeIndex].id]" class="padded-bottom">
+                        <h5 class="padded-top-small padded-left-small">{{ 'rel:' + relationType }}</h5>
+                        <div class="padded-left">
+                            <div ng-repeat="link in links">
+                                <span class="link" ng-click="$ctrl.jumpTo({link:link, local:true}, $event)">{{ link.title || link.href }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Assets -->
+        <div class="tab-pane">
+            
+            <div class="cell padded-top-small" ng-class="{'tab-active':$ctrl.watch.activeTab === 'assets'}">
+                <div class="grid-x grid-padding-x">
+                    <div class="cell">
+                        <assets-browser 
+                            rocket-map="$ctrl.rocketMap"
+                            feature="$ctrl.selectedFeatures[$ctrl.watch.activeIndex]"
+                            progress-bar-target="'map-progress-bar'"
+                            enable-cart="$ctrl.watch.enableCart"
+                            auto-load-mappable="$ctrl.watch.autoLoadMappableInMap">
+                        </assets-browser>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+
+</div>

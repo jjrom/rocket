@@ -1,0 +1,10 @@
+.plastic-info {
+    position:absolute;
+    background-color: rgba(0,0,0,0.8);
+    color:white;
+    width:200px;
+    height:auto;
+    z-index:1000;
+    font-size: 0.6em;
+    padding: 10px 10px;
+}

@@ -1,0 +1,26 @@
+<header-toolbar ng-if="display.header"
+    fixed="true">
+</header-toolbar>
+
+<div class="cell bgprimary gradient center" style="width:100vw;height:100vh;">
+
+    <div class="amiddle">
+        <div ng-if="isLoading" class="loading-mask">
+            <div class="bigger white">
+                <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+            </div>
+        </div>
+        <div ng-if="!isLoading">
+            <h1 style="font-size:3em;">
+                <span ng-if="isActivated" translate-once="activate.success"></span>
+                <span ng-if="!isActivated" translate-once="activate.error"></span>
+            </h1>
+            <div class="center padded-top">
+                <div class="button round red" ng-click="goToMap()">
+                    <span translate-once="catalog.browse.onmap" class="big"></span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

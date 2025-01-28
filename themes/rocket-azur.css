@@ -1,0 +1,12 @@
+:root {
+    --bgprimary: #1a5590;
+    --bgprimary-gradient: lightblue;
+    --bgsecondary:#ff7b0d;
+    --active: #ff7b0d;
+    --unavailable: 0.3;
+    --color-gray: gray;
+    --color-black: #000;
+    --color-white: #fff;
+    --color-green: #2ECC40;
+    --color-red: #FF4136;
+}

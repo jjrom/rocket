@@ -1,0 +1,27 @@
+<div ng-if="$ctrl.watch.wmsLayers.length > 0">
+    <div ng-class="$ctrl.watch.lonLat.length > 0 ? 'pin-menu top' : 'hide'" data-deferred-cloak>
+        <div class="grid-x">
+            <div class="cell padded-small large-12">
+                <div ng-if="$ctrl.watch.isLoading" class="padded-bottom-small">
+                    <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+                </div>
+                <div ng-if="!$ctrl.watch.isLoading">
+                    <div ng-if="$ctrl.watch.featureInfo.measurement" ng-repeat="(key, value) in $ctrl.watch.featureInfo.measurement">
+                        <div class="break word bold" ng-bind="key"></div>
+                        <div class="padded-left-small break-words pre-wrap" ng-bind="value"></div>
+                    </div>
+                    <div ng-if="!$ctrl.watch.featureInfo.measurement">
+                        No value available at this location
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fa fa-times big close pointer" ng-click="$ctrl.clear()"></div>
+    </div>
+    <map-pin
+        on-ready="$ctrl.setRemote(remote)"
+        on-translate-end="$ctrl.onTranslateEnd(obj)"
+        on-click="$ctrl.onClick(obj)"
+        rocket-map="$ctrl.rocketMap">
+    </map-pin>
+</div>

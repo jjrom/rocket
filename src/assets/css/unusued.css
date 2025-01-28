@@ -1,0 +1,28 @@
+
+a.fa:hover {
+    opacity:0.8;
+}
+
+.middle-vertical {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -webkit-transform:translateY(-50%);
+    transform: translateY(-50%);
+}
+.pin-top, .pin-bottom {
+    position: absolute;
+}
+.pin-top {
+    top:0px;
+}
+.pin-bottom {
+    bottom:0px;
+}
+.pin-right {
+    right:0px;
+}
+#map img.quicklook {
+    padding-top:30px;
+    max-height: calc(100vh - 330px);
+}

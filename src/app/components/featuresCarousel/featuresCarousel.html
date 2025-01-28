@@ -1,0 +1,54 @@
+<div class="features-carousel">
+
+    <div ng-if="$ctrl.loadingIndicator" class="loading-mask-transparent">
+        <div class="padded-top-small black">
+            <i class="fa fa-spin fa-refresh fa-circle-notch"></i>&nbsp;<span translate-once="{{$ctrl.loadingIndicator}}"></span>
+        </div>
+    </div>
+
+    <div ng-if="!$ctrl.loadingIndicator">
+
+        <ul class="features-carousel-content">
+
+            <li ng-if="$ctrl.position.offset > 0">
+                <div class="cover">
+                    <div class="feature-snapshot pager bgdark pointer" ng-click="$ctrl.prev()" translate-once-title="prev">
+                        <span style="display: table-cell;vertical-align: middle;"><i class="fa fa-chevron-left"></i></span>
+                    </div>
+                </div>
+            </li>
+
+            <li ng-repeat="feature in $ctrl.features | limitTo:$ctrl.position.limit:$ctrl.position.offset track by feature.id">
+                <div id="{{::$ctrl.normalize(feature.id)}}" ng-class="{'hilited':$ctrl.isSelected(feature)}"
+                    class="feature-snapshot pointer" ng-mouseover="$ctrl.hiliteFeature(feature, true, $event)"
+                    ng-mouseleave="$ctrl.hiliteFeature(feature, false, $event)" ng-click="$ctrl.selectFeature(feature)">
+                    <div class="cover" bg-image="{{ feature.properties.quicklook }}" default-image="assets/img/empty-image.png"></div>
+                </div>
+            </li>
+
+            <li ng-if="!$ctrl.isLoading && ($ctrl.hasNext || $ctrl.position.offset + $ctrl.position.limit < $ctrl.features.length)">
+                <div class="cover">
+                    <div class="feature-snapshot pager bgdark pointer" ng-click="$ctrl.next()" translate-once-title="next">
+                        <span style="display: table-cell;vertical-align: middle;"><i class="fa fa-chevron-right"></i></span>
+                    </div>
+                </div>
+            </li>
+            <li ng-if="$ctrl.isLoading">
+                <div class="cover">
+                    <div class="feature-snapshot pager">
+                        <span style="display: table-cell;vertical-align: middle;"><i class="fa fa-spin fa-refresh fa-circle-notch"></i></span>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- Hilited feature -->
+    <div ng-if="$ctrl.hilitedFeature" class="bgdark white hilited-feature-info padded-horizontal-small">
+        <span ng-if="$ctrl.hilitedFeature.properties.datetime"><span ng-bind="$ctrl.hilitedFeature.properties.datetime | nicedate:1"></span>
+        <span ng-if="$ctrl.hilitedFeature.properties.start_datetime">{{ $ctrl.hilitedFeature.properties.start_datetime | nicedate:1 }} - {{ $ctrl.hilitedFeature.properties.end_datetime | nicedate:1 }}</span>
+    </div>
+
+</div>

@@ -1,0 +1,68 @@
+<div ng-class="$ctrl.watch.pinMenu.position ? 'pin-menu' : 'hide'" ng-style="{'bottom':$ctrl.watch.pinMenu.position.bottom, 'left':$ctrl.watch.pinMenu.position.left}" data-deferred-cloak>
+    <div class="grid-x center">
+        <div class="cell padded-small large-12">
+
+            <div ng-if="$ctrl.watch.searchInProgress">
+                <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+            </div>
+
+            <div ng-if="!$ctrl.watch.searchInProgress">
+
+                <div ng-if="$ctrl.watch.gazetteerIsLoading" class="padded-bottom-small">
+                    <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+                </div>
+    
+                <div ng-if="!$ctrl.watch.gazetteerIsLoading && $ctrl.watch.pinMenu.locations[0]"
+                    class="padded-bottom-small">
+                    <div>
+                        <span
+                            ng-mouseenter="$ctrl.showLocation($ctrl.watch.pinMenu.locations[0])"
+                            ng-mouseleave="$ctrl.hideLocation()"
+                            ng-click="$ctrl.selectLocation($ctrl.watch.pinMenu.locations[0])"
+                            class="link"
+                            title="{{'search.expand' | bettertranslate:$ctrl.watch.pinMenu.locations[0].name}}"
+                            ng-bind="$ctrl.watch.pinMenu.locations[0].name"></span>
+                    </div>
+                    <div>
+                        <span
+                            ng-repeat="location in $ctrl.watch.pinMenu.locations | limitTo: (1 - $ctrl.watch.pinMenu.locations.length)">
+                            <span ng-if="$index > 0"> / </span><span ng-click="$ctrl.selectLocation(location)"
+                                ng-mouseenter="$ctrl.showLocation(location)"
+                                ng-mouseleave="$ctrl.hideLocation()" class="link-colorless"
+                                title="{{'search.expand' | bettertranslate:location.name}}"
+                                ng-bind="location.name"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="unbreakable">
+                    <span class="link-colorless" ng-click="$ctrl.selectLocation({lonLat:$ctrl.watch.pinMenu.lonLat})" translate-once-title="search.here">
+                        <span class="fa fa-dot-circle gray"></span>
+                        <span>{{ $ctrl.watch.pinMenu.lonLat.join(', ') }}</span>
+                    </span>
+                    <br/>
+                    <span class="padded-bottom-small unbreakable link-colorless"
+                        ng-click="$ctrl.selectLocation($ctrl.watch.pinMenu.mapExtent)"
+                        ng-mouseenter="$ctrl.showLocation($ctrl.watch.pinMenu.mapExtent)"
+                        ng-mouseleave="$ctrl.hideLocation()"
+                        translate-once-title="search.expand.view">
+                            <span class="fa fa-search gray"></span>
+                            <span translate-once="search.area"></span>
+                    </span>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="fa fa-times big close pointer" ng-click="$ctrl.clear()"></div>
+</div>
+<map-pin
+    on-ready="$ctrl.setRemote(remote)"
+    on-translate-start="$ctrl.onTranslateStart()"
+    on-translate-end="$ctrl.onTranslateEnd(obj)"
+    on-move-start="$ctrl.onMoveStart()"
+    on-move-end="$ctrl.onMoveEnd(obj)"
+    on-click="$ctrl.onClick(obj)"
+    rocket-map="$ctrl.rocketMap">
+</map-pin>

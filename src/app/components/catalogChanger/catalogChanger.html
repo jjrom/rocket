@@ -1,0 +1,24 @@
+
+<div class="cell">
+    <span class="padded-small">
+        <span ng-if="$ctrl.watch.endPoints.length > 1" class="pointer fa fa-chevron-left padded-right" ng-click="$ctrl.rotateEndPoint('previous')"></span>
+        <span translate-once="catalog.current" class="bold padded-right-small"></span>
+        <span class="italic" ng-bind="$ctrl.endPoint.url"></span>
+        <span ng-if="$ctrl.watch.endPoints.length > 1" class="pointer fa fa-chevron-right padded-left" ng-click="$ctrl.rotateEndPoint('next')"></span>
+    </span>
+
+    <span class="unbreakable padded-small">
+        <span class="link" ng-click="$ctrl.openStacIndex(true, $event)">
+            <span class="fas fa-exchange-alt padded-horizontal-small"></span>
+            <span class="show-for-large padded-right-small" translate-once="change.endpoint.title"></span>
+        </span>
+    </span>
+     
+</div>
+
+<stac-index-picker
+    ng-if="$ctrl.stacIndexIsOpen"
+    default-catalog-url="$ctrl.watch.defaultCatalogUrl"
+    on-select="$ctrl.addEndPoint(url, false)"
+    on-close="$ctrl.openStacIndex(false)">
+</stac-index-picker>

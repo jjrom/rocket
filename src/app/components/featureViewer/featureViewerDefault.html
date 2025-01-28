@@ -1,0 +1,112 @@
+<!-- Keywords -->
+<div class="grid-x padded-bottom padded-top" ng-if="$ctrl.feature">
+
+    <!-- Metadata -->
+    <div class="cell padded" ng-class="{'large-4':$ctrl.feature.properties.quicklook, 'large-8':!$ctrl.feature.properties.quicklook}">
+            
+        <div class="padded-left padded-right">
+            <h4 translate-once="feature.metadata"></h4>
+             <div class="table">
+                <div class="table-row" ng-repeat="property in $ctrl.formattedProperties[$ctrl.feature.id]">
+                    <div class="table-cell-label" translate="{{ property.label || property.key }}" ng-class="{'table-cell-header': property.isHeader}"></div> 
+                    <div class="table-cell break-words pre-wrap" ng-class="{'bglight': property.isHeader}">
+                        <div ng-if="['eo:bands', 'providers'].indexOf(property.key) === -1" ng-bind-html="property.value | trusthtml"></div> 
+                        <div ng-if="property.key === 'providers'">
+                            <div ng-repeat="provider in property.value track by $index">
+                                <a target="_blank" ng-href="{{provider.url}}"><font ng-bind="provider.name"></font></a><font ng-if="provider.roles"> ({{ provider.roles.join(', ') }})</font>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+             </div>
+        </div>
+
+    </div>
+
+    <!-- Quicklook and legend -->
+    <div class="large-4 padded cell" ng-if="$ctrl.feature.properties.quicklook">
+
+        <div class="center">
+            <img bg-type="img" bg-image="{{$ctrl.feature.properties.quicklook}}" default-image="assets/img/empty-image.png" src="assets/img/empty-image.png" title="{{::$ctrl.feature.id}}" />
+        </div>
+
+        <!-- Legend -->
+        <div class="padded-vertical center" ng-if="$ctrl.legendUrl">
+            <img ng-src="{{$ctrl.legendUrl}}" style="max-width:200px" />
+        </div>
+    </div>
+    
+    <!-- Resources -->    
+    <div class="large-4 padded cell">
+        <div class="grid-x grid-padding-x">
+            <div class="cell">
+                <h4 class="padded-vertical-small" translate-once="feature.assets"></h4>
+            </div>
+            <!-- resto:links are special links -->
+            <div class="cell padded-bottom-small" ng-if="$ctrl.feature.properties['resto:links'].length > 0">
+                <links-browser 
+                    links="$ctrl.feature.properties['resto:links']">
+                </links-browser>
+            </div>
+            <!-- Assets -->
+            <div class="cell">
+                <assets-browser 
+                    rocket-map="$ctrl.rocketMap"
+                    feature="$ctrl.feature"
+                    progress-bar-target="'feature-map-progress-bar'"
+                    enable-cart="$ctrl.watch.enableCart"
+                    remove-asset-layers-on-change="true"
+                    auto-load-mappable="$ctrl.watch.autoLoadMappable">
+                </assets-browser>
+            </div>
+        </div>
+    </div>
+
+    <!-- Catalogs -->
+    <div class="large-12 cell bglight padded-top">
+        
+        <div class="grid-x">
+
+            <div class="cell large-4">
+                <div class="padded-left padded-right">
+                    <h4 translate-once="catalogs"></h4>
+                        <div class="padded-left padded-bottom">
+                            <div ng-repeat="catalog in ::$ctrl.feature.properties['resto:catalogs']">
+                                <a ng-click="$ctrl.onPropertyTrigger({name:'q', value: catalog})" class="keyword" ng-bind="::catalog"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- links -->
+            <div class="cell bglight">
+                <div class="padded-left padded-right">
+                    <h4 translate-once="links"></h4>
+                        <div class="padded-left padded-bottom">
+                            <div ng-repeat="link in ::$ctrl.feature.links">
+                                <a ng-click="$ctrl.openExternalLink(link.href)" class="keyword">{{ link.title ? link.title + " (" + link.rel + ")" : link.rel }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Relations -->
+            <div class="cell bglight" ng-if="$ctrl.relations[$ctrl.feature.id]">
+                <div class="padded-left padded-right"ng-repeat="(relationType, links) in $ctrl.relations[$ctrl.feature.id]">
+                    <h4>{{ 'rel:' + relationType | translate }}</h4>
+                    <div class="padded-left padded-bottom">
+                        <div ng-repeat="link in links">
+                            <a ng-click="$ctrl.jumpTo({link:link}, $event)" class="keyword">{{ link.title || link.href }}</a>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+        </div>
+
+    </div>
+    
+</div>
+

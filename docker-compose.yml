@@ -1,0 +1,21 @@
+services:
+  rocket:
+    image: jjrom/rocket:${ROCKET_IMAGE_TAG:-latest}
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: ./build/rocket/Dockerfile
+    ports:
+      - ${ROCKET_EXPOSED_PORT:-9999}:80
+    environment:
+      # Set to 1 if rocket is exposed behind https proxy (e.g. traefik)
+      - ROCKET_USE_HTTPS_PROXY=${ROCKET_USE_HTTPS_PROXY:-0}
+      - ROCKET_ENVJS_BASE64=${ROCKET_ENVJS_BASE64:-}
+      - ROCKET_REVISION_TAG=${ROCKET_REVISION_TAG:-}
+    # See https://docs.docker.com/compose/compose-file/compose-file-v3/#extra_hosts
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1"]
+      interval: 1m
+      timeout: 5s

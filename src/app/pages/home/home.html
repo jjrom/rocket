@@ -1,0 +1,90 @@
+<!-- Fixed toolbar -->
+<header-toolbar ng-if="display.header"
+    fixed="true"
+    opaque="true">
+</header-toolbar>
+
+<div ng-if="!mainController.endPointsAreLoaded || endPointIsLoading" class="loading-mask fixed">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<!-- Home cover -->
+<div class="cell homepage bgprimary gradient" data-deferred-cloak>
+
+    <div class="grid-x grid-padding-x" style="margin:auto;max-width:1000px;">
+
+        <div class="cell center" style="padding-top:20vw;">
+
+            <brands target="'pages'"></brands>
+
+            <h1 ng-if="masterEndPoint.data" class="bold"
+                markdown-it="masterEndPoint.data.title || '[No title found]'"></h1>
+            <h4 ng-if="masterEndPoint.data" markdown-it="masterEndPoint.data.description"></h4>
+
+            <catalog-changer class="padded-vertical" ng-if="changeCatalog" clear-map-context="true"></catalog-changer>
+
+        </div>
+
+        <div class="cell center padded-vertical-large">
+            <meta-suggest ng-if="metaSuggest.gazetteer || metaSuggest.suggestUrl"
+                class="home-suggest"
+                input-type="'text'"
+                input-button-class="'box black'"
+                input-class="'form-control home__search black'"
+                gazetteer="metaSuggest.gazetteer"
+                suggest-url="metaSuggest.suggestUrl"
+                on-select-suggest="metaSuggest.onSelectKeyword(keyword)"
+                on-select-gazetteer="metaSuggest.onSelectLocation(location)">
+            </meta-suggest>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Whatisit -->
+<div class="cell center padded-top" ng-if="whatisit">
+    <h3 translate-once="home.whatisit.title" class="uppercase padded-horizontal-large padded-vertical"></h3>
+    <h4 translate-once="home.whatisit.description" class="gray padded-horizontal-large"></h4>
+</div>
+
+<!-- Collections list -->
+<div class="cell center padded-vertical" ng-if="collections.length > 1">
+    <h3 class="padded-vertical" translate-once="home.collections"></h3>
+    <ul class="block">
+        <li ng-repeat="collection in collections" class="padded-small">
+            <div class="circle circle-2x bggreen pointer marged" bg-image="{{getPreview(collection)}}"
+                title="{{collection.title || collection.id}}" ng-click="scrollTo('_collection' + $index)">
+                <span ng-if="collection.summaries.collection">
+                    <span class="fa fa-chart-pie"></span> {{ collection.summaries.collection.count }}
+                </span>
+            </div>
+            <div class="black" ng-bind="collection.id | ellipsis:15"></div> 
+        </li>
+    </ul>
+</div>
+
+<!-- Collections -->
+<div ng-repeat="collection in collections" class="cell padded-bottom" id="_collection{{$index}}">
+    <div class="cover masked-light bglight" bg-image="{{getPreview(collection)}}">
+        <div class="padded-horizontal-large padded-vertical-large center">
+            <h1>{{collection.title || collection.id}}</h1>
+            <h4 ng-if="collection.summaries.collection"><span class="fa fa-chart-pie"></span> {{
+                collection.summaries.collection.count }} <span translate-once="home.products"></span></h4>
+            <p class="show-for-large padded-bottom" markdown-it="collection.description"></p>
+            <a class="button white round" ng-click="searchCollection(collection)"
+                translate-once="home.seecollection"></a>
+        </div>
+    </div>
+</div>
+
+<!-- Explore -->
+<div class="cell padded-vertical" ng-if="masterEndPoint.data">
+    <h3 class="center padded-vertical" translate-once="catalog.explore"></h3>
+    <stac-catalog-browser
+        breadcrumb="true"
+        end-point-data="masterEndPoint.data">
+    </stac-catalog-browser>
+</div>

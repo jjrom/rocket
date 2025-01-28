@@ -1,0 +1,245 @@
+<div class="cell">
+
+    <div ng-if="$ctrl.mapIsLoading" class="loading-mask">
+        <div class="amiddle bigger white">
+            <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+        </div>
+    </div>
+
+    <!-- Catalog changer -->
+    <div class="grid-x" ng-if="$ctrl.canChangeCatalog">
+        <div class="cell center bglight padded-vertical-small">
+            <catalog-changer></catalog-changer>
+        </div>
+    </div>
+
+    <!-- No endpoint -->
+    <div class="grid-x" ng-if="!$ctrl.stacInfo">
+        <div class="cell padded center">
+            <h4 translate-once="search.no.endpoint"></h4>
+        </div>
+    </div>
+
+    <!-- Explore -->
+    <div class="grid-x" ng-if="$ctrl.stacInfo">
+
+        <!-- Catalog browser -->
+        <div class="cell padded-top-small medium-4" style="margin-bottom: 70px;">
+
+            <div class="padded-bottom">
+
+                <!-- No catalogs -->
+                <div ng-if="!$ctrl.isLoading && (!$ctrl.tree || !$ctrl.tree.childs || !$ctrl.tree.parents)"
+                    translate-once="home.nocatalogs"></div>
+
+                <div ng-if="$ctrl.tree">
+
+                    <!-- Fil d'Ariane -->
+                    <div ng-if="$ctrl.breadcrumb && $ctrl.tree && $ctrl.tree.parents"
+                        class="cell padded-bottom-small">
+
+                        <ul class="block unmarged-vertical">
+                            <li>
+                                <span ng-repeat="_parent in $ctrl.tree.parents">
+                                    <span class="padded-horizontal-very-small">/</span>
+                                    <span ng-if="$index !== $ctrl.tree.parents.length - 1" class="link bold"
+                                        ng-click="$ctrl.setChild(_parent)">
+                                        <span ng-if="$index === 0" class="fas fa-igloo"></span>
+                                        <span ng-if="$index !== 0" ng-bind="_parent.id"></span>
+                                    </span>
+                                    <span ng-if="$index === $ctrl.tree.parents.length - 1">
+                                        <span ng-if="$index === 0" class="fas fa-igloo"></span>
+                                        <span ng-if="$index !== 0" ng-bind="_parent.id"></span>
+                                    </span>
+                                </span>
+                                <span ng-if="$ctrl.isLoading" class="padded-left-small">
+                                    <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+                                </span>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div ng-if="!$ctrl.isLoading" class="padded-left">
+
+                        <div ng-repeat="_catalog in $ctrl.tree.childs"
+                            ng-class="{'inline-block':_catalog.rel === 'item'}">
+
+                            <div ng-if="_catalog.rel !== 'item'">
+
+                                <span class="pointer" ng-click="$ctrl.setChild(_catalog)">
+                                    <span class="box" ng-class="'box__' + _catalog.rel">&nbsp;</span>
+                                    <span class="link padded-left-small break-words">{{ _catalog.title |
+                                        translate }}</span>
+                                    <span ng-if="_catalog.hasOwnProperty('matched')"
+                                        class="italic smaller padded-left-small">{{ _catalog.matched
+                                        }}</span>
+                                </span>
+
+                                <span style="text-align:right;">
+                                    <!--<span ng-if="_catalog.hasOwnProperty('geouid')" class="padded-left link" ng-click="$ctrl.setGeouid(_catalog.geouid)">
+                                        <i class="fa fa-map-marker-alt"></i>
+                                    </span>-->
+                                    <span ng-if="_catalog.rel === 'items' && $ctrl.hasDatacube"
+                                        class="padded-left-small link inline-block"
+                                        ng-click="$ctrl.exportToDatacube(_catalog.href)"
+                                        translate-once-title="datacube.bootstrap" animation="shake faster"
+                                        animate-on-click>
+                                        <i class="fas fa-cube"></i>
+                                    </span>
+                                </span>
+
+                            </div>
+
+                            <div ng-if="_catalog.rel === 'item'" class="item-container pointer"
+                                bg-image="{{$ctrl.features[_catalog.href].properties.quicklook }}"
+                                default-image="assets/img/empty-image.png"
+                                ng-click="$ctrl.selectFeature($ctrl.features[_catalog.href])"
+                                title="{{ $ctrl.getNiceFeatureTitle($ctrl.features[_catalog.href]) }}">
+                            </div>
+
+                        </div>
+
+                        <!-- SKOS relation -->
+                        <div ng-repeat="_relation in ['narrower', 'broader', 'related']">
+
+                            <div ng-if="$ctrl.tree.skos[_relation].length > 0">
+
+                                <div class="bold" translate="{{_relation}}"></div>
+                                <div ng-repeat="_catalog in $ctrl.tree.skos[_relation]">
+                                    <span class="pointer" ng-click="$ctrl.setChild(_catalog)">
+                                        <span class="box" ng-class="'box__' + _catalog.rel">&nbsp;</span>
+                                        <span class="link padded-left-small break-words">{{ _catalog.title
+                                            }}</span>
+                                        <span ng-if="_catalog.hasOwnProperty('matched')"
+                                            class="italic smaller padded-left-small">{{ _catalog.matched
+                                            }}</span>
+                                    </span>
+
+                                    <span style="text-align:right;">
+                                        <a ng-if="_catalog.hasOwnProperty('@id')" target="_blank"
+                                            class="padded-left" ng-href="{{_catalog['@id']}}">
+                                            <i class="fas fa-external-link-alt"></i>
+                                    </span>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Back button -->
+                        <div ng-if="$ctrl.tree.parents.length > 1" class="padded-top-small">
+                            <div class="link"
+                                ng-click="$ctrl.setChild($ctrl.tree.parents[$ctrl.tree.parents.length - 2])">
+                                <i class="fas fa-caret-left"></i>&nbsp;<span
+                                    translate-once="navigation.back"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Catalog info -->
+        <div class="cell medium-8" style="margin-bottom:70px;">
+
+            <div class="padded-small">
+
+                <h4><span ng-bind="$ctrl.stacInfo.type"></span> : <span ng-bind="$ctrl.stacInfo.id"></span></h4>
+                <div class="table">
+
+                    <div class="table-row padded-bottom-small" ng-if="$ctrl.stacInfo.preview">
+                        <div class="table-cell"></div>
+                        <div class="table-cell">
+                            <div class="center">
+                                <img ng-src="{{$ctrl.stacInfo.preview}}" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-row padded-bottom-small" ng-repeat="key in ['title']" ng-if="$ctrl.stacInfo[key]">
+                        <div class="table-cell-label" translate-once="{{key}}"></div>
+                        <div class="table-cell" ng-bind="$ctrl.stacInfo[key]"></div>
+                    </div>
+
+                    <div class="table-row padded-bottom-small" ng-if="$ctrl.stacInfo.description">
+                        <div class="table-cell-label" translate-once="description"></div>
+                        <div class="table-cell" markdown-it="$ctrl.stacInfo.description"></div>
+                    </div>
+
+                    <div class="table-row padded-bottom-small"
+                        ng-if="$ctrl.stacInfo.extent && $ctrl.stacInfo.extent.temporal.interval[0]">
+                        <div class="table-cell-label" translate-once="extent.temporal"></div>
+                        <div class="table-cell">{{ $ctrl.stacInfo.extent.temporal.interval[0][0] | nicedate }} - {{
+                            $ctrl.stacInfo.extent.temporal.interval[0][1] | nicedate }}</div>
+                    </div>
+
+                    <div class="table-row padded-bottom-small"
+                        ng-if="$ctrl.stacInfo.extent && $ctrl.stacInfo.extent.spatial.bbox[0]">
+                        <div class="table-cell-label" translate-once="extent.spatial"></div>
+                        <div class="table-cell link"
+                            ng-click="$ctrl.setBBOX($ctrl.stacInfo.extent.spatial.bbox[0])">
+                            {{ $ctrl.stacInfo.extent.spatial.bbox[0][0] | round:7 }}, {{
+                            $ctrl.stacInfo.extent.spatial.bbox[0][1] | round:7 }} <br />
+                            {{ $ctrl.stacInfo.extent.spatial.bbox[0][2] | round:7 }}, {{
+                            $ctrl.stacInfo.extent.spatial.bbox[0][3] | round:7 }}
+                        </div>
+                    </div>
+
+                    <div class="table-row padded-bottom-small"
+                        ng-if="$ctrl.stacInfo.keywords && $ctrl.stacInfo.keywords.length > 0">
+                        <div class="table-cell-label" translate-once="keywords"></div>
+                        <div class="table-cell">{{ $ctrl.stacInfo.keywords.join(', ') }}</div>
+                    </div>
+
+                    <div class="table-row padded-bottom-small"
+                        ng-if="$ctrl.stacInfo.providers && $ctrl.stacInfo.providers.length > 0">
+                        <div class="table-cell-label" translate-once="providers"></div>
+                        <div class="table-cell">
+                            <div ng-repeat="provider in $ctrl.stacInfo.providers">
+                                <a target="_blank" ng-href="{{provider.url}}">
+                                    <font ng-bind="provider.name"></font>
+                                </a>
+                                <font ng-if="provider.roles"> ({{ provider.roles.join(', ') }})</font>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Locator map display only if rocketMap is null -->
+                <div ng-if="!$ctrl.rocketMap" class="cell padded">
+                    <locator-map size="[300,150]" planet="$ctrl.stacInfo.planet"
+                        geometry="$ctrl.currentGeometry">
+                    </locator-map>
+                </div>
+
+                <!-- Collection assets -->
+                <div ng-if="$ctrl.stacInfo.assets">
+                    <h4 translate-once="feature.assets"></h4>
+                    <assets-browser assets="$ctrl.stacInfo.assets"></assets-browser>
+                </div>
+
+                <!-- Collection summaries -->
+                <div ng-if="$ctrl.stacInfo.summaries">
+                    <h4 translate-once="collection.summaries"></h4>
+                    <summaries-browser collection="$ctrl.stacInfo"></summaries-browser>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--
+        <div class="cell fixed unmarged" style="bottom: 0px;">
+            <catalogs-manager rocket-map="$ctrl.rocketMap"></catalogs-manager>
+        </div>
+        -->
+    </div>
+
+</div>

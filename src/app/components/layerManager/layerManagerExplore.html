@@ -1,0 +1,18 @@
+
+<!-- Title -->
+<span class="bold small padded-right-very-small break-words" ng-bind-html="$ctrl.layer.get('_rocket').title | trusthtml | ellipsis:50"></span>
+
+<!-- Description -->
+<div class="padded-left-small padded-bottom-small" title="{{$ctrl.layer.get('_rocket').id}}">
+
+    <!-- Description --> 
+    <div ng-if="$ctrl.layer.get('_rocket').description" class="italic small markdown-unmarged-bottom" markdown-it="$ctrl.layer.get('_rocket').description"></div>
+
+</div>
+
+<!-- Tools -->
+<layer-tools
+    layer="$ctrl.layer"
+    show-legend="true"
+    rocket-map="$ctrl.rocketMap">
+</layer-tools>

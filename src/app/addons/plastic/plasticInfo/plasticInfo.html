@@ -1,0 +1,9 @@
+<div ng-if="$ctrl.watch.feature" class="plastic-info smaller" ng-style="{'top':$ctrl.watch.pixel[1] + 15, 'left':$ctrl.watch.pixel[0] + 15}">
+    <div ng-if="$ctrl.watch.feature.id"><span class="gray">Trajectory id</span> <span class="padded-left-small">{{ $ctrl.watch.feature.id.split('_')[0] }}</span></div>
+    <!--<div><span class="gray">Coordinates</span> <span class="padded-left-small">{{ $ctrl.watch.feature.geometry.coordinates.join(', ') }}</span></div>-->
+    <div ng-if="$ctrl.watch.feature.properties.ageInDays"><span class="gray">Age in days</span> <span class="padded-left-small">{{ $ctrl.watch.feature.properties.ageInDays }}</span></div>
+    <div><span class="gray">Lebreton 2019</span> <span class="padded-left-small">{{ $ctrl.round($ctrl.watch.feature.properties.leb2019, 1) }} tons</span></div>
+    <div><span class="gray">Meijer 2021</span> <span class="padded-left-small">{{ $ctrl.round($ctrl.watch.feature.properties.mei2021, 1) }} tons</span></div>
+    <div ng-if="$ctrl.watch.feature.properties.total"><span class="gray">Total</span> <span class="padded-left-small">{{ $ctrl.round($ctrl.watch.feature.properties.total, 1) }} tons</span></div>
+    <div ng-if="$ctrl.watch.feature.properties.total_whatif_difference"><span class="gray">What if reduction</span> <span class="padded-left-small">{{ $ctrl.round($ctrl.watch.feature.properties.total_whatif_difference, 1) }} tons</span></div>
+</div>

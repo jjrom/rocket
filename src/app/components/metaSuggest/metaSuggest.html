@@ -1,0 +1,19 @@
+<div style="margin:auto;">
+    <angucomplete-alt 
+        id="suggest"
+        placeholder="{{::'search.suggest' | translate}}"
+        text-searching="{{::'search.inprogress' | translate}}"
+        pause="100"
+        minlength="2"
+        selected-object="$ctrl.select"
+        hover-object="$ctrl.hover"
+        remote-api-handler="$ctrl.suggest"
+        remote-url-data-field="results"
+        title-field="name"
+        description-field="description"
+        image-field="flag"
+        input-class="{{$ctrl.inputClass}}"
+        match-class="highlight"
+        override-suggestions="false"
+    />
+</div>

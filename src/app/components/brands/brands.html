@@ -1,0 +1,16 @@
+<ul ng-if="$ctrl.brands" class="block unmarged">
+    <li class="pointer padded-right-small" ng-click="$ctrl.openExternalLink(brand.url)" ng-title="brand.title" ng-repeat="brand in $ctrl.brands">
+        <span class="hide-for-medium">
+            <img ng-if="brand.imgSmall" ng-src="{{brand.imgSmall}}" ng-class="$ctrl.target + '-brand-small'"/>
+            <div ng-if="!brand.imgSmall" ng-class="brand.class">
+                <i ng-class="brand.icon"></i>
+            </div>
+        </span>
+        <span class="show-for-medium">
+            <img ng-if="brand.img" ng-src="{{brand.img}}" ng-class="$ctrl.target + '-brand'"/>
+            <div ng-if="!brand.img" ng-class="brand.class">
+                <i ng-class="brand.icon"></i>&nbsp;<span ng-bind="brand.title"></span>
+            </div>
+        </span>
+    </li>
+</ul>

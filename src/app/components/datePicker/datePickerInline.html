@@ -1,0 +1,10 @@
+<div class="grid-x">
+    <div class="cell">
+        <div class="padded-horizontal">
+            <span class="padded-left-small pointer" ng-if="$ctrl.dates.start || $ctrl.dates.end" ng-click="$ctrl.toggle($event)"><span class="positive">{{ $ctrl.dates.start | nicedate }} - {{ $ctrl.dates.end | nicedate }}</span></span>
+            <span ng-if="!$ctrl.dates.start && !$ctrl.dates.end" translate-once="filter.no.interval" class="link padded-horizontal-small" ng-click="$ctrl.toggle($event)"></span>
+            <i ng-if="$ctrl.dates.start || $ctrl.dates.end" class="fas fa-trash padded-left pointer" ng-click="$ctrl.clear($event)"></i>
+        </div>
+    </div>
+    <div id="datePickr" class="cell"></div>
+</div>

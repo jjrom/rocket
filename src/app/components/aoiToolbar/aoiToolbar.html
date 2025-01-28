@@ -1,0 +1,22 @@
+
+<div class="marged-horizontal">
+    <div class="map-toolbox-element aoi unbreakable">
+        <span class="hideonphone lightgray padded-horizontal-small" translate-once="aoi"></span>
+        <span class="inline-block unpadded">
+            <ul class="unmarged block">
+                <li ng-click="$ctrl.triggerClick($event)" class="pointer padded-horizontal-small" translate-once-title="aoi.reverse">
+                    <i class="fas fa-dot-circle"></i>
+                </li>
+            </ul>
+        </span>
+        <span class="active hideonphone">
+            <span ng-if="$ctrl.watch.aoiLayer" ng-bind-html="$ctrl.watch.aoiLayer.get('_rocket').title | trusthtml"></span>
+        </span>  
+        <layer-tools ng-if="$ctrl.watch.aoiLayer"
+            class="inline-block"
+            show-legend="false"
+            layer="$ctrl.watch.aoiLayer" 
+            rocket-map="$ctrl.rocketMap">
+        </layer-tools>
+    </div>
+</div>

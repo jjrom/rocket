@@ -1,0 +1,80 @@
+
+rocket
+======
+
+Copyright 2015 Jérôme Gasperi
+
+Also, please refer to each LICENSE files for the license terms of the
+components that this product depends on.
+
+-------------------------------------------------------------------------------
+This product depends on 'angularjs'. It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/angularjs/LICENSE (MIT License)
+  * HOMEPAGE:
+    * https://github.com/angular/angular.js
+
+This product depends on 'angular-growl-2'. It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/angularjs/angular-growl-2/LICENSE (MIT License)
+  * HOMEPAGE:
+    * https://github.com/JanStevens/angular-growl-2
+
+This product depends on 'angular-translate'. It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/angularjs/angular-translate/LICENSE (MIT License)
+  * HOMEPAGE:
+    * https://github.com/angular-translate/angular-translate
+
+This product depends on 'satellizer', a token-based AngularJS Authentication.
+It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/angularjs/satellizer/LICENSE (MIT License)
+  * HOMEPAGE:
+    * https://github.com/sahat/satellizer
+
+This product depends on 'ui-router', The de-facto solution to flexible routing with nested views in AngularJS.
+It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/angularjs/ui-router/LICENSE (MIT License)
+  * HOMEPAGE:
+    * https://github.com/angular-ui/ui-router
+
+This product depends on 'fontawesome'. It can be obtained at:
+    
+  * HOMEPAGE:
+    * http://fortawesome.github.io/Font-Awesome/
+
+This product depends on 'foundation'. It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/foundation/LICENSE (MIT License)
+  * HOMEPAGE:
+    * http://foundation.zurb.com/
+
+This product depends on 'jquery'. It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/jquery/LICENSE (MIT License)
+  * HOMEPAGE:
+    * http://foundation.zurb.com/
+
+This product depends on 'ol3-cesium'. It can be obtained at:
+    
+  * LICENSE:
+    * client/assets/libs/ol3-cesium/LICENSE
+  * HOMEPAGE:
+    * https://github.com/openlayers/ol3-cesium
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+<div>
+    <div ng-if="$ctrl.switcher.north" class="map-toolbox map-toolbox-top-center" ng-click="$ctrl.switchTo($ctrl.currentProjection.code === $ctrl.codes.default ? $ctrl.codes.north : $ctrl.codes.default)">
+        <img bg-type="img" title="{{ $ctrl.currentProjection.code === $ctrl.codes.default ? 'switch.to.north' : 'switch.to.equatorial' | translate }}" class="circle circle-small bordered active pointer" bg-image="{{$ctrl.currentProjection.code === $ctrl.rocketMap.defaultProjCode ? $ctrl.getImage('northern') : $ctrl.getImage('equatorial')}}" default-image="{{$ctrl.currentProjection.code === $ctrl.rocketMap.defaultProjCode ? 'assets/img/default_northern.png' : 'assets/img/default_equator.png' }}" />
+    </div>
+    <div ng-if="$ctrl.switcher.south" class="map-toolbox map-toolbox-bottom-center" ng-click="$ctrl.switchTo($ctrl.currentProjection.code === $ctrl.codes.default ? $ctrl.codes.south : $ctrl.codes.default)">
+        <img bg-type="img" title="{{ $ctrl.currentProjection.code === $ctrl.codes.default ? 'switch.to.south' : 'switch.to.equatorial' | translate }}" class="circle circle-small bordered active pointer" bg-image="{{$ctrl.currentProjection.code === $ctrl.rocketMap.defaultProjCode ? $ctrl.getImage('southern') : $ctrl.getImage('equatorial')}}" default-image="{{$ctrl.currentProjection.code === $ctrl.rocketMap.defaultProjCode ? 'assets/img/default_southern.png' : 'assets/img/default_equator.png' }}" />
+    </div>
+</div>

@@ -1,0 +1,27 @@
+
+<div class="smaller padded-top-small" style="line-height: 25px;">
+    
+    <!-- Collections -->
+    <span ng-if="$ctrl.search.collections" class="padded-horizontal-very-small">
+        <span class="filter-button filter-button__collection" ng-bind-html="$ctrl.search.collections | trusthtml"></span>
+    </span>
+
+    <!-- Spatial -->
+    <span ng-if="$ctrl.search.__name" class="padded-horizontal-very-small">
+        <span class="filter-button filter-button__spatial" ng-bind-html="$ctrl.search.__name | trusthtml"></span>
+    </span>
+
+    <!-- Time range indicator -->
+    <span ng-if="($ctrl.search.start || $ctrl.search.end)" class="padded-horizontal-very-small">
+        <span class="filter-button filter-button__date">{{ $ctrl.search.start | nicedate }} - {{ $ctrl.search.end | nicedate }}</span>
+    </span>
+
+    <!-- Hashtags -->
+    <span ng-if="$ctrl.hashtags" ng-repeat="hashtag in $ctrl.hashtags track by $index" class="padded-horizontal-very-small">
+        <span class="filter-button filter-button__q">
+            <span ng-bind="hashtag"></span>
+            <span ng-if="_relation = $ctrl.getRelation(hashtag)" class="filter-button filter-button__relation">+ {{ _relation }}</span>
+        </span>
+    </span>
+    
+</div> 

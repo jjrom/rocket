@@ -1,0 +1,105 @@
+<div class="cell">
+
+    <div class="grid-x">
+
+        <!-- When -->
+        <div class="cell">
+
+            <div class="grid-x grid-padding-x">
+
+                <div class="cell">
+                    <h6 class="unmarged bold padded-horizontal-small padded-top-small" translate-once="filter.on.when"></h6>
+                </div>
+
+                <div class="cell">
+
+                    <!-- Date picker -->
+                    <div class="padded-vertical-small left">
+                        <ul class="block unmarged-vertical">
+                            <li class="padded-right-small" translate-once="filter.on.range"></li>
+                        </ul>
+                        <ul class="block unmarged-vertical">
+                            <li>{{$ctrl.summaries.datetime.minimum}} - {{$ctrl.summaries.datetime.maximum}}</li>
+                        </ul>
+                    </div>
+
+                    <!-- Season, Year, Month, Day -->
+                    <div ng-if="$ctrl.summaries[key]" ng-repeat="key in ['season', 'year', 'month', 'day']">
+                        <ul class="block unmarged-vertical">
+                            <li class="padded-right-small" translate-once="{{key}}"></li>
+                        </ul>
+                        <ul class="block unmarged-vertical padded-left-small">
+                            <li class="padded-right-small" ng-repeat="obj in $ctrl.summaries[key]"><span class="bold">{{obj.title}}<sub ng-if="obj.count" ng-bind="obj.count"></sub></span></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Where -->
+        <div class="cell" ng-if="$ctrl.summaries.location || $ctrl.summaries.landcover">
+
+            <div class="grid-x grid-padding-x">
+
+                <div class="cell">
+                    <h6 class="unmarged bold padded-horizontal-small padded-top-small" translate-once="filter.on.geo"></h6>
+                </div>
+
+                <!-- Location, Landcover -->
+                <div ng-if="$ctrl.summaries[key]" class="cell" ng-repeat="key in ['location', 'landcover']">
+                    <ul class="block unmarged-vertical">
+                        <li class="padded-right-small" translate-once="{{key}}"></li>
+                    </ul>
+                    <ul class="block unmarged-vertical padded-left-small">
+                        <li class="padded-right-small" ng-repeat="obj in $ctrl.summaries[key]"><span class="bold">{{obj.title}}<sub ng-if="obj.count" ng-bind="obj.count"></sub></span></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Everything else -->
+        <div class="cell">
+
+            <div class="grid-x grid-padding-x">
+
+                <div class="cell">
+                    <h6 class="unmarged bold padded-horizontal-small padded-top-small"
+                        translate-once="filter.on.others"></h6>
+                </div>
+
+                <!-- Other filters -->
+                <div class="cell">
+                    <div ng-if="!['season', 'year', 'month', 'day', 'location', 'datetime' ,'collection', 'landcover', 'eo:bands', 'eo:cloud_cover'].includes(key)"
+                        ng-repeat="(key, summary) in $ctrl.summaries">
+                        <ul class="block unmarged-vertical">
+                            <li class="padded-right-small">{{ key | translate }}</li>
+                        </ul>
+                        <ul class="block unmarged-vertical padded-left-small">
+                            <li class="padded-right-small" ng-repeat="obj in $ctrl.summaries[key]"><span class="bold">{{obj.title}}<sub ng-if="obj.count" ng-bind="obj.count"></sub></span></li>
+                        </ul>
+                    </div>
+
+                    <div ng-if="$ctrl.summaries['eo:cloud_cover']">
+                        <ul class="block unmarged-vertical">
+                            <li class="padded-right-small" translate-once="filter.on.cloudcover"></li>
+                        </ul>
+                        <ul class="block unmarged-vertical">
+                            <li>{{$ctrl.summaries['eo:cloud_cover'].minimum}}% - {{$ctrl.summaries['eo:cloud_cover'].maximum}}%</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>

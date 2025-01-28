@@ -1,0 +1,5 @@
+<div class="cell padded-top-small">
+    <div class="padded-left">
+        <select ng-options="background as background.get('_rocket').title group by background.get('_rocket').group for background in $ctrl.watch.layers.backgrounds" ng-model="$ctrl.watch.layers.activeBackground" ng-change="$ctrl.setBackground()"></select>
+    </div>
+</div>

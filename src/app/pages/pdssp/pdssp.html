@@ -1,0 +1,56 @@
+<!-- Fixed toolbar -->
+<header-toolbar ng-if="display.header"
+    fixed="true"
+    opaque="true">
+</header-toolbar>
+
+<div ng-if="endPointIsLoading" class="loading-mask fixed">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<!-- Home cover -->
+<div class="cell homepage bglight" data-deferred-cloak>
+
+    <div class="grid-x grid-padding-x" style="margin:auto;max-width:1000px;">
+
+        <div class="cell center" style="padding-top:20vw;">
+
+            <brands target="'pages'"></brands>
+
+        </div>
+
+        <!-- Whatisit -->
+        <div class="cell center padded-vertical">
+            <h3 translate-once="pdssp.title" class="uppercase padded-horizontal-large padded-vertical"></h3>
+            <h4 translate-once="pdssp.description" class="gray padded-horizontal-large"></h4>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Targets list -->
+<div class="cell center padded-vertical bgblack">
+    <h3 class="padded-vertical" translate-once="pdssp.solarbodies"></h3>
+    <ul class="block">
+        <li ng-repeat="target in targets" class="padded-small">
+            <div class="circle circle-2x bggreen pointer marged cover" bg-image="{{target.preview}}"
+                title="{{target.title}}" ng-click="scrollTo('_target' + target.id)">
+                <span ng-bind="target.title | ellipsis:8"></span>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<!-- Targets -->
+<div ng-repeat="target in targets" class="cell padded-bottom bgblack" id="_target{{target.id}}">
+    <div class="contain" style="height:500px" bg-image="{{target.preview}}">
+        <div class="padded-horizontal-large padded-vertical-large center">
+            <h1>{{target.title}}</h1>
+            <p class="show-for-large padded-bottom" markdown-it="target.description" style="margin:auto;max-width:500px"></p>
+            <a class="button white round" ng-click="goToTargetMap(target.url)" translate-once="catalog.explore"></a>
+        </div>
+    </div>
+</div>

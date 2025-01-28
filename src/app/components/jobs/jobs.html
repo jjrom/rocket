@@ -1,0 +1,36 @@
+
+<div class="grid-x grid-padding-x" ng-if="$ctrl.jobs.length === 0">
+    <div class="cell center padded-vertical-large">
+        <h5 translate-once="jobs.empty"></h5>
+    </div>
+</div>
+
+<div class="grid-x grid-padding-x" ng-if="$ctrl.jobs.length > 0">
+    <div class="cell">
+        <div class="table" style="width:100%">
+            <div class="table-row">
+                <div class="table-cell bold">Process</div>
+                <div class="table-cell bold center">Status</div>
+                <div class="table-cell bold center">Progress</div>
+                <div class="table-cell bold center">Progress</div>
+            </div>
+            <div class="table-row pointer" ng-repeat="job in $ctrl.jobs" ng-class="{'bgblack': $ctrl.activeJob && $ctrl.activeJob.jobID === job.jobID}" ng-click="$ctrl.setActiveJob(job)">
+                <div class="table-cell" title="{{job.jobID}}">
+                    {{ job.processId }}
+                </div>
+                <div class="table-cell center" ng-class="{'bold green': job.status === 'successful', 'bold orange': job.status === 'running', 'bold red': job.status === 'failed'}">
+                    {{ job.status }}
+                </div>
+                <div class="table-cell center">
+                    {{ job.progress }}%
+                </div>
+                <div class="table-cell center">
+                    <span class="fa fa-trash pointer" ng-click="$ctrl.remove(job, $event)"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell">
+        <job-result job="$ctrl.activeJob" ng-if="$ctrl.activeJob"></job-result>
+    </div>
+</div>

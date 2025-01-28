@@ -1,0 +1,34 @@
+
+<div class="grid-x grid-padding-x" ng-if="$ctrl.content.items.length === 0">
+    <div class="cell center padded-vertical-large">
+        <h5 translate-once="cart.empty"></h5>
+    </div>
+</div>
+
+<div class="grid-x grid-padding-x" ng-if="$ctrl.content.items.length">
+    <div class="cell">
+        <table>
+            <tbody>
+                <tr ng-repeat="item in $ctrl.content.items track by item.id">
+                    <td class="cart-quicklook-container center">
+                        <img bg-type="img" bg-image="{{ ::item.properties.quicklook }}" default-image="assets/img/empty-image.png" src="assets/img/empty-image.png"/>
+                    </td>
+                    <td>
+                        <span class="gray" translate-once="collection"></span> : {{ ::item.collection }}<br/>
+                        <span class="gray" translate-once="location"></span> : {{ ::item.properties['resto:keywords'] | extractlocation }}<br/>
+                        <span ng-if="item.properties.datetime" class="gray" translate-once="date"></span> : {{ ::item.properties.datetime | nicedate:1 }}<br/>
+                        <span ng-if="item.properties.start_datetime" class="gray" translate-once="date"></span> : {{ ::item.properties.start_datetime | nicedate:1 }} - {{ ::item.properties.end_datetime | nicedate:1 }}<br/>
+                    </td>
+                    <td class="center">
+                        <span class="fa fa-trash pointer" ng-click="$ctrl.removeFromCart(item.id)"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="center padded-top-small padded-bottom">
+            <a class="center button round marged transblack" ng-click="$ctrl.downloadItems($event)" translate-once="cart.download"></a>
+            <a class="center button round marged red" ng-click="$ctrl.downloadMetalink($event)" translate-once="cart.download.metalink"></a>
+        </p>
+        (*)&nbsp;<a class="italic padded-bottom" translate-once="cart.metalinkhowto" href="https://aria2.github.io/" target="_blank"></a>
+    </div>
+</div>

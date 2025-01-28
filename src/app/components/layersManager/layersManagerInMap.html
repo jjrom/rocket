@@ -1,0 +1,13 @@
+<div class="map-toolbox map-toolbox-bottom-left" style="display:block;padding:5px 5px;background-color:rgba(0,0,0,0.6);">
+    <div ng-repeat="layer in $ctrl.watch.layers.overlays | orderBy:'-' track by layer.get('_rocket').id">
+        <layer-tools
+            class="white"
+            template="inMap"
+            layer="layer"
+            show-legend="false"
+            rocket-map="$ctrl.rocketMap">
+        </layer-tools>
+        <heatmap-manager class="smaller" ng-if="layer.get('_rocket').display === 'heatmap'" layer="layer"></heatmap-manager>
+        <br/>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="grid-x">
+
+    <div class="cell">
+
+        <div class="grid-x">
+
+            <!-- Axis -->
+            <div class="cell large-4 padded">
+                <label>
+                    {{ 'chart.type' | translate }}
+                    <select ng-model="$ctrl.selected.type" ng-change="$ctrl.setChartData()">
+                        <option ng-repeat="type in $ctrl.chartProperties.types" ng-value="type">{{type}}</option>
+                    </select>
+                </label>
+            </div>
+            <div class="cell large-4 padded">
+                <label>
+                    {{ 'chart.xAxis' | translate }}
+                    <select ng-model="$ctrl.selected.xAxis" ng-change="$ctrl.setChartData()">
+                        <option ng-repeat="xAxis in $ctrl.chartProperties.xAxes" ng-value="xAxis">{{xAxis.label}}</option>
+                    </select>
+                </label>
+            </div>
+            <div class="cell large-4 padded">
+                <label>
+                    {{ 'chart.yAxis' | translate }}
+                    <select ng-model="$ctrl.selected.yAxis" ng-change="$ctrl.setChartData()">
+                        <option ng-repeat="yAxis in $ctrl.chartProperties.yAxes" ng-value="yAxis">{{yAxis.label}}</option>
+                        <!--
+                            <option ng-repeat="yAxis in $ctrl.chartProperties.yAxes" ng-value="yAxis" ng-if="yAxis.type === 'number'">{{yAxis.label}}</option>
+                        -->
+                    </select>
+                </label>
+            </div>
+            
+        </div>
+
+    </div>
+
+
+    <!-- Chart -->
+    <div class="cell padded-small">
+        <div class="chart-container">
+            <canvas id="line"
+                class="chart chart-line"
+                chart-data="$ctrl.data"
+                chart-labels="$ctrl.labels"
+                chart-click="$ctrl.onClick"
+                chart-hover="$ctrl.onHover"
+                chart-series="$ctrl.series"
+                chart-options="$ctrl.options"
+                chart-vertical-lines="$ctrl.verticalLines">
+                <!--chart-dataset-override="datasetOverride">-->
+            </canvas>
+        </div>
+    </div>
+    
+</div>

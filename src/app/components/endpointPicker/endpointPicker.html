@@ -1,0 +1,33 @@
+<div ng-if="$ctrl.triggerButton && !$ctrl.watch.isVisible" style="height:50px;">
+    <a class="button white round" ng-click="$ctrl.setVisible(true)">
+        <span translate-once="change.endpoint.title"></span>
+    </a>
+</div>
+
+<div class="grid-x" ng-if="$ctrl.watch.isVisible || !$ctrl.triggerButton"> 
+    <div class="cell large-6 center">
+        <div class="padded-small">
+            <form ng-submit="$ctrl.changeEndPoint(url)">
+                <input id="change-end-point-input" type="search" ng-model="url" ng-class="$ctrl.inputClass" required="required" placeholder="{{ 'catalog.type.url' | translate }}" focus-me="true" />
+            </form>
+        </div>
+    </div>
+    <div class="cell large-6 center">
+        <div class="padded-top">
+            <a class="button round transblack" ng-click="$ctrl.openStacIndex(true)">
+                <span translate-once="pick.from.stacindex"></span>
+            </a>
+            <span class="padded-left" ng-if="$ctrl.triggerButton">
+                <a class="button red round" ng-click="$ctrl.setVisible(false)">
+                    <span translate-once="close"></span>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<stac-index-picker
+    ng-if="$ctrl.watch.stacIndexIsOpen"
+    on-select="$ctrl.changeEndPoint(url)"
+    on-close="$ctrl.openStacIndex(false)">
+</stac-index-picker>

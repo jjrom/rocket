@@ -1,0 +1,6 @@
+<div style="display:flex; flex-direction: row;" class="heatmap-manager-content padded-left-small">
+    <label class="white padded-right-small" for="radius">radius</label>
+    <input id="radius" type="range" style="width: 100px;" min="1" max="20" step="1" ng-model="$ctrl.watch.radius" ng-change="$ctrl.onUpdateRadius()"/>
+    <label class="white padded-right-small padded-left-small" for="blur">blur</label>
+    <input id="blur" type="range" style="width: 100px;" min="1" max="50" step="1" ng-model="$ctrl.watch.blur" ng-change="$ctrl.onUpdateBlur()"/>
+</div>  

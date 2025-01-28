@@ -1,0 +1,93 @@
+
+<!-- Fixed toolbar -->
+<header-toolbar ng-if="display.header"
+    fixed="true"
+    opaque="true"
+    on-select-location="setAOI(location, options)"
+    rocket-map="rocketMap">
+</header-toolbar>
+
+<!-- Map and selected features info -->
+<div class="grid-x">
+
+    <div class="cell unpadded fixed">
+
+
+        <!-- Catalog panel -->
+        <explorer ng-class="{'hidden': !watch.showExplorePanel}"
+            class="catalog-panel bgwhite"
+            rocket-map="rocketMap">
+        </explorer>
+        
+        <!-- Feature viewer -->
+        <feature-viewer ng-if="selectedFeatures && selectedFeatures.length > 0"
+            style="z-index:2;"
+            template="panel"
+            on-asset-trigger="onAssetTrigger(name, asset)"
+            input-class="watch.showExplorePanel ? 'panel-left' : 'panel-left catalog-hidden'"
+            selected-features="selectedFeatures"
+            close-me="true"
+            rocket-map="rocketMap">
+        </feature-viewer>
+
+        <!-- Map -->
+        <div id="map" tabindex="1" ng-class="{'explore-panel-visible': watch.showExplorePanel, 'feature-panel-visible': selectedFeatures && selectedFeatures.length > 0}" drop-on-me>
+
+            <!-- Show hide feature
+            <div class="explore-collapse bglight" ng-click="toggleExplorePanel(!watch.showExplorePanel)">
+                <i class="fa-solid fa-1x pointer" ng-class="{'fa-chevron-left':watch.showExplorePanel, 'fa-chevron-right':!watch.showExplorePanel}"></i>
+            </div>
+            -->
+            
+            <!-- Click animation -->
+            <div id="clickedmarker" style="z-index:1000;"></div>
+
+            <!-- Footer -->
+            <div class="mapfooter" data-deferred-cloak>
+                <div id="map-progress-bar" class="progress-bar"></div>
+            </div>
+
+            <!-- 3D Globe -->
+            <div ng-if="rocketMap.globe" class="ol-control map-toolbox map-toolbox-bottom-right">
+                <button class="ol-draw-polygon" type="button" ng-click="rocketMap.enableGlobe(!watch.isGlobeEnabled, $event)" translate-once-title="map.switch.globe">
+                    <i ng-class="{'fas fa-globe-americas': !watch.isGlobeEnabled, 'fas fa-map': watch.isGlobeEnabled}"></i>
+                </button>
+            </div>
+
+            <!-- North/South Projection -->
+            <north-south-switcher ng-if="watch.northSouthSwitcher && !watch.isGlobeEnabled"
+                rocket-map="rocketMap">
+            </north-south-switcher>
+
+            <!-- GetFeatureInfo utility -->
+            <get-feature-info ng-if="watch.getFeatureInfo"
+                on-feature-info="onFeatureInfo(result)"
+                on-measurements="onMeasurements(measurements)"
+                rocket-map="rocketMap">
+            </get-feature-info>
+
+            <!-- Background manager -->
+            <backgrounds-manager
+                class="edito-panel-maplayers"
+                ul-input-class="'in-map-page'"
+                template="innerMap"
+                rocket-map="rocketMap">
+            </backgrounds-manager>
+            
+            <!-- Layers manager -->
+            <layers-manager
+                template="inMap"
+                rocket-map="rocketMap">
+            </layers-manager>
+            
+            <!-- AOI toolbar
+            <aoi-toolbar 
+                class="map-toolbox map-toolbox-top-right-less"
+                rocket-map="rocketMap">
+            </aoi-toolbar>
+            -->
+        </div>
+        
+    </div>
+
+</div>

@@ -1,0 +1,42 @@
+
+<!-- Filters -->
+<div ng-class="$ctrl.inputClass" style="font-size:0.8em;">
+    
+    <!-- Remove all filters -->
+    <span class="padded-horizontal-very-small">
+        <span class="pointer filter-button filter-button__clear" ng-click="$ctrl.clearFilters(true)">
+            <i class="fas fa-trash padded-horizontal-small" translate-once-title="filter.clear.all"></i>
+        </span>
+    </span>
+
+    <!-- Collections -->
+    <span ng-if="$ctrl.cleverFilters.__theme || $ctrl.cleverFilters.__collection" class="padded-horizontal-very-small">
+        <span class="pointer filter-button filter-button__collection" ng-click="$ctrl.removeFilter('collections')">
+            <i class="fas fa-trash padded-right-very-small"></i><span ng-bind-html="($ctrl.cleverFilters.__theme || $ctrl.cleverFilters.__collection) | trusthtml"></span>
+        </span>
+    </span>
+
+    <!-- Spatial -->
+    <span ng-if="$ctrl.cleverFilters.__name" class="padded-horizontal-very-small">
+        <span class="filter-button filter-button__spatial">
+            <span ng-bind-html="$ctrl.cleverFilters.__name | trusthtml"></span>
+        </span>
+    </span>
+
+    <!-- Time range indicator -->
+    <span ng-if="($ctrl.cleverFilters.start || $ctrl.cleverFilters.end)" class="padded-horizontal-very-small">
+        <span class="pointer filter-button filter-button__date" ng-click="$ctrl.removeFilter('date')">
+            <i class="fas fa-trash padded-right-very-small"></i><span>{{ $ctrl.cleverFilters.start | nicedate }} - {{ $ctrl.cleverFilters.end | nicedate }}</span>
+        </span>
+    </span>
+
+    <!-- Others filters -->
+    <span ng-repeat="filter in $ctrl.cleverFilters.others track by $index" class="padded-horizontal-very-small">
+        <span class="pointer filter-button filter-button__q" ng-click="$ctrl.removeFilter(filter.key, filter.value)">
+            <i class="fas fa-trash padded-right-very-small"></i>
+            <span ng-bind="filter.key + ':' + filter.value"></span>
+            <span ng-if="_relation = $ctrl.getRelation(filter.value)" class="filter-button filter-button__relation">+ {{ _relation }}</span>
+        </span>
+    </span>
+    
+</div>    

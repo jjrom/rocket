@@ -1,0 +1,150 @@
+<!-- Fixed toolbar -->
+<header-toolbar ng-if="display.header"
+    fixed="true"
+    opaque="true"
+    on-select-location="setAOI(location, options)"
+    rocket-map="rocketMap">
+</header-toolbar>
+
+<!-- Map and selected features info -->
+<div class="grid-x">
+
+    <div class="cell unpadded fixed">
+
+        <!-- Map -->
+        <div id="map" tabindex="1" ng-class="{'panel-left-visible':selectedFeatures && selectedFeatures.length > 0}" drop-on-me>
+
+            <!-- Logo -->
+            <div ng-class="logo.inputClass" ng-click="openExternalLink(logo.url)">
+                <div class="hide-for-medium pointer marged-top-small">
+                    <img ng-if="logo.imgSmall" ng-src="{{logo.imgSmall}}" class="map-logo-small"/>
+                    <h3 ng-if="!logo.imgSmall" class="white">
+                        <i ng-class="logo.icon"></i>
+                    </h3>
+                </div>
+                <div class="show-for-medium pointer marged-top-small">
+                    <img ng-if="logo.img" ng-src="{{logo.img}}" class="map-logo"/>
+                    <h3 ng-if="!logo.img" class="white">
+                        <i ng-class="logo.icon"></i>&nbsp;<span ng-bind="logo.title"></span>
+                    </h3>
+                </div>
+            </div>
+
+            <!-- Brands -->
+            <brands ng-if="watch.brandsInMap" target="'map'" class="map-header padded"></brands>
+
+            <!-- Click animation -->
+            <div id="clickedmarker" style="z-index:1000;"></div>
+
+            <!-- Footer -->
+            <div class="mapfooter" data-deferred-cloak>
+                <div id="map-progress-bar" class="progress-bar"></div>
+            </div>
+
+            <!-- Cancel draw -->
+            <div ng-if="watch.drawToolbox" class="ol-draw-cancel">
+                <div class="map-toolbox-element hilite unbreakable pointer" ng-click="toggleDraw()">
+                    <i class="fa fa-times"></i>&nbsp;&nbsp;<span translate-once="draw.cancel"></span>
+                </div>
+            </div>
+
+            <!-- Draw buttons -->
+            <div ng-if="!watch.isGlobeEnabled" class="ol-control ol-draw ol-unselectable" style="pointer-events: auto;">
+                <button ng-if="watch.draw.polygon" class="ol-draw-polygon" ng-class="{'active': watch.drawToolbox === 'Polygon'}" type="button" ng-click="toggleDraw('Polygon')" translate-once-title="draw.polygon">
+                    <i class="fas fa-draw-polygon"></i>
+                </button>
+                <button ng-if="watch.draw.linestring" class="ol-draw-line" ng-class="{'active': watch.drawToolbox === 'LineString'}" type="button" ng-click="toggleDraw('LineString')" translate-once-title="draw.line">
+                    <i class="fas fa-ruler"></i>
+                </button>
+                <button ng-if="watch.draw.circle" class="ol-draw-circle" ng-class="{'active': watch.drawToolbox === 'Circle'}" type="button" ng-click="toggleDraw('Circle')" translate-once-title="draw.circle">
+                    <i class="far fa-circle"></i>
+                </button>
+            </div>
+
+            <!-- Basemaps button -->
+            <div ng-if="watch.basemapsInMap" class="ol-control map-toolbox map-toolbox-center-right">
+                <button class="ol-draw-polygon" ng-class="{'active': watch.showBasemaps}" type="button" ng-click="toggleBasemapsPanel(!watch.showBasemaps, $event)" translate-once-title="map.backgrounds">
+                    <i class="far fa-images"></i>
+                </button>
+            </div>
+
+            <!-- 3D Globe -->
+            <div ng-if="rocketMap.globe" class="ol-control map-toolbox map-toolbox-bottom-right">
+                <button class="ol-draw-polygon" type="button" ng-click="rocketMap.enableGlobe(!watch.isGlobeEnabled, $event)" translate-once-title="map.switch.globe">
+                    <i ng-class="{'fas fa-globe-americas': !watch.isGlobeEnabled, 'fas fa-map': watch.isGlobeEnabled}"></i>
+                </button>
+            </div>
+
+            <!-- North/South Projection -->
+            <north-south-switcher ng-if="watch.northSouthSwitcher && !watch.isGlobeEnabled"
+                rocket-map="rocketMap">
+            </north-south-switcher>
+
+            <!-- Background manager -->
+            <backgrounds-manager ng-if="watch.showBasemaps"
+                class="panel-maplayers"
+                ul-input-class="'in-map-page'"
+                template="innerMap"
+                rocket-map="rocketMap">
+            </backgrounds-manager>
+
+            <!-- Reverse location utility -->
+            <reverse-location
+                hide-pin-on-click="false"
+                rocket-map="rocketMap"
+                on-select="setAOI(location, {center:true})">
+            </reverse-location>
+
+            <!-- Drag & drop
+            <div ng-if="dragOver" class="dragOver">
+                <h3 class="amiddle center white" translate-once="map.drop.title"></h3>
+            </div>
+            -->
+
+            <!-- Features carousel (including line connector between feature on carousel and feature on map) -->
+            <div id="connector"></div>
+            <features-carousel ng-if="watch.featuresCarouselTmpl"
+                rocket-map="rocketMap"
+                hilite-with-line="watch.hiliteWithLine"
+                limit-per-page="100"
+                template="watch.featuresCarouselTmpl">
+            </features-carousel>
+
+            <!-- AOI toolbar -->
+            <aoi-toolbar 
+                class="map-toolbox map-toolbox-top-right-less"
+                rocket-map="rocketMap">
+            </aoi-toolbar>
+        
+        </div>
+
+        <!-- Chart panel -->
+        <rocket-chart ng-if="chartAsset" class="panel panel-left panel-hover animated" 
+            asset="chartAsset.data"
+            on-close="set('chartAsset', null)"
+            close-class="'fas fa-chevron-left'">
+        </rocket-chart>
+
+    </div>
+
+    <!-- Map bottom container contains FeaturesBrowser / CatalogsManager / etc. -->
+    <map-bottom-container ng-if="watch.bottomContainer"
+        class="map-bottom-container bgwhite"
+        style="z-index:3;"
+        hide-on-map-click="watch.hideBottomOnMapClick"
+        rocket-map="rocketMap">
+    </map-bottom-container>
+
+     <!-- Feature viewer -->
+     <feature-viewer ng-if="selectedFeatures && selectedFeatures.length > 0"
+        style="z-index:2;"
+        template="panel"
+        on-asset-trigger="onAssetTrigger(name, asset)"
+        input-class="'panel panel-left animated'"
+        selected-features="selectedFeatures"
+        close-me="true"
+        rocket-map="rocketMap">
+    </feature-viewer>
+
+
+</div>

@@ -1,0 +1,97 @@
+<div ng-if="$ctrl.watch.isLoading" class="loading-mask">
+    <div class="amiddle bigger white">
+        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+    </div>
+</div>
+
+<div class="grid-x grid-padding-x" ng-if="!$ctrl.profile.id">
+    <div class="cell center padded-vertical-large">
+        <h5 translate-once="profile.disconnected"></h5>
+        <div ui-sref="signin" class="pointer marged-top-small">
+            <div class="button bgprimary padded-horizontal-small padded-vertical-very-small" translate-once="header.signin"></div>
+        </div>
+    </div>
+</div>
+
+<div class="grid-x grid-padding-x" ng-if="$ctrl.profile.id">
+    <div class="cell">
+        <form method="post" ng-submit="$ctrl.updateProfile()" name="updateProfileForm">
+            <div class="grid-container">
+                <div class="grid-x grid-padding-x">
+                    <!--
+                    <div class="cell">
+                        <label>
+                            <span translate-once="name"></span>
+                            <input type="text" id="name" name="name" ng-model="profile.name" class="form-control" required="required" translate-once-placeholder="register.name"/>
+                        </label>
+                    </div>
+                    -->
+                    <div class="medium-6 cell">
+                        <label>
+                            <span translate-once="register.firstname"></span>
+                            <input type="text" name="firstname" ng-model="$ctrl.profile.firstname" class="form-control" translate-once-placeholder="register.firstname"/>
+                        </label>
+                    </div>
+                    <div class="medium-6 cell">
+                        <label>
+                            <span translate-once="register.lastname"></span>
+                            <input type="text" name="lastname" ng-model="$ctrl.profile.lastname" class="form-control" translate-once-placeholder="register.lastname"/>
+                        </label>
+                    </div>
+                    <div class="medium-6 cell">
+                        <label>
+                            <span translate-once="register.country"></span>
+                            <select name="country" ng-model="$ctrl.profile.country" class="form-control">
+                                <option ng-repeat="country in ::$ctrl.countries" value="{{country}}">{{ ('country:' + country) | translate}}</option>   
+                            </select>
+                        </label>
+                    </div>
+                    <div class="medium-6 cell">
+                        <label>
+                            <span translate-once="register.organization"></span>
+                            <input type="text" name="organization" ng-model="$ctrl.profile.organization" class="form-control" translate-once-placeholder="register.organization"/>
+                        </label>
+                    </div>
+                    <div class="medium-6 cell">
+                        <label>
+                            <span translate-once="register.topics"></span>
+                            <input type="text" name="topics" ng-model="$ctrl.profile.topics" class="form-control" translate-once-placeholder="register.topics"/>
+                        </label>
+                    </div>
+                    <div class="cell">
+                        <button type="submit" class="button" translate-once="profile.update"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="cell">
+        <hr class="gray">
+    </div>
+
+    <div class="cell">
+        <form method="post" ng-submit="$ctrl.updatePassword()" name="updatePasswordForm">
+            <div class="grid-container">
+                <div class="grid-x grid-padding-x">
+                    <div class="medium-6 cell">
+                        <label>
+                            <span translate-once="password"></span>
+                            <input type="password" name="password" ng-model="$ctrl.password" class="form-control" required="required" translate-once-placeholder="password"/>
+                        </label>
+                    </div>
+                    <div class="medium-6 cell">
+                        <label>
+                            <span translate-once="password.confirm"></span>
+                            <input type="password" name="password2" ng-model="$ctrl.password2" class="form-control" required="required" translate-once-placeholder="password.confirm"/>
+                        </label>
+                    </div>
+                    <div class="cell">
+                        <button type="submit" class="button" translate-once="password.update"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,108 @@
+<header-toolbar ng-if="display.header"
+    fixed="true"
+    opaque="true">
+</header-toolbar>
+
+<div class="grid-x">
+
+    <div class="cell bgprimary gradient padded-top-2x padded-bottom-2x" data-deferred-cloak>
+
+        <div class="grid-x padded-horizontal">
+            <div class="large-6 cell center padded-top-2x" ng-if="feature">
+                <h3 ng-if="feature.properties['resto:keywords']" ng-bind="feature.properties['resto:keywords'] | extractlocation"></h3>
+                <h4 ng-if="feature.properties.datetime" ng-bind="feature.properties.datetime | nicedate:1"></h4>
+                <h4 ng-if="feature.properties.start_datetime">{{ feature.properties.start_datetime | nicedate:1 }} - {{ feature.properties.end_datetime | nicedate:1 }}</h4>
+                <h5 ng-bind="feature.properties.title || feature.properties.productIdentifier || feature.id" class="break-words"></h5>
+                <p ng-if="feature.properties.description" markdown-it="feature.properties.description" class="show-for-large"></p>
+            </div>
+            <!-- Collection description -->
+            <div ng-if="collection" class="large-6 cell center padded-top-2x">
+                <h4><img class="circle circle-1x" bg-type="img" bg-image="{{getPreview(collection)}}" default-image="assets/img/empty-image.png" src="assets/img/empty-image.png"/>&nbsp;<span ng-bind="::collection.title" class="white"></span></h4>
+                <p ngclass="justify small" markdown-it="::collection.description"></p>
+                <a class="button white round" ng-click="onPropertyTrigger('collections', collection)" ng-bind="'home.seecollection' | bettertranslate:(collection.title || collection.id)"></a>
+            </div>
+        </div>
+             
+    </div>
+
+    <!-- Hint -->
+    <hint class="cell center" message="'hint.zoomwithctrl'"></hint>
+           
+    <!-- Map -->
+    <div class="cell unpadded">
+        <div id="feature-map">
+
+            <div class="mapfooter">
+                <div id="feature-map-progress-bar" class="progress-bar"></div>
+            </div>
+
+            <!-- Basemaps button -->
+            <div class="ol-control map-toolbox map-toolbox-center-right">
+                <button class="ol-draw-polygon" ng-class="{'active': showBasemaps}" type="button" ng-click="toggleBasemapsPanel(!showBasemaps, $event)" translate-once-title="map.backgrounds">
+                    <i class="far fa-images"></i>
+                </button>
+            </div>
+            <backgrounds-manager ng-if="showBasemaps"
+                class="panel-maplayers"
+                ul-input-class="'in-feature-page'"
+                template="innerMap"
+                rocket-map="rocketMap">
+            </backgrounds-manager>
+
+            <!-- GetFeatureInfo utility -->
+            <get-feature-info ng-if="display.getFeatureInfo"
+                on-feature-info="onFeatureInfo(result)"
+                on-measurements="onMeasurements(measurements)"
+                rocket-map="rocketMap">
+            </get-feature-info>
+
+        </div>
+    </div>
+    
+    <!-- Features similar carousel - note z-index is for mouse hover text -->
+    <div class="cell bglight" ng-if="display.similars" >
+
+        <div class="grid-x">
+        
+            <div class="cell center" style="height:50px; z-index:1000;" >
+                <features-carousel
+                    on-ready="setRemoteCarousel(remote)"
+                    selected-id="feature.id"
+                    features="similarFeatures"
+                    loading-indicator="'loading.similars'"
+                    limit-per-page="7"
+                    on-select="onSelectSimilar(feature)">
+                </features-carousel>
+            </div>
+        
+            <div class="cell" ng-if="display.gestalt && featureInfo">
+                <div class="center">
+                    <div class="link padded-vertical-small" ng-if="measurements.length == 0 && !chartLoadingIndicator" ng-click="processTemporal(featureInfo)">
+                        <i class="fas fa-chart-area padded-right-small"></i>&nbsp;<span translate-once="chart.view.temporal"></span>
+                    </div>
+                    <div ng-if="chartLoadingIndicator" class="padded-vertical-small black">
+                        <i class="fa fa-spin fa-refresh fa-circle-notch"></i>
+                    </div>
+                </div>
+                <rocket-chart ng-if="measurements.length > 0"
+                    on-select="onSelectInGraph(label, value)"
+                    hilite-label="hiliteLabel"
+                    measurements="measurements">
+                </rocket-chart>
+            </div>
+        
+        </div>
+        
+    </div>
+    
+    <!-- Feature viewer -->
+    <feature-viewer
+        template="default"
+        feature="feature"
+        rocket-map="rocketMap"
+        on-property-trigger="onPropertyTrigger(name, value, more)"
+        on-asset-trigger="onAssetTrigger(name, asset)">
+    </feature-viewer>
+
+
+</div>
