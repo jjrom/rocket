@@ -77,7 +77,7 @@ if [[ "${ROCKET_TARGET}" == ""  ]]; then
     exit 1
 fi
 
-# Get rocket version from package.json
+ROCKET_VERSION=latest
 ROCKET_IMAGE_TAG=${ROCKET_VERSION}-${ROCKET_TARGET}
 
 if ! [ -x "$(command -v docker)" ]; then
