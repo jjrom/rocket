@@ -46,5 +46,4 @@ COPY ${BUILD_DIR}/container_root/cont-init.d /etc/cont-init.d
 RUN mkdir /app
 COPY --from=0 /dist /app
 COPY ./themes/rocket-default.css /app/assets/css/rocket-theme.css
-ARG ROCKET_IMAGE_TAG
-RUN echo ${ROCKET_IMAGE_TAG} > /app/rocket_version
+

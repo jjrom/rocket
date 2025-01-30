@@ -78,9 +78,7 @@ if [[ "${ROCKET_TARGET}" == ""  ]]; then
 fi
 
 # Get rocket version from package.json
-ROCKET_VERSION=`grep 'version' build/rocket/package.json | head -1 | awk -F: '{print $2}' | sed s/\"//g | sed s/\,//g | sed s/\ //g`
-ROCKET_GIT_HASH=`git rev-parse --short HEAD`
-ROCKET_IMAGE_TAG=${ROCKET_VERSION}-${ROCKET_GIT_HASH}-${ROCKET_TARGET}
+ROCKET_IMAGE_TAG=${ROCKET_VERSION}-${ROCKET_TARGET}
 
 if ! [ -x "$(command -v docker)" ]; then
     echo -e "${RED}[ERROR] Missing docker command${NC}"

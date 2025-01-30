@@ -230,7 +230,6 @@
 
         if (console && console.log) {
             console.log('[INFO] Version ' + vm.config.version);
-            console.log('[INFO] Revision ' + vm.config.revision);
         }
 
     }

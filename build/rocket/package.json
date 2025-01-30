@@ -1,6 +1,6 @@
 {
   "name": "rocket",
-  "version": "9.3.0",
+  "version": "10.0.0",
   "description": "Rocket is a resto client",
   "main": "GruntFile.js",
   "scripts": {

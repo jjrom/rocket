@@ -11,7 +11,6 @@ services:
       # Set to 1 if rocket is exposed behind https proxy (e.g. traefik)
       - ROCKET_USE_HTTPS_PROXY=${ROCKET_USE_HTTPS_PROXY:-0}
       - ROCKET_ENVJS_BASE64=${ROCKET_ENVJS_BASE64:-}
-      - ROCKET_REVISION_TAG=${ROCKET_REVISION_TAG:-}
     # See https://docs.docker.com/compose/compose-file/compose-file-v3/#extra_hosts
     extra_hosts:
       - "host.docker.internal:host-gateway"

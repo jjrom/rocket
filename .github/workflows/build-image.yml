@@ -1,0 +1,53 @@
+name: rocket image builder
+
+env:
+  IMAGE: rocket
+  NAME: jjrom
+  REPO: rocket
+  ROCKET_TARGET: prod
+
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'build/rocket/**'
+      - '.github/workflows/**'
+  release:
+    types: [created, edited]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # defaults to shallow checkout
+    - uses: actions/checkout@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Print values of all environment variables
+      run: printenv
+    
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    
+    - name: Build and Push Image
+      if: ${{ startsWith(github.ref, 'refs/heads/master') && github.event_name != 'release' }}
+      run: |
+
+        docker buildx build --push --platform linux/amd64,linux/arm64 --tag ${NAME}/${IMAGE}:latest --file ./build/rocket/Dockerfile .
+        
+    - name: Tag latest release and push to repository
+      if: ${{ github.event_name == 'release' }}
+      run: |
+        
+        # Get latest release tag
+        tag=$(git describe --tags --abbrev=0 | sed s/^v//)
+        
+        docker buildx build --push --platform linux/amd64,linux/arm64 -t ${NAME}/${IMAGE}:latest -t ${NAME}/${IMAGE}:$tag --file ./build/rocket/Dockerfile .
+      
+      

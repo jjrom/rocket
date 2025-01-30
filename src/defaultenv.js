@@ -126,11 +126,6 @@
         openFeaturePageInNewTab: false,
 
         /*
-         * Revision tag - used during build
-         */
-        revision: "$ROCKET_REVISION_TAG",
-
-        /*
          * True to automatically launch a search each time the Area Of Interest is changed
          */
         searchOnAOIChange: true,
