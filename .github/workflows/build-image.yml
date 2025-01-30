@@ -36,7 +36,7 @@ jobs:
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     
     - name: Build and Push Image
-      if: ${{ startsWith(github.ref, 'refs/heads/master') && github.event_name != 'release' }}
+      if: ${{ startsWith(github.ref, 'refs/heads/main') && github.event_name != 'release' }}
       run: |
 
         docker buildx build --push --platform linux/amd64,linux/arm64 --tag ${NAME}/${IMAGE}:latest --file ./build/rocket/Dockerfile .
