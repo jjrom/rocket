@@ -15,7 +15,7 @@ RUN npm install --verbose
 ARG ROCKET_TARGET
 RUN node_modules/grunt/bin/grunt ${ROCKET_TARGET}
 
-FROM jjrom/s6-overlay:3.1.6.2-mantic
+FROM jjrom/s6-overlay:3.1.6.2-noble-20240827.1
 LABEL maintainer="jerome.gasperi@gmail.com"
 
 ENV BUILD_DIR=./build/rocket
