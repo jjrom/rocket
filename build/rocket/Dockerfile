@@ -1,9 +1,7 @@
-FROM node:10.1.0-alpine
+FROM node:10.1.0-stretch
 LABEL maintainer="jerome.gasperi@gmail.com"
 
 ENV BUILD_DIR=./build/rocket
-
-RUN apk update && apk add git
 
 RUN mkdir /dist
 COPY ./src ./src
@@ -21,8 +19,8 @@ LABEL maintainer="jerome.gasperi@gmail.com"
 ENV BUILD_DIR=./build/rocket
 
 # Add ppa, curl and syslogd
-RUN apt-get update && \
-    apt-get install -y \
+RUN apt-get update
+RUN apt-get install -y \
     software-properties-common \
     curl \
     inetutils-syslogd \
