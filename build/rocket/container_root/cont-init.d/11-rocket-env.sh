@@ -8,17 +8,6 @@ then
   sed -i 's/<\!--<meta http-equiv=\"Content-Security-Policy\" content=\"upgrade-insecure-requests\"\>--\>/<meta http-equiv=\"Content-Security-Policy\" content=\"upgrade-insecure-requests\"\>/' /app/index.html
 fi
 
-# Replace ROCKET_IMAGE_TAG in index.html
-if [[ $ROCKET_IMAGE_TAG ]]
-then
-  echo "[rocket] rocket version is ${ROCKET_IMAGE_TAG}"
-  sed -i "s/ROCKET_IMAGE_TAG/${ROCKET_IMAGE_TAG}/g" /app/index.html
-elif [[ $ROCKET_IMAGE_TAG == "" ]]
-then
-  echo "[rocket] rocket version is not set"
-  sed -i "s/ROCKET_IMAGE_TAG/unknown/g" /app/index.html
-fi
-
 if [[ $ROCKET_ENVJS_BASE64 ]]
 then
   echo "[rocket] Overwrite /app/env.js from input ROCKET_ENVJS_BASE64"
