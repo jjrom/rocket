@@ -23,3 +23,9 @@ if [[ -f "/app/env.js" ]]
 then
   envsubst < /app/env.js > /tmp/env.js && mv /tmp/env.js /app/env.js
 fi
+
+if [[ -f "/app/index.html" ]]
+then
+  envsubst < /app/index.html > /tmp/index.html && mv /tmp/index.html /app/index.html
+fi
+

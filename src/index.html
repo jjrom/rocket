@@ -3,7 +3,12 @@
 <html ng-app="rocket" class="no-js">
     <head>
         <base href="/">
-        <title translate-once="index.title"></title>
+        <title>${ROCKET_APP_TITLE}</title>
+        <meta name="author" content="${ROCKET_APP_AUTHOR}">
+        <meta name="description" content="${ROCKET_APP_DESCRIPTION}">
+        <!-- Below meta is uncommented if env variable USE_HTTPS_PROXY is set to true to force all requests to be https -->
+        <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+        <link rel="icon" href="${ROCKET_APP_ICON}" />
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- iphoneX iOS 11 add viewport-fit=cover -->
@@ -12,8 +17,7 @@
         <meta name="mobile-web-app-capable" content="yes">
         <!-- Below meta is uncommented if env variable USE_HTTPS_PROXY is set to true to force all requests to be https -->
         <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
-        <link rel="shortcut icon" href="favicon.ico" />
-
+        
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

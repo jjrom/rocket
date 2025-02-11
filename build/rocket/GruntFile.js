@@ -82,8 +82,8 @@ module.exports = function (grunt) {
                 src: [
                     'src/app/pages/*/*.html',
                     'src/app/components/*/*.html',
-                    'src/app/addons/*/*.html',
-                    'src/app/addons/*/*/*.html',
+                    //'src/app/addons/*/*.html',
+                    //'src/app/addons/*/*/*.html',
                 ],
                 dest: 'tmp/templates.js'
             }
@@ -159,8 +159,8 @@ module.exports = function (grunt) {
                     /* Controllers and Components */
                     'src/app/pages/*/*.js',
                     'src/app/components/*/*.js',
-                    'src/app/addons/*/*.js',
-                    'src/app/addons/*/*/*.js',
+                    //'src/app/addons/*/*.js',
+                    //'src/app/addons/*/*/*.js',
                     
 
                     /* Templates */
@@ -270,8 +270,8 @@ module.exports = function (grunt) {
                         'src/assets/css/style.css',
                         'src/app/pages/*/*.css',
                         'src/app/components/*/*.css',
-                        'src/app/addons/*/*.css',
-                        'src/app/addons/*/*/*.css',
+                        //'src/app/addons/*/*.css',
+                        //'src/app/addons/*/*/*.css',
                     ]
                 }
             }
