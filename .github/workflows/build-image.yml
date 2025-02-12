@@ -31,6 +31,9 @@ jobs:
 
     - name: Print values of all environment variables
       run: printenv
+
+    - name: Compile src code
+      run: ./buildCode dist
     
     - name: Login to DockerHub Registry
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin

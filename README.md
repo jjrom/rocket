@@ -3,3 +3,8 @@ rocket is a STAC catalog viewer - originally developed for the [resto engine](ht
 
 See [demo](https://rocket.snapplanet.io/)
 
+## Deploy
+
+
+    ./deploy 
+

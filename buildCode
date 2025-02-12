@@ -1,0 +1,5 @@
+#!/bin/bash
+
+TARGET=${1:-dist}
+PWD=`pwd`
+docker run -v ${PWD}/src/:/src/ -v ${PWD}/build/rocket/dist/:/dist/ jjrom/rocket-builder:1.0.0 ${TARGET}

@@ -1,17 +1,3 @@
-FROM jjrom/rocket-builder:latest
-LABEL maintainer="jerome.gasperi@gmail.com"
-
-ENV BUILD_DIR=./build/rocket
-
-RUN mkdir /dist
-COPY ./src /src
-COPY ${BUILD_DIR}/GruntFile.js /GruntFile.js
-
-WORKDIR "/"
-ARG ROCKET_TARGET="dist"
-RUN node_modules/grunt/bin/grunt --gruntfile ./GruntFile.js ${ROCKET_TARGET}
-
-
 FROM jjrom/s6-overlay:3.1.6.2-noble-20240827.1
 LABEL maintainer="jerome.gasperi@gmail.com"
 
@@ -19,6 +5,7 @@ ENV ROCKET_APP_TITLE="rocket" \
     ROCKET_APP_DESCRIPTION="rocket is a STAC viewer" \
     ROCKET_APP_AUTHOR="jerome.gasperi@gmail.com" \
     ROCKET_APP_ICON="favicon.ico" \
+    ROCKET_VERSION="10.0.0" \
     BUILD_DIR=./build/rocket
 
 # Add ppa, curl and syslogd
@@ -45,6 +32,6 @@ COPY ${BUILD_DIR}/container_root/cont-init.d /etc/cont-init.d
 
 # Copy compiled app from builder
 RUN mkdir /app
-COPY --from=0 /dist /app
+COPY ${BUILD_DIR}/dist/app /app
 COPY ./themes/rocket-default.css /app/assets/css/rocket-theme.css
 

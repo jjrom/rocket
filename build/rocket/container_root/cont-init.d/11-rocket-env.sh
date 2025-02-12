@@ -26,6 +26,18 @@ fi
 
 if [[ -f "/app/index.html" ]]
 then
-  envsubst < /app/index.html > /tmp/index.html && mv /tmp/index.html /app/index.html
-fi
 
+  ROCKET_CSS_ADDONS=""
+  ROCKET_JS_ADDONS=""
+  ROOT_DIR="/app"
+  SEARCH_DIR="$ROOT_DIR/app/addons"
+
+  while IFS= read -r file; do
+      ROCKET_CSS_ADDONS+='<link rel="stylesheet" href="'${file#"$ROOT_DIR/"}'" type="text/css" />'$'\n'
+  done < <(find ${SEARCH_DIR} -type f -name "*.css")
+
+  while IFS= read -r file; do
+      ROCKET_JS_ADDONS+='<script src="'${file#"$ROOT_DIR/"}'"></script>'$'\n'
+  done < <(find ${SEARCH_DIR} -type f -name "*.js")
+  ROCKET_CSS_ADDONS=${ROCKET_CSS_ADDONS} ROCKET_JS_ADDONS=${ROCKET_JS_ADDONS} envsubst < /app/index.html > /tmp/index.html && mv /tmp/index.html /app/index.html
+fi

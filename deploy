@@ -31,17 +31,17 @@ function showUsage {
     echo -e ""
     echo -e "   Usage $0 <tag>"
     echo -e ""
-    echo -e "   Where tag can be anything to identify the build. Note that \"dev\" is a special tag that will build without javascript obfuscation"
+    echo -e "   Where tag is dist or dev (default dist)"
     echo -e ""
     echo -e "   Options:"
     echo -e ""
     echo -e "      -h | --help show this help"
     echo -e ""
-    echo -e "      !!! This script requires docker and docker-compose !!!"
+    echo -e "      !!! This script requires docker and docker compose !!!"
     echo -e ""
 }
 
-ROCKET_TARGET=""
+ROCKET_TARGET="dist"
 while (( "$#" ));
 do
 	case "$1" in
@@ -67,19 +67,6 @@ do
 	esac
 done
 
-#
-# ROCKET_TARGET is mandatory - should be anything or "dev"
-#
-if [[ "${ROCKET_TARGET}" == ""  ]]; then
-    showUsage
-    echo -e "${RED}[ERROR] Missing mandatory tag name${NC}"
-    echo ""
-    exit 1
-fi
-
-ROCKET_VERSION=latest
-ROCKET_IMAGE_TAG=${ROCKET_VERSION}-${ROCKET_TARGET}
-
 if ! [ -x "$(command -v docker)" ]; then
     echo -e "${RED}[ERROR] Missing docker command${NC}"
     exit 1
@@ -91,21 +78,11 @@ else
     echo -e "[INFO] Compile rocket for ${GREEN}production${NC}"
 fi
 
+echo -e "[INFO] Building code"
+./buildCode ${ROCKET_TARGET}
+
 echo -e "[INFO] Building docker image ${ROCKET_IMAGE_TAG}"
+docker build -t jjrom/rocket:latest -f ./build/rocket/Dockerfile .
 
-if [[ "${ROCKET_TARGET}" == "prod"  ]]; then
-    echo -e "[INFO] Multi arch build"
-    docker buildx inspect multi-platform-builder
-    if [[ ! $? -eq 0 ]]; then
-        docker buildx create --use --platform=linux/arm64,linux/amd64 --name multi-platform-builder --build-arg ROCKET_TARGET=${ROCKET_TARGET}
-    fi
-    docker buildx build --platform linux/amd64 -t jjrom/rocket:${ROCKET_IMAGE_TAG}-amd64 --load --build-arg ROCKET_TARGET=${ROCKET_TARGET} -f ./build/rocket/Dockerfile .
-    docker buildx build --platform linux/arm64 -t jjrom/rocket:${ROCKET_IMAGE_TAG}-arm64 -t jjrom/rocket:latest --load --build-arg ROCKET_TARGET=${ROCKET_TARGET} -f ./build/rocket/Dockerfile .
-else
-    docker build -t jjrom/rocket:${ROCKET_IMAGE_TAG} -t jjrom/rocket:latest -f ./build/rocket/Dockerfile --build-arg ROCKET_TARGET=${ROCKET_TARGET} .
-fi
 echo -e "[INFO] Docker image built - ${GREEN}jjrom/rocket:${ROCKET_IMAGE_TAG}${NC}"
-
-ROCKET_TARGET=${ROCKET_TARGET} \
-ROCKET_IMAGE_TAG=${ROCKET_IMAGE_TAG} \
 docker compose up -d

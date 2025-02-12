@@ -1,6 +1,6 @@
 services:
   rocket:
-    image: jjrom/rocket:${ROCKET_IMAGE_TAG:-latest}
+    image: jjrom/rocket:latest
     restart: unless-stopped
     build:
       context: ./
@@ -11,7 +11,10 @@ services:
       # Set to 1 if rocket is exposed behind https proxy (e.g. traefik)
       - ROCKET_USE_HTTPS_PROXY=${ROCKET_USE_HTTPS_PROXY:-0}
       - ROCKET_ENVJS_BASE64=${ROCKET_ENVJS_BASE64:-}
-    # See https://docs.docker.com/compose/compose-file/compose-file-v3/#extra_hosts
+      #- ROCKET_APP_TITLE=${ROCKET_APP_TITLE:-rocket}
+      #- ROCKET_APP_DESCRIPTION=${ROCKET_APP_DESCRIPTION:-rocket is a STAC viewer}
+      #- ROCKET_APP_AUTHOR=${ROCKET_APP_AUTHOR:-jerome.gasperi@gmail.com}
+      #- ROCKET_APP_ICON=${ROCKET_APP_ICON:-favicon.ico}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
