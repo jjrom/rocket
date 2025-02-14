@@ -1,13 +1,6 @@
 FROM jjrom/s6-overlay:3.1.6.2-noble-20240827.1
 LABEL maintainer="jerome.gasperi@gmail.com"
 
-ENV ROCKET_APP_TITLE="rocket" \
-    ROCKET_APP_DESCRIPTION="rocket is a STAC viewer" \
-    ROCKET_APP_AUTHOR="jerome.gasperi@gmail.com" \
-    ROCKET_APP_ICON="favicon.ico" \
-    ROCKET_VERSION="10.0.0" \
-    BUILD_DIR=./build/rocket
-
 # Add ppa, curl and syslogd
 RUN apt-get update
 RUN apt-get install -y \
@@ -19,6 +12,13 @@ RUN apt-get install -y \
     gettext-base \
     nginx && \
     apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV ROCKET_APP_TITLE="rocket" \
+    ROCKET_APP_DESCRIPTION="rocket is a STAC viewer" \
+    ROCKET_APP_AUTHOR="jerome.gasperi@gmail.com" \
+    ROCKET_APP_ICON="favicon.ico" \
+    ROCKET_VERSION="10.0.0" \
+    BUILD_DIR=./build/rocket
 
 # Copy NGINX service script
 COPY ${BUILD_DIR}/start-nginx.sh /etc/services.d/nginx/run
