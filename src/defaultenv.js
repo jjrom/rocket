@@ -629,104 +629,7 @@
                  */
                 layers: [
 
-                    {
-
-                        /*
-                         * Unique identifier
-                         */
-                        id: "Aerial",
-
-                        /*
-                         * Title displayed for this layer
-                         */
-                        title: "Aerial",
-
-                        /*
-                         * Thumbnail displayed in layers list
-                         */
-                        thumbnail: "assets/img/backgrounds/aerial.png",
-
-                        /*
-                         * [UNUSUED]
-                         */
-                        color: "dark",
-
-                        /*
-                         * Layer type, one of :
-                         *   - bing : BingsMap layer source (https://openlayers.org/en/latest/apidoc/module-ol_source_BingMaps-BingMaps.html)
-                         *   - xyz : XYZ layer source (https://openlayers.org/en/latest/apidoc/module-ol_source_XYZ-XYZ.html)
-                         *   - tilewms : TileWMS layer source (https://openlayers.org/en/latest/apidoc/module-ol_source_TileWMS-TileWMS.html)
-                         *   - GeoJSON : GeoJSON layer format (https://openlayers.org/en/latest/apidoc/module-ol_format_GeoJSON-GeoJSON.html) 
-                         */
-                        type: "bing",
-
-                        /* 
-                         * True for background - false for overlay (default false)
-                         */
-                        isBackground: true,
-
-                        /*
-                         * [UNUSUED]
-                         */
-                        group: "Permanent",
-
-                        /* 
-                         * Layer visibility
-                         */
-                        visible:false,
-
-                        /*
-                         * OpenLayers source options passed during layer creation
-                         */
-                        options: {
-                            imagerySet: "Aerial",
-                            //preload: Infinity,
-                            wrapX: true
-                        }
-                    },
-                    {
-                        id: "AerialWithLabelsOnDemand",
-                        title: "Aerial with labels",
-                        thumbnail: "assets/img/backgrounds/aerialwithlabels.png",
-                        color: "dark",
-                        type: "bing",
-                        isBackground: true,
-                        group: "Permanent",
-                        visible: false,
-                        options: {
-                            imagerySet: "AerialWithLabelsOnDemand",
-                            wrapX: true
-                        }
-                    },
-                    {
-                        id: "RoadOnDemand",
-                        title: "Road",
-                        thumbnail: "assets/img/backgrounds/road.png",
-                        color: "light",
-                        type: "bing",
-                        isBackground: true,
-                        group: "Permanent",
-                        visible: false,
-                        options: {
-                            imagerySet: "RoadOnDemand",
-                            wrapX: true
-                        }
-                    },
-                    {
-                        id: "CanvasDark",
-                        title: "Road (dark)",
-                        thumbnail: "assets/img/backgrounds/roaddark.png",
-                        color: "dark",
-                        type: "bing",
-                        isBackground: true,
-                        group: "Permanent",
-                        visible: false,
-                        options: {
-                            imagerySet: "CanvasDark",
-                            wrapX: true
-                        }
-                    },/*
-                    {
+                    /*{
                         id: "label",
                         title: "Road (light)",
                         thumbnail: "assets/img/backgrounds/roadlight.png",
@@ -751,7 +654,7 @@
                         time: '2016-01-01',
                         isBackground: true,
                         group: "Permanent",
-                        visible: false,
+                        visible: true,
                         options: {
                             url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/{:id:}/default/{:time:}/GoogleMapsCompatible_Level{:tileMatrix:}/{z}/{y}/{x}.{:format:}',
                             attributions: '{:id:} - <a href="https://earthdata.nasa.gov/about/science-system-description/eosdis-components/global-imagery-browse-services-gibs">NASA EOSDIS GIBS</a>',
