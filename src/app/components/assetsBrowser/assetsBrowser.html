@@ -43,7 +43,7 @@
     </tr>
 </table>
 <table class="padded-top">
-    <tr ng-if="ctrl.config.display.cart && $ctrl.metalink.content">
+    <tr ng-if="$ctrl.config.display.cart && $ctrl.metalink.content">
         <td colspan="2" class="center">
             <a class="button round marged transblack" ng-click="$ctrl.isInCart($ctrl.feature.id) ? $ctrl.removeFromCart($ctrl.feature.id, $event) : $ctrl.addToCart($ctrl.feature, $event)">
                 <span class="fa black" ng-class="{'fa-cart-plus':!$ctrl.isInCart($ctrl.feature.id), 'fa-trash': $ctrl.isInCart($ctrl.feature.id)}"></span>&nbsp;
